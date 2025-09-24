@@ -162,21 +162,6 @@
             position: relative;
         }
         
-        .divider::after {
-            content: 'VS';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            color: var(--theme-primary);
-            font-weight: bold;
-            font-size: 1.2rem;
-            padding: 8px 12px;
-            border-radius: 50%;
-            border: 3px solid var(--theme-primary);
-            box-shadow: var(--theme-shadow-lg);
-        }
     </style>
 </head>
 <body>
@@ -319,17 +304,17 @@
                 V2 - Cividis Scientific Color Palette
             </div>
             
-            <div style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
+            <div style="background: var(--theme-info); color: white; min-height: 100%;">
                 <!-- Navigation -->
                 <nav class="navigation">
                     <div style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
-                        <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-primary);">
+                        <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-warning);">
                             MyWebsite
                         </h1>
                         <div>
-                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Home</a>
-                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">About</a>
-                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Contact</a>
+                            <a href="#" style="color: white; margin: 0 1rem; text-decoration: none;">Home</a>
+                            <a href="#" style="color: white; margin: 0 1rem; text-decoration: none;">About</a>
+                            <a href="#" style="color: white; margin: 0 1rem; text-decoration: none;">Contact</a>
                         </div>
                     </div>
                 </nav>
@@ -366,13 +351,13 @@
                 <!-- Features -->
                 <section style="padding: 3rem 2rem;">
                     <div style="max-width: 1200px; margin: 0 auto;">
-                        <h3 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 3rem; color: var(--theme-text);">
+                        <h3 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 3rem; color: white;">
                             Key Features
                         </h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-primary);">1</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-primary); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-info);">1</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-info); margin-bottom: 1rem;">
                                     Perceptually Uniform
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -381,8 +366,8 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-accent);">2</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-accent); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-secondary);">2</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
                                     Colorblind Friendly
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -391,8 +376,8 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-secondary); color: var(--theme-text);">3</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-success);">3</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-success); margin-bottom: 1rem;">
                                     Perfect Harmony
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -425,10 +410,10 @@
 
                 <!-- Call to Action -->
                 <section style="padding: 3rem 2rem; text-align: center;">
-                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: var(--theme-text);">
+                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: white;">
                         Ready to Get Started?
                     </h3>
-                    <p style="font-size: 1.125rem; color: var(--theme-text-muted); margin-bottom: 2rem;">
+                    <p style="font-size: 1.125rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem;">
                         Join thousands using the scientifically superior Cividis palette
                     </p>
                     <a href="#" class="btn btn-primary">Sign Up Now</a>

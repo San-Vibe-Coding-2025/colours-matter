@@ -72,12 +72,12 @@
 .btn-accent {
   background: var(--theme-accent);
   border-color: var(--theme-accent);
-  color: white;
+  color: var(--theme-text);
   transition: var(--theme-transition);
 }
 
 .btn-accent:hover {
-  background: color-mix(in srgb, var(--theme-accent) 80%, black);
+  background: color-mix(in srgb, var(--theme-accent) 80%, white);
   opacity: var(--theme-hover-opacity);
 }
 
@@ -226,25 +226,25 @@
 
 /* Warning elements with dark backgrounds */
 .warning-dark {
-  background-color: #00204c;
+  background-color: (var(--theme-warning));
   padding: 1rem;
   border-radius: var(--theme-border-radius);
 }
 
 .warning-dark-alt {
-  background-color: #1b1b1b;
+  background-color: (var(--theme-warning));
   padding: 1rem;
   border-radius: var(--theme-border-radius);
 }
 
 .btn-warning-dark {
-  background-color: #00204c;
-  border: 1px solid var(--theme-warning);
+  background-color: var(--theme-warning);
+  border: 1px solid var(--theme-secondary);
   transition: var(--theme-transition);
 }
 
 .btn-warning-dark:hover {
-  background-color: #1b1b1b;
+  background-color: var(--theme-accent);
   opacity: var(--theme-hover-opacity);
 }
 

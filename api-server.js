@@ -19,8 +19,8 @@ const themes = {
         name: "Cividis",
         colors: {
             primary: "#00204c",
-            secondary: "#ccbb68", 
-            accent: "#64676f",
+            secondary: "#64676f",
+            accent: "#ccbb68",
             success: "#0a376d",
             warning: "#ffe945",
             info: "#37476b",
@@ -31,11 +31,11 @@ const themes = {
         },
         styling_rules: {
             warning_container: {
-                background: "rgba(100, 103, 111, 0.5)", // --theme-accent with 50% opacity
+                background: "var(--theme-info)", // --theme-info with 50% opacity
                 text_color: "#ffffff"
             },
-            secondary_container: {
-                background: "rgba(55, 71, 107, 0.5)", // --theme-info with 50% opacity
+            accent_container: {
+                background: "var(theme-info)", // --theme-info with 50% opacity
                 text_color: "#ffffff"
             }
         }
@@ -46,7 +46,7 @@ const themes = {
             primary: "#7A6B13",
             secondary: "#A48B0D", 
             accent: "#CFAB0B",
-            success: "#90E3C8",
+            success: "#4762a7ff",
             warning: "#FEEA8B",
             info: "#FCEEB6",
             background: "#ffffff",
@@ -65,31 +65,6 @@ const themes = {
             }
         }
     },
-    warm: {
-        name: "Warm Cividis",
-        colors: {
-            primary: "#E2EECA",
-            secondary: "#FFFFB5",
-            accent: "#4DF9FF",
-            success: "#16D8BA", 
-            warning: "#FCE34F",
-            info: "#F7CB17",
-            background: "#ffffff",
-            surface: "#f8f9fa",
-            text: "#333333", 
-            border: "#e0e0e0"
-        },
-        styling_rules: {
-            warning_container: {
-                background: "rgba(77, 249, 255, 0.5)", // --theme-accent with 50% opacity
-                text_color: "#ffffff"
-            },
-            secondary_container: {
-                background: "rgba(247, 203, 23, 0.5)", // --theme-info with 50% opacity
-                text_color: "#ffffff"
-            }
-        }
-    }
 };
 
 // Get current theme

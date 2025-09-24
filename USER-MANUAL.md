@@ -371,9 +371,6 @@ The Cividis theme follows strict accessibility guidelines for text contrast:
     background: var(--theme-gradient-accent);
 }
 
-.warm-footer {
-    background: var(--theme-gradient-warm);
-}
 ```
 
 #### Text Colors:
