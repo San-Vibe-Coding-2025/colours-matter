@@ -2,6 +2,12 @@
 
 A powerful, pluggable JavaScript theming tool that dynamically manages CSS variables through remote API integration. Built with modern web standards and designed for seamless integration with any CSS framework.
 
+## 🌐 Live Demo & API
+
+- **🔗 Live Website:** https://colours-matter-git-main-ana-s-apps-projects.vercel.app
+- **📡 API Endpoint:** https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme
+- **📚 GitHub Repo:** https://github.com/San-Vibe-Coding-2025/colours-matter
+
 ![Viridis Color Palette](https://via.placeholder.com/800x200/440154/FFFFFF?text=Viridis+Color+Palette)
 
 ## ✨ Features
@@ -48,7 +54,7 @@ The theme engine will automatically:
 ```javascript
 // Auto-initialized with default settings
 window.viridisTheme = new ViridisTheme({
-    apiEndpoint: 'https://api.your-domain.com/theme',
+    apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme',
     debug: true
 });
 ```
@@ -58,7 +64,7 @@ window.viridisTheme = new ViridisTheme({
 ```javascript
 const theme = new ViridisTheme({
     // API Configuration
-    apiEndpoint: 'https://api.your-domain.com/theme',
+    apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme',
     retryAttempts: 3,
     retryDelay: 1000,
     
