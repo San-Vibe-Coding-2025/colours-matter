@@ -24,12 +24,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/viridis-theme.git"
+    "url": "https://github.com/San-Vibe-Coding-2025/colours-matter.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/viridis-theme/issues"
+    "url": "https://github.com/San-Vibe-Coding-2025/colours-matter/issues"
   },
-  "homepage": "https://github.com/your-username/viridis-theme#readme",
+  "homepage": "https://colours-matter.vercel.app",
   "devDependencies": {
     "tailwindcss": "^3.3.0",
     "eslint": "^8.50.0",
