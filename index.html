@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cividis Theme Engine - Navigation</title>
+    <link rel="stylesheet" href="cividis-theme.css">
     <style>
         body {
             font-family: system-ui, -apple-system, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #00204c, #ccbb68, #64676f, #0a376d, #ffe945, #37476b);
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary), var(--theme-accent), var(--theme-success), var(--theme-warning), var(--theme-info));
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -17,9 +18,9 @@
         }
         
         .container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            background: var(--theme-background);
+            border-radius: var(--theme-border-radius-lg);
+            box-shadow: 0 20px 40px var(--theme-shadow);
             padding: 3rem;
             text-align: center;
             max-width: 600px;
@@ -27,13 +28,13 @@
         }
         
         h1 {
-            color: #00204c;
+            color: var(--theme-primary);
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
         
         .subtitle {
-            color: #666;
+            color: var(--theme-text-muted);
             font-size: 1.2rem;
             margin-bottom: 3rem;
             line-height: 1.6;
@@ -49,12 +50,12 @@
         .nav-btn {
             padding: 16px 32px;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--theme-border-radius);
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--theme-transition);
             color: white;
             display: inline-block;
             min-width: 160px;
@@ -62,25 +63,29 @@
         
         .nav-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px var(--theme-shadow);
         }
         
         .demo-btn {
-            background: linear-gradient(135deg, #00204c, #64676f);
+            background: var(--theme-gradient-primary);
+        }
+        
+        .about-btn {
+            background: var(--theme-gradient-accent);
         }
         
         .comparison-btn {
-            background: linear-gradient(135deg, #ccbb68, #37476b);
+            background: var(--theme-gradient-cool);
         }
         
         .docs-btn {
-            background: linear-gradient(135deg, #0a376d, #ffe945);
+            background: linear-gradient(135deg, var(--theme-success), var(--theme-warning));
         }
         
         .features {
             margin-top: 3rem;
             padding-top: 3rem;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--theme-border);
         }
         
         .feature-grid {
@@ -92,18 +97,18 @@
         
         .feature {
             padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #00204c;
+            background: var(--theme-surface);
+            border-radius: var(--theme-border-radius);
+            border-left: 4px solid var(--theme-primary);
         }
         
         .feature h3 {
-            color: #00204c;
+            color: var(--theme-primary);
             margin-bottom: 0.5rem;
         }
         
         .feature p {
-            color: #666;
+            color: var(--theme-text-muted);
             margin: 0;
             font-size: 0.9rem;
         }
@@ -111,7 +116,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎨 Cividis Theme Engine</h1>
+        <h1>Cividis Theme Engine</h1>
         <p class="subtitle">
             A green-free, scientifically-designed color palette system for truly accessible web applications. 
             Experience the difference between traditional colors and the completely colorblind-safe Cividis palette.
@@ -119,36 +124,36 @@
         
         <div class="nav-buttons">
             <a href="demo.html" class="nav-btn demo-btn">
-                📊 Interactive Demo
+                Interactive Demo
             </a>
-            <a href="about.html" class="nav-btn" style="background: linear-gradient(135deg, #2A788EFF, #22A884FF);">
-                ℹ️ About & Mission
+            <a href="about.html" class="nav-btn about-btn">
+                About & Mission
             </a>
             <a href="comparison.html" class="nav-btn comparison-btn">
-                🔄 Side-by-Side Comparison
+                Side-by-Side Comparison
             </a>
             <a href="#docs" class="nav-btn docs-btn" onclick="showDocs()">
-                📚 Documentation
+                Documentation
             </a>
         </div>
         
         <div class="features">
-            <h2 style="color: #00204c; margin-bottom: 1rem;">Key Features</h2>
+            <h2 style="color: var(--theme-primary); margin-bottom: 1rem;">Key Features</h2>
             <div class="feature-grid">
                 <div class="feature">
-                    <h3>🔗 API Integration</h3>
+                    <h3>API Integration</h3>
                     <p>Fetch themes from remote endpoints with automatic retry logic</p>
                 </div>
                 <div class="feature">
-                    <h3>⚡ Dynamic Variables</h3>
+                    <h3>Dynamic Variables</h3>
                     <p>Updates CSS custom properties in real-time</p>
                 </div>
                 <div class="feature">
-                    <h3>🎯 Single Script</h3>
+                    <h3>Single Script</h3>
                     <p>Just include one script tag - no configuration needed</p>
                 </div>
                 <div class="feature">
-                    <h3>🚫 Green-Free</h3>
+                    <h3>Green-Free</h3>
                     <p>Completely avoids problematic green colors that confuse 8% of men</p>
                 </div>
             </div>
@@ -157,7 +162,7 @@
     
     <script>
         function showDocs() {
-            alert('📚 Documentation\n\nCheck out the README.md file for complete documentation including:\n\n• Installation guide\n• API integration\n• CSS variables reference\n• Customization options\n• Framework integrations\n\nOr explore the demo and comparison pages to see the system in action!');
+            alert('Documentation\n\nCheck out the README.md file for complete documentation including:\n\n• Installation guide\n• API integration\n• CSS variables reference\n• Customization options\n• Framework integrations\n\nOr explore the demo and comparison pages to see the system in action!');
         }
         
         // Add some interactive effects

@@ -70,12 +70,12 @@ Add these two lines to your HTML and you're done:
 
 ### Color Palette
 ```css
-Primary:   #00204c  /* Forest Green */
-Secondary: #ccbb68  /* Teal */
-Accent:    #64676f  /* Aqua Teal */
-Success:   #0a376d  /* Cyan */
+Primary:   #00204c  /* dark blue */
+Secondary: #ccbb68  /* yellow */
+Accent:    #64676f  /* gray blue*/
+Success:   #0a376d  /* mid blue */
 Warning:   #ffe945  /* Golden Yellow */
-Info:      #37476b  /* Amber */
+Info:      #37476b  /* light blue */
 ```
 
 ---
@@ -295,15 +295,17 @@ The theme engine provides these CSS custom properties:
     /* Layout Colors */
     --theme-background: #ffffff;   /* Page background */
     --theme-surface: #f8f9fa;      /* Card backgrounds */
-    --theme-text: #333333;         /* Primary text */
-    --theme-text-muted: #6c757d;   /* Secondary text */
+    --theme-text: #1b1b1b;         /* Primary text */
+    --theme-text-muted: #353a45;   /* Secondary text */
     --theme-border: #e0e0e0;       /* Borders */
-    --theme-shadow: rgba(0,0,0,0.1); /* Box shadows */
+    --theme-shadow: rgba(14, 14, 14, 0.1); /* Box shadows */
+    --theme-shadow-lg: rgba(14, 14, 14, 0.2); /* Large shadows */
+    --theme-text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Text shadows */
     
     /* Gradients */
-    --theme-gradient-primary: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
-    --theme-gradient-accent: linear-gradient(135deg, var(--theme-accent), var(--theme-success));
-    --theme-gradient-warm: linear-gradient(135deg, var(--theme-warning), var(--theme-info));
+    --theme-gradient-primary: linear-gradient(135deg, var(--theme-success), var(--theme-secondary));
+    --theme-gradient-accent: linear-gradient(135deg, var(--theme-warning), var(--theme-success));
+    --theme-gradient-cool: linear-gradient(135deg, var(--theme-primary), var(--theme-warning));
     
     /* Interaction States */
     --theme-hover-opacity: 0.8;
@@ -311,7 +313,7 @@ The theme engine provides these CSS custom properties:
     --theme-disabled-opacity: 0.4;
     
     /* Layout Properties */
-    --theme-border-radius: 8px;
+    --theme-border-radius: 6px;
     --theme-border-radius-lg: 12px;
     --theme-transition: all 0.3s ease;
 }
@@ -341,6 +343,21 @@ The theme engine provides these CSS custom properties:
 .button:hover {
     opacity: var(--theme-hover-opacity);
 }
+```
+
+#### Text Color Rules:
+The Cividis theme follows strict accessibility guidelines for text contrast:
+
+```css
+/* WHITE text on dark backgrounds */
+.primary-button { background: var(--theme-primary); color: white; }
+.success-button { background: var(--theme-success); color: white; }
+.info-button { background: var(--theme-info); color: white; }
+.accent-button { background: var(--theme-accent); color: white; }
+
+/* DARK text on light backgrounds */
+.secondary-button { background: var(--theme-secondary); color: var(--theme-text); }
+.warning-button { background: var(--theme-warning); color: var(--theme-text); }
 ```
 
 #### Gradient Backgrounds:
@@ -407,7 +424,7 @@ If using the provided `tailwind.config.js`:
     ctaConfig: {
         text: 'Try Cividis Theme',
         position: 'header',
-        gradient: 'linear-gradient(45deg, #ccbb68, #ffe945)'
+        gradient: 'linear-gradient(45deg, #00204c, #ffe945)'
     },
     
     // Fallback Colors

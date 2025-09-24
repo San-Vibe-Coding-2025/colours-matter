@@ -1,7 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <m        .theme-button {
+            padding: 12px 24px;
+            border-radius: var(--theme-border-radius);
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--theme-shadow);
+        }
+
+        .theme-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+            box-shadow: var(--theme-shadow-lg);
+        }-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cividis Theme Demo</title>
     
@@ -52,13 +67,13 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--theme-shadow);
         }
 
         .theme-button:hover {
             transform: translateY(-2px);
             opacity: 0.9;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--theme-shadow-lg);
         }
 
         .gradient-button {
@@ -124,7 +139,7 @@
         <!-- Feature cards -->
         <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
             <div class="demo-card p-6">
-                <div class="feature-icon" style="background: var(--theme-primary);">
+                <div class="feature-icon" style="background: var(--theme-primary); color: white;">
                     <span>1</span>
                 </div>
                 <h3 class="text-xl font-bold" style="color: var(--theme-primary);">API Integration</h3>
@@ -134,7 +149,7 @@
             </div>
 
             <div class="demo-card p-6">
-                <div class="feature-icon" style="background: var(--theme-accent);">
+                <div class="feature-icon" style="background: var(--theme-accent); color: white;">
                     <span>2</span>
                 </div>
                 <h3 class="text-xl font-bold" style="color: var(--theme-accent);">CSS Variables</h3>
@@ -144,7 +159,7 @@
             </div>
 
             <div class="demo-card p-6">
-                <div class="feature-icon" style="background: var(--theme-success);">
+                <div class="feature-icon" style="background: var(--theme-success); color: white;">
                     <span>3</span>
                 </div>
                 <h3 class="text-xl font-bold" style="color: var(--theme-success);">Single Script</h3>
@@ -153,18 +168,18 @@
                 </p>
             </div>
 
-            <div class="demo-card p-6">
-                <div class="feature-icon" style="background: var(--theme-warning);">
+            <div class="demo-card p-6" style="background: var(--theme-accent);">
+                <div class="feature-icon" style="background: var(--theme-warning); color: var(--theme-text);">
                     <span>4</span>
                 </div>
                 <h3 class="text-xl font-bold" style="color: var(--theme-warning);">Tailwind Compatible</h3>
-                <p style="color: var(--theme-text-muted);">
+                <p style="color: white;">
                     Works seamlessly with Tailwind CSS and custom CSS files using the same variables.
                 </p>
             </div>
 
             <div class="demo-card p-6">
-                <div class="feature-icon" style="background: var(--theme-info); color: black;">
+                <div class="feature-icon" style="background: var(--theme-info); color: white;">
                     <span>5</span>
                 </div>
                 <h3 class="text-xl font-bold" style="color: var(--theme-info);">Auto CTA</h3>
@@ -173,12 +188,12 @@
                 </p>
             </div>
 
-            <div class="demo-card p-6">
-                <div class="feature-icon" style="background: var(--theme-secondary);">
+            <div class="demo-card p-6" style="background: var(--theme-info);">
+                <div class="feature-icon" style="background: var(--theme-secondary); color: var(--theme-text);">
                     <span>6</span>
                 </div>
                 <h3 class="text-xl font-bold" style="color: var(--theme-secondary);">Error Handling</h3>
-                <p style="color: var(--theme-text-muted);">
+                <p style="color: white;">
                     Robust error handling with fallback colors ensures your site always looks great.
                 </p>
             </div>
@@ -191,7 +206,7 @@
                 <button style="background: var(--theme-primary);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
                     Primary Button
                 </button>
-                <button style="background: var(--theme-secondary);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
+                <button style="background: var(--theme-secondary); color: var(--theme-text);" class="px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
                     Secondary Button
                 </button>
                 <button style="background: var(--theme-accent);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">

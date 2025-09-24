@@ -1,6 +1,16 @@
 # Cividis Theme Engine 🎨
 
+**Version 1.1** | **September 2025**
+
 A powerful, pluggable JavaScript theming tool that dynamically manages CSS variables through remote API integration. Built with modern web standards and designed for seamless integration with any CSS framework.
+
+## 🆕 Recent Updates (v1.1)
+
+- ✅ **CSS Variables Integration**: CTA button now uses `var(--theme-primary)` and `var(--theme-warning)` instead of hardcoded hex colors
+- ✅ **Text Contrast Rules**: Proper white/dark text contrast on all background colors for WCAG compliance
+- ✅ **New CSS Variables**: Added `--theme-shadow-lg`, `--theme-text-shadow`, `--theme-border-radius`, `--theme-transition`
+- ✅ **Accessibility Improvements**: Enhanced colorblind-safe design with scientific Cividis palette
+- ✅ **Performance Optimization**: Eliminated hardcoded hex values in favor of CSS custom properties
 
 ## 🌐 Live Demo & API
 
@@ -72,21 +82,9 @@ const theme = new CividisTheme({
     ctaConfig: {
         text: 'Try Cividis Theme',
         position: 'header', // 'header', 'top-right', 'bottom-right'
-        gradient: 'linear-gradient(45deg, #414487FF, #FDE725FF)'
+        gradient: 'linear-gradient(45deg, var(--theme-primary), var(--theme-warning))'
     },
-    
-    // Fallback Colors (Cividis Palette)
-    fallbackColors: {
-        '--theme-primary': '#440154FF',    // Deep Purple
-        '--theme-secondary': '#414487FF',  // Blue Purple  
-        '--theme-accent': '#2A788EFF',     // Teal Blue
-        '--theme-success': '#22A884FF',    // Green Teal
-        '--theme-warning': '#7AD151FF',    // Lime Green
-        '--theme-info': '#FDE725FF',       // Bright Yellow
-        '--theme-background': '#ffffff',
-        '--theme-text': '#333333',
-        '--theme-border': '#e0e0e0'
-    },
+
     
     // Development
     debug: false
@@ -141,14 +139,14 @@ The included `tailwind.config.js` provides theme-aware utilities:
 ```json
 {
     "colors": {
-        "primary": "#440154FF",
-        "secondary": "#414487FF", 
-        "accent": "#2A788EFF",
-        "success": "#22A884FF",
-        "warning": "#7AD151FF",
-        "info": "#FDE725FF",
+        "primary": "#00204c",
+        "secondary": "#ccbb68", 
+        "accent": "#64676f",
+        "success": "#0a376d",
+        "warning": "#ffe945",
+        "info": "#37476b",
         "background": "#ffffff",
-        "text": "#333333",
+        "text": "#1b1b1b",
         "border": "#e0e0e0"
     },
     "meta": {
@@ -170,18 +168,23 @@ Your API should support:
 
 | Variable | Purpose | Default Value |
 |----------|---------|---------------|
-| `--theme-primary` | Main brand color | `#440154FF` |
-| `--theme-secondary` | Secondary brand color | `#414487FF` |
-| `--theme-accent` | Accent/highlight color | `#2A788EFF` |
-| `--theme-success` | Success states | `#22A884FF` |
-| `--theme-warning` | Warning states | `#7AD151FF` |
-| `--theme-info` | Information states | `#FDE725FF` |
+| `--theme-primary` | Main brand color | `#00204c` |
+| `--theme-secondary` | Secondary brand color | `#ccbb68` |
+| `--theme-accent` | Accent/highlight color | `#64676f` |
+| `--theme-success` | Success states | `#0a376d` |
+| `--theme-warning` | Warning states | `#ffe945` |
+| `--theme-info` | Information states | `#37476b` |
 | `--theme-background` | Page background | `#ffffff` |
 | `--theme-surface` | Card/surface backgrounds | `#f8f9fa` |
-| `--theme-text` | Primary text color | `#333333` |
-| `--theme-text-muted` | Muted text color | `#6c757d` |
+| `--theme-text` | Primary text color | `#1b1b1b` |
+| `--theme-text-muted` | Muted text color | `#353a45` |
 | `--theme-border` | Border colors | `#e0e0e0` |
-| `--theme-shadow` | Box shadow colors | `rgba(0, 0, 0, 0.1)` |
+| `--theme-shadow` | Box shadow colors | `rgba(14, 14, 14, 0.1)` |
+| `--theme-shadow-lg` | Large box shadows | `rgba(14, 14, 14, 0.2)` |
+| `--theme-text-shadow` | Text shadows | `1px 1px 2px rgba(0,0,0,0.7)` |
+| `--theme-border-radius` | Border radius | `6px` |
+| `--theme-border-radius-lg` | Large border radius | `12px` |
+| `--theme-transition` | CSS transitions | `all 0.3s ease` |
 
 ## 🎪 Events & API
 

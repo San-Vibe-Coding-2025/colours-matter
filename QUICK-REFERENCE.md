@@ -1,6 +1,11 @@
 # Cividis Theme Engine - Quick Reference
 
-**One-page reference for developers**
+**Version 1.1 | One-page reference for developers**
+
+## 🆕 Recent Updates (v1.1)
+- ✅ CSS Variables: CTA button uses `var(--theme-primary)`, `var(--theme-warning)`
+- ✅ Text Contrast: White text on dark backgrounds, dark text on light backgrounds
+- ✅ New Variables: `--theme-shadow-lg`, `--theme-text-shadow`, `--theme-transition`
 
 ---
 
@@ -22,24 +27,32 @@
 
 ```css
 /* Core Colors */
---theme-primary: #00204c;    /* Forest Green */
---theme-secondary: #ccbb68;  /* Teal */
---theme-accent: #64676f;     /* Aqua Teal */
---theme-success: #0a376d;    /* Cyan */
+--theme-primary: #00204c;    /* Dark Blue */
+--theme-secondary: #ccbb68;  /* Yellow */
+--theme-accent: #64676f;     /* Gray Blue */
+--theme-success: #0a376d;    /* Blue Gray */
 --theme-warning: #ffe945;    /* Golden Yellow */
---theme-info: #37476b;       /* Amber */
+--theme-info: #37476b;       /* Light Blue */
 
 /* Layout */
 --theme-background: #ffffff;
 --theme-surface: #f8f9fa;
---theme-text: #333333;
---theme-text-muted: #6c757d;
+--theme-text: #1b1b1b;
+--theme-text-muted: #353a45;
 --theme-border: #e0e0e0;
+--theme-shadow: rgba(14, 14, 14, 0.1);
+--theme-shadow-lg: rgba(14, 14, 14, 0.2);
+--theme-text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+
+/* Layout Properties */
+--theme-border-radius: 6px;
+--theme-border-radius-lg: 12px;
+--theme-transition: all 0.3s ease;
 
 /* Gradients */
---theme-gradient-primary: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
---theme-gradient-accent: linear-gradient(135deg, var(--theme-accent), var(--theme-success));
---theme-gradient-warm: linear-gradient(135deg, var(--theme-warning), var(--theme-info));
+--theme-gradient-primary: linear-gradient(135deg, var(--theme-success), var(--theme-secondary));
+--theme-gradient-accent: linear-gradient(135deg, var(--theme-warning), var(--theme-success));
+--theme-gradient-cool: linear-gradient(135deg, var(--theme-primary), var(--theme-warning));
 ```
 
 ---
@@ -59,7 +72,7 @@ Your endpoint should return:
         "warning": "#ffe945",
         "info": "#37476b",
         "background": "#ffffff",
-        "text": "#333333",
+        "text": "#1b1b1b",
         "border": "#e0e0e0"
     }
 }
@@ -83,10 +96,23 @@ window.cividisTheme.updateConfig({
     retryDelay: 1000,
     ctaConfig: {
         text: 'My Custom Button',
-        position: 'top-right'
+        position: 'top-right',
+        gradient: 'linear-gradient(45deg, var(--theme-primary), var(--theme-warning))'
     },
     debug: true
 });
+```
+
+---
+
+## 📝 Text Color Rules (WCAG Compliant)
+
+```css
+/* WHITE text on dark backgrounds */
+.bg-primary, .bg-success, .bg-info, .bg-accent { color: white; }
+
+/* THEME-TEXT on light backgrounds */  
+.bg-secondary, .bg-warning { color: var(--theme-text); }
 ```
 
 ---

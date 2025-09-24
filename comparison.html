@@ -5,6 +5,9 @@
     <meta name viewport="width=device-width, initial-scale=1.0">
     <title>Cividis Theme Comparison - Before vs After</title>
     
+    <!-- Include Cividis Theme CSS -->
+    <link rel="stylesheet" href="cividis-theme.css">
+    
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -29,7 +32,7 @@
             padding: 12px 20px;
             font-weight: bold;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: var(--theme-shadow);
         }
         
         /* V1 - Traditional colors */
@@ -97,12 +100,12 @@
             opacity: 0.9;
         }
         
-        .btn-primary { background: var(--theme-primary); }
-        .btn-secondary { background: var(--theme-secondary); }
-        .btn-accent { background: var(--theme-accent); }
-        .btn-success { background: var(--theme-success); }
-        .btn-warning { background: var(--theme-warning); }
-        .btn-info { background: var(--theme-info); }
+        .btn-primary { background: var(--theme-primary); color: white; }
+        .btn-secondary { background: var(--theme-secondary); color: var(--theme-text); }
+        .btn-accent { background: var(--theme-accent); color: white; }
+        .btn-success { background: var(--theme-success); color: white; }
+        .btn-warning { background: var(--theme-warning); color: var(--theme-text); }
+        .btn-info { background: var(--theme-info); color: white; }
         
         .feature-icon {
             width: 48px;
@@ -158,25 +161,25 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
-            background: linear-gradient(45deg, #414487FF, #FDE725FF);
+            background: linear-gradient(45deg, var(--theme-primary), var(--theme-secondary));
             color: white;
             border: none;
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            box-shadow: var(--theme-shadow-lg);
             transition: all 0.3s ease;
         }
         
         .back-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px var(--theme-shadow-xl);
         }
         
         .divider {
             width: 2px;
-            background: linear-gradient(to bottom, #00204c, #ccbb68, #64676f, #0a376d, #ffe945, #37476b);
+            background: linear-gradient(to bottom, var(--theme-primary), var(--theme-secondary), var(--theme-accent), var(--theme-success), var(--theme-warning), var(--theme-info));
             position: relative;
         }
         
@@ -187,13 +190,13 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            color: #00204c;
+            color: var(--theme-primary);
             font-weight: bold;
             font-size: 1.2rem;
             padding: 8px 12px;
             border-radius: 50%;
-            border: 3px solid #00204c;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            border: 3px solid var(--theme-primary);
+            box-shadow: var(--theme-shadow-lg);
         }
     </style>
 </head>
@@ -282,7 +285,7 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-secondary);">3</div>
+                                <div class="feature-icon" style="background: var(--theme-secondary); color: var(--theme-text);">3</div>
                                 <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
                                     Limited Harmony
                                 </h4>
@@ -333,7 +336,7 @@
 
         <!-- V2 Panel - Cividis Colors -->
         <div class="split-panel v2-panel">
-            <div class="version-label" style="background: linear-gradient(45deg, #00204c, #37476b); color: white;">
+            <div class="version-label" style="background: linear-gradient(45deg, var(--theme-primary), var(--theme-info)); color: white;">
                 V2 - Cividis Scientific Color Palette
             </div>
             
@@ -361,8 +364,8 @@
                         <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">
                             Experience the power of scientifically-designed Cividis color palette
                         </p>
-                        <a href="#" class="btn btn-info" style="color: black;">Get Started</a>
-                        <a href="#" class="btn" style="background: rgba(255,255,255,0.2); border: 2px solid white;">Learn More</a>
+                        <a href="#" class="btn btn-secondary">Get Started</a>
+                        <a href="#" class="btn btn-primary" style="border: 2px solid white;">Learn More</a>
                     </div>
                 </section>
 
@@ -409,7 +412,7 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-secondary);">3</div>
+                                <div class="feature-icon" style="background: var(--theme-secondary); color: var(--theme-text);">3</div>
                                 <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
                                     Perfect Harmony
                                 </h4>

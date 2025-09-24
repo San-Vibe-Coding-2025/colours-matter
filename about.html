@@ -68,16 +68,16 @@
             border: 2px solid var(--theme-border);
         }
         
-        .color-strip {
-            height: 60px;
+                .color-box {
+            width: 100px;
+            height: 100px;
             border-radius: var(--theme-border-radius);
-            margin: 1rem 0;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            text-shadow: var(--theme-text-shadow);
         }
         
         /* Normal vision colors */
@@ -124,7 +124,7 @@
         }
         
         .cividis-showcase {
-            background: linear-gradient(90deg, #00204c, #ccbb68, #64676f, #0a376d, #ffe945, #37476b);
+            background: linear-gradient(90deg, var(--theme-primary), var(--theme-secondary), var(--theme-accent), var(--theme-success), var(--theme-warning), var(--theme-info));
             height: 100px;
             border-radius: var(--theme-border-radius-lg);
             margin: 2rem 0;
@@ -134,7 +134,7 @@
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            text-shadow: var(--theme-text-shadow);
         }
         
         .back-button {
@@ -153,7 +153,7 @@
         
         .back-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            box-shadow: var(--theme-shadow-lg);
         }
     </style>
 </head>
@@ -192,7 +192,7 @@
             <p class="text-xl mb-6 opacity-90">
                 Why we created Cividis Theme Engine: A scientifically-designed color system for the 300 million people worldwide with Color Vision Deficiency
             </p>
-            <div class="cividis-showcase">
+            <div>
                 Cividis: Perceptually Uniform • Colorblind-Safe • Green-Free
             </div>
         </section>
@@ -303,7 +303,7 @@
                 </div>
                 
                 <div>
-                    <h3 class="text-xl font-bold mb-4" style="color: var(--theme-warning);">Real Impact</h3>
+                    <h3 class="text-xl font-bold mb-4" style="color: var(--theme-secondary);">Real Impact</h3>
                     <ul class="space-y-3 text-lg" style="color: var(--theme-text);">
                         <li>• <strong>60% of CVD people</strong> experience daily problems</li>
                         <li>• <strong>Career limitations</strong> in design, electrical work, and more</li>
@@ -356,7 +356,7 @@
                     </div>
                     
                     <div style="background: var(--theme-background); border: 2px solid var(--theme-success); border-radius: var(--theme-border-radius); padding: 2rem; text-align: center;">
-                        <div style="background: var(--theme-success); width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold; font-size: 1.5rem;">3</div>
+                        <div style="background: var(--theme-success); width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.5rem;">3</div>
                         <h3 class="text-xl font-bold mb-2" style="color: var(--theme-success);">Perceptually Uniform</h3>
                         <p style="color: var(--theme-text-muted);">Colors appear equally spaced, reducing eye strain for everyone</p>
                     </div>
@@ -409,13 +409,13 @@
             <div class="flex flex-wrap justify-center gap-4 mb-8">
                 <a href="demo.html" 
                    style="background: var(--theme-primary); color: white; padding: 16px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: var(--theme-transition);"
-                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)'"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--theme-shadow-lg)'"
                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                     Try the Demo
                 </a>
                 <a href="comparison.html" 
                    style="background: var(--theme-accent); color: white; padding: 16px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: var(--theme-transition);"
-                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)'"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--theme-shadow-lg)'"
                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                     See the Comparison
                 </a>

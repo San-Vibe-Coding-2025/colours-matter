@@ -21,6 +21,9 @@
   --theme-text-muted: #353a45;
   --theme-border: #e0e0e0;
   --theme-shadow: rgba(14, 14, 14, 0.1);
+  --theme-shadow-lg: rgba(14, 14, 14, 0.2);
+  --theme-shadow-xl: rgba(14, 14, 14, 0.3);
+  --theme-text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
   
   /* Gradient combinations using Cividis palette */
   --theme-gradient-cool: linear-gradient(135deg, var(--theme-primary), var(--theme-warning));
@@ -67,7 +70,7 @@
 .btn-accent {
   background: var(--theme-accent);
   border-color: var(--theme-accent);
-  color: var(--theme-text);
+  color: white;
   transition: var(--theme-transition);
 }
 
@@ -148,7 +151,7 @@
 }
 .bg-accent { 
   background-color: var(--theme-accent); 
-  color: var(--theme-text);
+  color: white;
 }
 .bg-success { 
   background-color: var(--theme-success); 
@@ -167,27 +170,23 @@
 .text-secondary { color: var(--theme-secondary); }
 .text-accent { color: var(--theme-accent); }
 .text-success { color: var(--theme-success); }
-.text-warning { color: var(--theme-warning); }
 .text-info { color: var(--theme-info); }
 
 /* Warning elements with dark backgrounds */
 .warning-dark {
   background-color: #00204c;
-  color: var(--theme-warning);
   padding: 1rem;
   border-radius: var(--theme-border-radius);
 }
 
 .warning-dark-alt {
   background-color: #1b1b1b;
-  color: var(--theme-warning);
   padding: 1rem;
   border-radius: var(--theme-border-radius);
 }
 
 .btn-warning-dark {
   background-color: #00204c;
-  color: var(--theme-warning);
   border: 1px solid var(--theme-warning);
   transition: var(--theme-transition);
 }

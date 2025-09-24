@@ -28,6 +28,16 @@ const themes = {
             surface: "#f8f9fa",
             text: "#1b1b1b",
             border: "#e0e0e0"
+        },
+        styling_rules: {
+            warning_container: {
+                background: "rgba(100, 103, 111, 0.5)", // --theme-accent with 50% opacity
+                text_color: "#ffffff"
+            },
+            secondary_container: {
+                background: "rgba(55, 71, 107, 0.5)", // --theme-info with 50% opacity
+                text_color: "#ffffff"
+            }
         }
     },
     alternate: {
@@ -43,6 +53,16 @@ const themes = {
             surface: "#f8f9fa", 
             text: "#333333",
             border: "#e0e0e0"
+        },
+        styling_rules: {
+            warning_container: {
+                background: "rgba(207, 171, 11, 0.5)", // --theme-accent with 50% opacity
+                text_color: "#ffffff"
+            },
+            secondary_container: {
+                background: "rgba(252, 238, 182, 0.5)", // --theme-info with 50% opacity
+                text_color: "#ffffff"
+            }
         }
     },
     warm: {
@@ -58,6 +78,16 @@ const themes = {
             surface: "#f8f9fa",
             text: "#333333", 
             border: "#e0e0e0"
+        },
+        styling_rules: {
+            warning_container: {
+                background: "rgba(77, 249, 255, 0.5)", // --theme-accent with 50% opacity
+                text_color: "#ffffff"
+            },
+            secondary_container: {
+                background: "rgba(247, 203, 23, 0.5)", // --theme-info with 50% opacity
+                text_color: "#ffffff"
+            }
         }
     }
 };
@@ -78,6 +108,7 @@ app.get('/theme', (req, res) => {
             success: true,
             theme: theme.name,
             colors: theme.colors,
+            styling_rules: theme.styling_rules || {},
             meta: {
                 timestamp: new Date().toISOString(),
                 version: "1.0.0"
@@ -113,6 +144,7 @@ app.get('/theme/:themeName', (req, res) => {
             success: true,
             theme: theme.name,
             colors: theme.colors,
+            styling_rules: theme.styling_rules || {},
             meta: {
                 timestamp: new Date().toISOString(),
                 version: "1.0.0"

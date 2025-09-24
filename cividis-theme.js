@@ -29,7 +29,8 @@ class CividisTheme {
             ctaConfig: {
                 text: 'Try Cividis Theme',
                 position: 'header', // 'header', 'top-right', 'bottom-right'
-                gradient: 'linear-gradient(45deg, #ccbb68, #ffe945)'
+                gradient: 'linear-gradient(45deg, var(--theme-primary), var(--theme-warning))',
+                textColor: 'var(--theme-text)'
             },
             retryAttempts: 3,
             retryDelay: 1000,
@@ -153,6 +154,12 @@ class CividisTheme {
             const cssVariables = this.transformToCSSVariables(themeData.colors);
             
             this.applyTheme(cssVariables);
+            
+            // Apply styling rules if they exist
+            if (themeData.styling_rules) {
+                this.applyStylingRules(themeData.styling_rules);
+            }
+            
             this.currentTheme = themeData;
             
             this.log('Remote theme applied successfully');
@@ -224,6 +231,135 @@ class CividisTheme {
         window.dispatchEvent(new CustomEvent('cividis-theme-applied', {
             detail: { variables: cssVariables }
         }));
+        
+        // Re-apply CTA button styles after theme variables are updated
+        this.reapplyCTAGradient();
+    }
+
+    /**
+     * Re-apply CTA gradient after theme updates
+     */
+    reapplyCTAGradient() {
+        if (this.ctaButton) {
+            // Force update the gradient with current CSS variables
+            this.ctaButton.style.setProperty('background', this.config.ctaConfig.gradient, 'important');
+            this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || 'var(--theme-text)', 'important');
+            this.log('CTA gradient re-applied');
+        }
+    }
+
+    /**
+     * Apply styling rules from API
+     */
+    applyStylingRules(stylingRules) {
+        this.log('Applying styling rules from API');
+        
+        // Handle warning container styling
+        if (stylingRules.warning_container) {
+            this.applyWarningContainerStyling(stylingRules.warning_container);
+        }
+
+        // Handle secondary container styling
+        if (stylingRules.secondary_container) {
+            this.applySecondaryContainerStyling(stylingRules.secondary_container);
+        }
+
+        // Add more styling rule handlers here as needed
+        // if (stylingRules.info_container) {
+        //     this.applyInfoContainerStyling(stylingRules.info_container);
+        // }
+        
+        this.log('Styling rules applied successfully');
+    }
+
+    /**
+     * Apply warning container styling rule
+     */
+    applyWarningContainerStyling(warningRule) {
+        // Create or update CSS style element for warning containers
+        let styleElement = document.getElementById('cividis-warning-styles');
+        
+        if (!styleElement) {
+            styleElement = document.createElement('style');
+            styleElement.id = 'cividis-warning-styles';
+            document.head.appendChild(styleElement);
+        }
+
+        const css = `
+            /* Warning text container styling - dynamically applied */
+            *:has(> [style*="color: var(--theme-warning)"]:not([style*="background"])):not(#cividis-cta-button):not(:has(#cividis-cta-button)), 
+            *:has(> .text-warning):not([style*="background"]):not(#cividis-cta-button):not(:has(#cividis-cta-button)) {
+                background: ${warningRule.background} !important;
+            }
+            
+            *:has(> [style*="color: var(--theme-warning)"]:not([style*="background"])):not(#cividis-cta-button):not(:has(#cividis-cta-button)) *:not([style*="background"]):not(#cividis-cta-button), 
+            *:has(> .text-warning):not([style*="background"]):not(#cividis-cta-button):not(:has(#cividis-cta-button)) *:not([style*="background"]):not(#cividis-cta-button) {
+                color: ${warningRule.text_color} !important;
+            }
+            
+            /* Alternative selector for containers with warning text */
+            .warning-text-container:not(:has(#cividis-cta-button)) {
+                background: ${warningRule.background} !important;
+            }
+            
+            .warning-text-container:not(:has(#cividis-cta-button)) *:not(#cividis-cta-button) {
+                color: ${warningRule.text_color} !important;
+            }
+            
+            /* Ensure CTA button gradient and text are preserved */
+            #cividis-cta-button {
+                background: linear-gradient(45deg, var(--theme-primary), var(--theme-warning)) !important;
+                color: var(--theme-text) !important;
+            }
+        `;
+
+        styleElement.textContent = css;
+        this.log(`Applied warning container styling: bg=${warningRule.background}, text=${warningRule.text_color}`);
+    }
+
+    /**
+     * Apply secondary container styling rule
+     */
+    applySecondaryContainerStyling(secondaryRule) {
+        // Create or update CSS style element for secondary containers
+        let styleElement = document.getElementById('cividis-secondary-styles');
+        
+        if (!styleElement) {
+            styleElement = document.createElement('style');
+            styleElement.id = 'cividis-secondary-styles';
+            document.head.appendChild(styleElement);
+        }
+
+        const css = `
+            /* Secondary text container styling - dynamically applied */
+            *:has(> [style*="color: var(--theme-secondary)"]:not([style*="background"])):not(#cividis-cta-button):not(:has(#cividis-cta-button)), 
+            *:has(> .text-secondary):not([style*="background"]):not(#cividis-cta-button):not(:has(#cividis-cta-button)) {
+                background: ${secondaryRule.background} !important;
+            }
+            
+            *:has(> [style*="color: var(--theme-secondary)"]:not([style*="background"])):not(#cividis-cta-button):not(:has(#cividis-cta-button)) *:not([style*="background"]):not(#cividis-cta-button), 
+            *:has(> .text-secondary):not([style*="background"]):not(#cividis-cta-button):not(:has(#cividis-cta-button)) *:not([style*="background"]):not(#cividis-cta-button) {
+                color: ${secondaryRule.text_color} !important;
+            }
+            
+            /* Alternative selector for containers with secondary text */
+            .secondary-text-container:not(:has(#cividis-cta-button)) {
+                background: ${secondaryRule.background} !important;
+            }
+            
+            .secondary-text-container:not(:has(#cividis-cta-button)) *:not(#cividis-cta-button) {
+                color: ${secondaryRule.text_color} !important;
+            }
+            
+            /* Ensure CTA button is never affected by secondary rules */
+            #cividis-cta-button {
+                background: linear-gradient(45deg, var(--theme-primary), var(--theme-warning)) !important;
+                color: var(--theme-text) !important;
+            }
+        `;
+
+        styleElement.textContent = css;
+        this.log(`Applied secondary container styling: bg=${secondaryRule.background}, text=${secondaryRule.text_color}`);
     }
 
     /**
@@ -262,15 +398,15 @@ class CividisTheme {
     applyCTAStyles() {
         const styles = {
             background: this.config.ctaConfig.gradient,
-            color: 'white',
+            color: this.config.ctaConfig.textColor || 'var(--theme-text)',
             border: 'none',
             padding: '8px 16px',
-            borderRadius: '6px',
+            borderRadius: 'var(--theme-border-radius)',
             fontSize: '12px',
             fontWeight: '600',
             cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-            transition: 'all 0.3s ease',
+            boxShadow: 'var(--theme-shadow)',
+            transition: 'var(--theme-transition)',
             zIndex: '9999',
             fontFamily: 'inherit',
             textDecoration: 'none',
@@ -279,16 +415,20 @@ class CividisTheme {
         };
 
         Object.assign(this.ctaButton.style, styles);
+        
+        // Force the gradient and text color with !important using setProperty
+        this.ctaButton.style.setProperty('background', this.config.ctaConfig.gradient, 'important');
+        this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || 'var(--theme-text)', 'important');
 
         // Add hover effects
         this.ctaButton.addEventListener('mouseenter', () => {
             this.ctaButton.style.transform = 'translateY(-2px)';
-            this.ctaButton.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+            this.ctaButton.style.boxShadow = 'var(--theme-shadow-lg)';
         });
 
         this.ctaButton.addEventListener('mouseleave', () => {
             this.ctaButton.style.transform = 'translateY(0)';
-            this.ctaButton.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+            this.ctaButton.style.boxShadow = 'var(--theme-shadow)';
         });
     }
 
