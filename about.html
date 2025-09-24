@@ -14,7 +14,7 @@
     <style>
         /* Custom styles using theme variables */
         .hero-gradient {
-            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary), var(--theme-accent));
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-success), var(--theme-info), var(--theme-accent), var(--theme-info), var(--theme-success), var(--theme-primary));
         }
         
         .content-section {
@@ -77,7 +77,6 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            text-shadow: var(--theme-text-shadow);
         }
         
         /* Normal vision colors */
@@ -134,26 +133,6 @@
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
-            text-shadow: var(--theme-text-shadow);
-        }
-        
-        .back-button {
-            background: linear-gradient(45deg, var(--theme-secondary), var(--theme-info));
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 2rem;
-        }
-        
-        .back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--theme-shadow-lg);
         }
     </style>
 </head>
@@ -162,21 +141,13 @@
     <header style="background: var(--theme-surface); border-bottom: 2px solid var(--theme-border); box-shadow: 0 2px 8px var(--theme-shadow);">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold gradient-text">About Cividis</h1>
-                <nav class="flex items-center space-x-4">
-                    <a href="demo.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);" 
-                       onmouseover="this.style.color='var(--theme-accent)'" 
-                       onmouseout="this.style.color='var(--theme-text)'">Home</a>
-                    <a href="comparison.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);"
-                       onmouseover="this.style.color='var(--theme-success)'" 
-                       onmouseout="this.style.color='var(--theme-text)'">Comparison</a>
-                    <a href="mailto:team@coloursmatter.co.uk" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);"
-                       onmouseover="this.style.color='var(--theme-info)'" 
-                       onmouseout="this.style.color='var(--theme-text)'">Contact</a>
-                    <a href="index.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);"
-                       onmouseover="this.style.color='var(--theme-primary)'" 
-                       onmouseout="this.style.color='var(--theme-text)'">Landing</a>
-                    <!-- The CTA button will be automatically inserted here by the theme engine -->
+                <h1 class="text-2xl font-bold text-var(--theme-info)">About Cividis</h1>
+                <nav class="flex items-center font-semibold space-x-4">
+                    <a href="demo.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Demo</a>
+                    <a href="comparison.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Comparison</a>
+                    <a href="mailto:team@coloursmatter.co.uk" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Contact</a>
+                    <a href="index.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Home</a>
+                    <!-- CTA button will be automatically inserted here by JavaScript -->
                 </nav>
             </div>
         </div>

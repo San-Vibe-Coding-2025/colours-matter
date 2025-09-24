@@ -8,7 +8,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 
 - ✅ **CSS Variables Integration**: CTA button now uses `var(--theme-primary)` and `var(--theme-warning)` instead of hardcoded hex colors
 - ✅ **Text Contrast Rules**: Proper white/dark text contrast on all background colors for WCAG compliance
-- ✅ **New CSS Variables**: Added `--theme-shadow-lg`, `--theme-text-shadow`, `--theme-border-radius`, `--theme-transition`
+- ✅ **New CSS Variables**: Added `--theme-shadow-lg`, `--theme-border-radius`, `--theme-transition`
 - ✅ **Accessibility Improvements**: Enhanced colorblind-safe design with scientific Cividis palette
 - ✅ **Performance Optimization**: Eliminated hardcoded hex values in favor of CSS custom properties
 
@@ -181,7 +181,7 @@ Your API should support:
 | `--theme-border` | Border colors | `#e0e0e0` |
 | `--theme-shadow` | Box shadow colors | `rgba(14, 14, 14, 0.1)` |
 | `--theme-shadow-lg` | Large box shadows | `rgba(14, 14, 14, 0.2)` |
-| `--theme-text-shadow` | Text shadows | `1px 1px 2px rgba(0,0,0,0.7)` |
+| `--theme-shadow-lg` | Large shadows | `rgba(14, 14, 14, 0.3)` |
 | `--theme-border-radius` | Border radius | `6px` |
 | `--theme-border-radius-lg` | Large border radius | `12px` |
 | `--theme-transition` | CSS transitions | `all 0.3s ease` |

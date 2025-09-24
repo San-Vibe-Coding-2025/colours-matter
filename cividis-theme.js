@@ -29,8 +29,8 @@ class CividisTheme {
             ctaConfig: {
                 text: 'Try Cividis Theme',
                 position: 'header', // 'header', 'top-right', 'bottom-right'
-                gradient: 'linear-gradient(45deg, var(--theme-primary), var(--theme-warning))',
-                textColor: 'var(--theme-text)'
+                gradient: 'var(--theme-gradient-cool)',
+                textColor: '#ffffffff'
             },
             retryAttempts: 3,
             retryDelay: 1000,
@@ -166,6 +166,11 @@ class CividisTheme {
             
         } catch (error) {
             this.handleError('Failed to fetch remote theme, using fallback', error);
+            // Even if API fails, make sure CTA is visible
+            if (this.ctaButton) {
+                this.log('Ensuring CTA visibility after API failure');
+                this.ctaButton.style.setProperty('display', 'inline-block', 'important');
+            }
         }
     }
 
@@ -243,7 +248,7 @@ class CividisTheme {
         if (this.ctaButton) {
             // Force update the gradient with current CSS variables
             this.ctaButton.style.setProperty('background', this.config.ctaConfig.gradient, 'important');
-            this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || 'var(--theme-text)', 'important');
+            this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
             this.log('CTA gradient re-applied');
         }
     }
@@ -308,8 +313,8 @@ class CividisTheme {
             
             /* Ensure CTA button gradient and text are preserved */
             #cividis-cta-button {
-                background: linear-gradient(45deg, var(--theme-primary), var(--theme-warning)) !important;
-                color: var(--theme-text) !important;
+                background: var(--theme-gradient-cool) !important;
+                color: #ffffffff !important;
             }
         `;
 
@@ -331,30 +336,51 @@ class CividisTheme {
         }
 
         const css = `
-            /* Secondary text container styling - dynamically applied */
-            *:has(> [style*="color: var(--theme-secondary)"]:not([style*="background"])):not(#cividis-cta-button):not(:has(#cividis-cta-button)), 
-            *:has(> .text-secondary):not([style*="background"]):not(#cividis-cta-button):not(:has(#cividis-cta-button)) {
+            /* GLOBAL secondary text styling - works on ALL pages */
+            
+            /* Target any element that contains secondary color text */
+            *:has([style*="--theme-secondary"]):not(#cividis-cta-button),
+            *:has(.text-secondary):not(#cividis-cta-button),
+            .secondary-text-container:not(#cividis-cta-button),
+            
+            /* More aggressive selectors for deep nesting */
+            body *:has([style*="--theme-secondary"]):not(#cividis-cta-button),
+            body *:has(.text-secondary):not(#cividis-cta-button),
+            
+            /* Target parent containers */
+            section:has([style*="--theme-secondary"]):not(#cividis-cta-button),
+            div:has([style*="--theme-secondary"]):not(#cividis-cta-button),
+            article:has([style*="--theme-secondary"]):not(#cividis-cta-button),
+            main:has([style*="--theme-secondary"]):not(#cividis-cta-button),
+            header:has([style*="--theme-secondary"]):not(#cividis-cta-button),
+            footer:has([style*="--theme-secondary"]):not(#cividis-cta-button) {
                 background: ${secondaryRule.background} !important;
+                border-radius: var(--theme-border-radius) !important;
+                padding: 1rem !important;
+                margin: 0.5rem 0 !important;
             }
             
-            *:has(> [style*="color: var(--theme-secondary)"]:not([style*="background"])):not(#cividis-cta-button):not(:has(#cividis-cta-button)) *:not([style*="background"]):not(#cividis-cta-button), 
-            *:has(> .text-secondary):not([style*="background"]):not(#cividis-cta-button):not(:has(#cividis-cta-button)) *:not([style*="background"]):not(#cividis-cta-button) {
+            /* Make ALL text white in containers with secondary color */
+            *:has([style*="--theme-secondary"]) *:not(#cividis-cta-button),
+            *:has(.text-secondary) *:not(#cividis-cta-button),
+            .secondary-text-container *:not(#cividis-cta-button),
+            
+            body *:has([style*="--theme-secondary"]) *:not(#cividis-cta-button),
+            body *:has(.text-secondary) *:not(#cividis-cta-button),
+            
+            section:has([style*="--theme-secondary"]) *:not(#cividis-cta-button),
+            div:has([style*="--theme-secondary"]) *:not(#cividis-cta-button),
+            article:has([style*="--theme-secondary"]) *:not(#cividis-cta-button),
+            main:has([style*="--theme-secondary"]) *:not(#cividis-cta-button),
+            header:has([style*="--theme-secondary"]) *:not(#cividis-cta-button),
+            footer:has([style*="--theme-secondary"]) *:not(#cividis-cta-button) {
                 color: ${secondaryRule.text_color} !important;
             }
             
-            /* Alternative selector for containers with secondary text */
-            .secondary-text-container:not(:has(#cividis-cta-button)) {
-                background: ${secondaryRule.background} !important;
-            }
-            
-            .secondary-text-container:not(:has(#cividis-cta-button)) *:not(#cividis-cta-button) {
-                color: ${secondaryRule.text_color} !important;
-            }
-            
-            /* Ensure CTA button is never affected by secondary rules */
+            /* Ensure CTA button is never affected */
             #cividis-cta-button {
-                background: linear-gradient(45deg, var(--theme-primary), var(--theme-warning)) !important;
-                color: var(--theme-text) !important;
+                background: var(--theme-gradient-cool) !important;
+                color: #ffffffff !important;
             }
         `;
 
@@ -366,9 +392,12 @@ class CividisTheme {
      * Create CTA button for theme activation
      */
     createCTAButton() {
+        this.log('Creating CTA button...');
+        
         // Remove existing CTA if present
         if (this.ctaButton) {
             this.ctaButton.remove();
+            this.log('Removed existing CTA button');
         }
 
         // Create button element
@@ -376,6 +405,8 @@ class CividisTheme {
         this.ctaButton.id = 'cividis-cta-button';
         this.ctaButton.textContent = this.config.ctaConfig.text;
         this.ctaButton.setAttribute('aria-label', 'Activate Cividis Theme');
+        
+        this.log('CTA button element created with text:', this.config.ctaConfig.text);
         
         // Apply styles
         this.applyCTAStyles();
@@ -389,21 +420,28 @@ class CividisTheme {
         // Insert into DOM
         this.insertCTAButton();
         
-        this.log('CTA button created and inserted');
+        // Add window resize listener to keep CTA aligned with container
+        this.addResizeListener();
+        
+        this.log('CTA button created and inserted successfully');
     }
 
     /**
      * Apply styles to CTA button
      */
     applyCTAStyles() {
+        // First, detect the main container and its width constraints
+        const mainContainer = this.detectMainContainer();
+        const containerWidth = this.getContainerWidth(mainContainer);
+        
         const styles = {
             background: this.config.ctaConfig.gradient,
-            color: this.config.ctaConfig.textColor || 'var(--theme-text)',
+            color: this.config.ctaConfig.textColor || '#ffffffff',
             border: 'none',
-            padding: '8px 16px',
+            padding: '6px 12px',
             borderRadius: 'var(--theme-border-radius)',
             fontSize: '12px',
-            fontWeight: '600',
+            fontWeight: '500',
             cursor: 'pointer',
             boxShadow: 'var(--theme-shadow)',
             transition: 'var(--theme-transition)',
@@ -411,14 +449,21 @@ class CividisTheme {
             fontFamily: 'inherit',
             textDecoration: 'none',
             display: 'inline-block',
-            margin: '0 8px'
+            margin: '0 8px',
+            // Responsive width based on container
+            maxWidth: containerWidth ? `${Math.min(160, containerWidth * 0.12)}px` : '160px',
+            minWidth: '100px',
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
         };
 
         Object.assign(this.ctaButton.style, styles);
         
         // Force the gradient and text color with !important using setProperty
         this.ctaButton.style.setProperty('background', this.config.ctaConfig.gradient, 'important');
-        this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || 'var(--theme-text)', 'important');
+        this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
 
         // Add hover effects
         this.ctaButton.addEventListener('mouseenter', () => {
@@ -433,9 +478,85 @@ class CividisTheme {
     }
 
     /**
+     * Detect the main content container on the page
+     */
+    detectMainContainer() {
+        // Try common main container selectors in order of preference
+        const selectors = [
+            'main',
+            '.main',
+            '#main',
+            '.container',
+            '.main-content', 
+            '.content',
+            '.wrapper',
+            '.page-wrapper',
+            '.site-content',
+            'body > div:first-of-type', // Often the main wrapper
+            'body'
+        ];
+
+        for (const selector of selectors) {
+            const element = document.querySelector(selector);
+            if (element && element.offsetWidth > 0) {
+                this.log(`Main container detected: ${selector} (width: ${element.offsetWidth}px)`);
+                return element;
+            }
+        }
+        
+        this.log('No suitable main container found, using body');
+        return document.body;
+    }
+
+    /**
+     * Get the effective width of the container for responsive sizing
+     */
+    getContainerWidth(container) {
+        if (!container) return null;
+        
+        // Get computed styles
+        const computedStyle = window.getComputedStyle(container);
+        const width = container.offsetWidth;
+        const maxWidth = parseInt(computedStyle.maxWidth) || width;
+        
+        // Use the smaller of actual width or max-width
+        const effectiveWidth = Math.min(width, maxWidth);
+        
+        this.log(`Container width: ${width}px, max-width: ${computedStyle.maxWidth}, effective: ${effectiveWidth}px`);
+        return effectiveWidth;
+    }
+
+    /**
+     * Add window resize listener to keep CTA button responsive
+     */
+    addResizeListener() {
+        if (this.resizeListener) {
+            window.removeEventListener('resize', this.resizeListener);
+        }
+        
+        this.resizeListener = () => {
+            if (this.ctaButton) {
+                // Re-detect container and update CTA sizing
+                const mainContainer = this.detectMainContainer();
+                const containerWidth = this.getContainerWidth(mainContainer);
+                
+                if (containerWidth) {
+                    const newMaxWidth = Math.min(160, containerWidth * 0.12);
+                    this.ctaButton.style.setProperty('max-width', `${newMaxWidth}px`, 'important');
+                    this.log(`CTA button resized: max-width = ${newMaxWidth}px`);
+                }
+            }
+        };
+        
+        window.addEventListener('resize', this.resizeListener);
+        this.log('Resize listener added for CTA button responsiveness');
+    }
+
+    /**
      * Insert CTA button into DOM
      */
     insertCTAButton() {
+        this.log('Attempting to insert CTA button...');
         const position = this.config.ctaConfig.position;
         let targetElement = null;
 
@@ -444,22 +565,36 @@ class CividisTheme {
         
         for (const selector of headerSelectors) {
             targetElement = document.querySelector(selector);
-            if (targetElement) break;
+            if (targetElement) {
+                this.log(`Found target element with selector: ${selector}`);
+                break;
+            }
         }
 
         if (targetElement && position === 'header') {
             // Insert into header
             targetElement.appendChild(this.ctaButton);
+            this.log('CTA button inserted into header element');
         } else {
             // Create floating button
+            this.log('No suitable header found, creating floating CTA');
             this.createFloatingCTA(position);
         }
+        
+        // Force visibility
+        this.ctaButton.style.setProperty('display', 'inline-block', 'important');
+        this.ctaButton.style.setProperty('visibility', 'visible', 'important');
+        this.ctaButton.style.setProperty('opacity', '1', 'important');
+        
+        this.log('CTA button visibility forced');
     }
 
     /**
      * Create floating CTA button
      */
     createFloatingCTA(position) {
+        this.log(`Creating floating CTA at position: ${position}`);
+        
         const positionStyles = {
             'top-right': { top: '20px', right: '20px' },
             'bottom-right': { bottom: '20px', right: '20px' },
@@ -471,10 +606,12 @@ class CividisTheme {
         
         Object.assign(this.ctaButton.style, {
             position: 'fixed',
+            zIndex: '999999',
             ...pos
         });
 
         document.body.appendChild(this.ctaButton);
+        this.log('Floating CTA button appended to body');
     }
 
     /**
@@ -581,7 +718,51 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
     // Auto-start with default configuration
     window.cividisTheme = new CividisTheme({
         debug: true, // Enable debug mode by default
-        apiEndpoint: 'https://api.cividis-theme.com/colors' // Replace with your API
+        apiEndpoint: 'http://localhost:3001/theme/cividis' // Local API endpoint
+    });
+    
+    // FORCE CTA BUTTON CREATION - BULLETPROOF METHOD
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded - FORCING CTA button creation');
+        
+        // Wait a bit for everything to load, then force CTA creation
+        setTimeout(() => {
+            if (window.cividisTheme) {
+                console.log('Creating CTA button via timeout fallback');
+                window.cividisTheme.createCTAButton();
+            }
+            
+            // If still no CTA, create it manually
+            setTimeout(() => {
+                if (!document.getElementById('cividis-cta-button')) {
+                    console.log('EMERGENCY CTA CREATION - No CTA found, creating manually');
+                    const header = document.querySelector('header nav');
+                    if (header) {
+                        const ctaButton = document.createElement('button');
+                        ctaButton.id = 'cividis-cta-button';
+                        ctaButton.textContent = 'Try Cividis Theme';
+                        ctaButton.style.cssText = `
+                            background: var(--theme-gradient-cool) !important;
+                            color: #ffffffff !important;
+                            border: none !important;
+                            padding: 4px 8px !important;
+                            border-radius: 8px !important;
+                            font-size: 12px !important;
+                            font-weight: 500 !important;
+                            cursor: pointer !important;
+                            margin-left: 8px !important;
+                            display: inline-block !important;
+                            z-index: 999999 !important;
+                        `;
+                        ctaButton.addEventListener('click', () => {
+                            window.open('comparison.html', '_blank');
+                        });
+                        header.appendChild(ctaButton);
+                        console.log('EMERGENCY CTA BUTTON CREATED AND INSERTED');
+                    }
+                }
+            }, 2000);
+        }, 1000);
     });
 }
 

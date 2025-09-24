@@ -300,7 +300,7 @@ The theme engine provides these CSS custom properties:
     --theme-border: #e0e0e0;       /* Borders */
     --theme-shadow: rgba(14, 14, 14, 0.1); /* Box shadows */
     --theme-shadow-lg: rgba(14, 14, 14, 0.2); /* Large shadows */
-    --theme-text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Text shadows */
+    --theme-shadow-xl: rgba(14, 14, 14, 0.3); /* Extra large shadows */
     
     /* Gradients */
     --theme-gradient-primary: linear-gradient(135deg, var(--theme-success), var(--theme-secondary));

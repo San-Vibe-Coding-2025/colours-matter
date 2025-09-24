@@ -7,8 +7,8 @@
 :root {
   /* Cividis Color Palette - Default Values (Colorblind-Safe) */
   --theme-primary: #00204c;      /* Dark Blue */
-  --theme-secondary: #ccbb68;    /* Yellow */
-  --theme-accent: #64676f;       /* Gray blue */
+  --theme-secondary: #64676f;    /* Gray blue */
+  --theme-accent: #ccbb68;       /* Yellow */
   --theme-success: #0a376d;      /* blue gray */
   --theme-warning: #ffe945;      /* Golden Yellow */
   --theme-info: #37476b;         /* Light Blue */
@@ -23,12 +23,14 @@
   --theme-shadow: rgba(14, 14, 14, 0.1);
   --theme-shadow-lg: rgba(14, 14, 14, 0.2);
   --theme-shadow-xl: rgba(14, 14, 14, 0.3);
-  --theme-text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
   
   /* Gradient combinations using Cividis palette */
-  --theme-gradient-cool: linear-gradient(135deg, var(--theme-primary), var(--theme-warning));
-  --theme-gradient-primary: linear-gradient(135deg, var(--theme-success), var(--theme-secondary));
-  --theme-gradient-accent: linear-gradient(135deg, var(--theme-warning), var(--theme-success));
+  --theme-gradient-vibrant: linear-gradient(135deg, var(--theme-primary), var(--theme-info), var(--theme-warning));
+  --theme-gradient-warm: linear-gradient(45deg, var(--theme-warning), var(--theme-info), var(--theme-primary));
+  --theme-gradient-cool: linear-gradient(90deg, var(--theme-primary), var(--theme-success), var(--theme-accent));
+  --theme-gradient-accent: linear-gradient(135deg, var(--theme-success), var(--theme-accent), var(--theme-info));
+  --theme-gradient-primary: linear-gradient(135deg, var(--theme-warning), var(--theme-primary), var(--theme-success));
+  --theme-gradient-full: linear-gradient(135deg, var(--theme-warning), var(--theme-accent), var(--theme-info), var(--theme-success), var(--theme-primary));
   
   /* Interactive states */
   --theme-hover-opacity: 0.8;
@@ -121,6 +123,56 @@
   color: white;
 }
 
+.btn-gradient-full {
+  background: var(--theme-gradient-full);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-gradient-full:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--theme-shadow-lg);
+}
+
+.back-button {
+  background: var(--theme-gradient-full);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--theme-shadow-lg);
+}
+
+.back-button.floating {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  margin-bottom: 0;
+  box-shadow: var(--theme-shadow-lg);
+}
+
+.back-button.floating:hover {
+  box-shadow: 0 6px 20px var(--theme-shadow-xl);
+}
+
 .card {
   background: var(--theme-surface);
   border: 1px solid var(--theme-border);
@@ -202,6 +254,54 @@
 }
 
 /* Ensure the CTA button integrates well with the theme */
-#cividis-cta-button {
-  background: linear-gradient(45deg, var(--theme-secondary), var(--theme-warning)) !important;
+.cta-button, #cividis-cta-button {
+  background: var(--theme-gradient-cool) !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  
+  /* Responsive sizing */
+  min-width: 100px;
+  max-width: 160px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  /* Container alignment */
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+/* Hover effects for CTA button */
+.cta-button:hover, #cividis-cta-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--theme-shadow-lg) !important;
+  opacity: 0.9 !important;
+}
+
+/* Responsive breakpoints for CTA button */
+@media (max-width: 768px) {
+  .cta-button, #cividis-cta-button {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    min-width: 80px;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-button, #cividis-cta-button {
+    padding: 3px 6px !important;
+    font-size: 10px !important;
+    min-width: 60px;
+    max-width: 100px;
+  }
 }

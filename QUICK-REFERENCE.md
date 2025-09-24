@@ -5,7 +5,7 @@
 ## 🆕 Recent Updates (v1.1)
 - ✅ CSS Variables: CTA button uses `var(--theme-primary)`, `var(--theme-warning)`
 - ✅ Text Contrast: White text on dark backgrounds, dark text on light backgrounds
-- ✅ New Variables: `--theme-shadow-lg`, `--theme-text-shadow`, `--theme-transition`
+- ✅ New Variables: `--theme-shadow-lg`, `--theme-transition`
 
 ---
 
@@ -42,7 +42,7 @@
 --theme-border: #e0e0e0;
 --theme-shadow: rgba(14, 14, 14, 0.1);
 --theme-shadow-lg: rgba(14, 14, 14, 0.2);
---theme-text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+--theme-shadow-xl: rgba(14, 14, 14, 0.3);
 
 /* Layout Properties */
 --theme-border-radius: 6px;
