@@ -187,10 +187,10 @@ window.viridisTheme.refreshTheme();
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
 
 <!-- JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
 ```
 
 ---

@@ -21,7 +21,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 
 ```html
 <!-- Simple inclusion -->
-<script src="https://cdn.jsdelivr.net/npm/viridis-theme@1.0.0/viridis-theme.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
 
 <!-- Or download and host locally -->
 <script src="path/to/viridis-theme.js"></script>
@@ -30,7 +30,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 ### 2. Include the CSS Variables
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viridis-theme@1.0.0/viridis-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
 ```
 
 ### 3. That's It! 
