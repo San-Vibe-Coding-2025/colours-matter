@@ -1,0 +1,112 @@
+/* 
+ * Viridis Theme CSS Variables
+ * These variables should be included in your main CSS files
+ * and referenced throughout your stylesheets for dynamic theming
+ */
+
+:root {
+  /* Cividis Color Palette - Default Values (Colorblind-Safe) */
+  --theme-primary: #3C873D;      /* Forest Green */
+  --theme-secondary: #2EBD91;    /* Teal */
+  --theme-accent: #16D8BA;       /* Aqua Teal */
+  --theme-success: #4DF9FF;      /* Cyan */
+  --theme-warning: #FCE34F;      /* Golden Yellow */
+  --theme-info: #F7CB17;         /* Amber */
+  
+  /* Additional theme variables */
+  --theme-background: #ffffff;
+  --theme-surface: #f8f9fa;
+  --theme-text: #333333;
+  --theme-text-muted: #6c757d;
+  --theme-border: #e0e0e0;
+  --theme-shadow: rgba(0, 0, 0, 0.1);
+  
+  /* Gradient combinations using Cividis palette */
+  --theme-gradient-primary: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+  --theme-gradient-accent: linear-gradient(135deg, var(--theme-accent), var(--theme-success));
+  --theme-gradient-warm: linear-gradient(135deg, var(--theme-warning), var(--theme-info));
+  --theme-gradient-cool: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+  
+  /* Interactive states */
+  --theme-hover-opacity: 0.8;
+  --theme-active-opacity: 0.9;
+  --theme-disabled-opacity: 0.5;
+  
+  /* Spacing and layout (optional - for complete theme system) */
+  --theme-border-radius: 6px;
+  --theme-border-radius-lg: 12px;
+  --theme-transition: all 0.3s ease;
+}
+
+/* Dark theme variant */
+[data-theme="dark"] {
+  --theme-background: #1a1a1a;
+  --theme-surface: #2d2d2d;
+  --theme-text: #ffffff;
+  --theme-text-muted: #a0a0a0;
+  --theme-border: #404040;
+  --theme-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Example usage in CSS classes */
+.btn-primary {
+  background: var(--theme-primary);
+  border-color: var(--theme-primary);
+  color: white;
+  transition: var(--theme-transition);
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--theme-primary) 80%, black);
+  opacity: var(--theme-hover-opacity);
+}
+
+.btn-gradient {
+  background: var(--theme-gradient-primary);
+  border: none;
+  color: white;
+}
+
+.card {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--theme-border-radius);
+  box-shadow: 0 2px 8px var(--theme-shadow);
+}
+
+.text-primary {
+  color: var(--theme-primary);
+}
+
+.text-accent {
+  color: var(--theme-accent);
+}
+
+.border-primary {
+  border-color: var(--theme-primary);
+}
+
+/* Tailwind-style utility classes using theme variables */
+.bg-primary { background-color: var(--theme-primary); }
+.bg-secondary { background-color: var(--theme-secondary); }
+.bg-accent { background-color: var(--theme-accent); }
+.bg-success { background-color: var(--theme-success); }
+.bg-warning { background-color: var(--theme-warning); }
+.bg-info { background-color: var(--theme-info); }
+
+.text-primary { color: var(--theme-primary); }
+.text-secondary { color: var(--theme-secondary); }
+.text-accent { color: var(--theme-accent); }
+.text-success { color: var(--theme-success); }
+.text-warning { color: var(--theme-warning); }
+.text-info { color: var(--theme-info); }
+
+/* Animation for theme transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Ensure the CTA button integrates well with the theme */
+#viridis-cta-button {
+  background: linear-gradient(45deg, var(--theme-secondary), var(--theme-warning)) !important;
+}

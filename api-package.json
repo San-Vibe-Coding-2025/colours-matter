@@ -1,0 +1,27 @@
+{
+  "name": "viridis-theme-api",
+  "version": "1.0.0",
+  "description": "Example API server for Viridis Theme Engine",
+  "main": "api-server.js",
+  "scripts": {
+    "start": "node api-server.js",
+    "dev": "nodemon api-server.js",
+    "test": "echo 'Tests not implemented yet'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "viridis",
+    "theme",
+    "api",
+    "colors",
+    "express"
+  ],
+  "author": "Viridis Theme Team",
+  "license": "MIT"
+}

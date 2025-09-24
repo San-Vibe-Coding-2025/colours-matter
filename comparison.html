@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name viewport="width=device-width, initial-scale=1.0">
+    <title>Viridis Theme Comparison - Before vs After</title>
+    
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Split view styles */
+        .split-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .split-panel {
+            width: 50%;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .version-label {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 20px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* V1 - Traditional colors */
+        .v1-panel {
+            --theme-primary: #dc2626;     /* Red */
+            --theme-secondary: #9333ea;   /* Purple */
+            --theme-accent: #059669;      /* Green */
+            --theme-success: #16a34a;     /* Green */
+            --theme-warning: #ea580c;     /* Orange */
+            --theme-info: #0ea5e9;        /* Blue */
+            --theme-background: #ffffff;
+            --theme-surface: #f9fafb;
+            --theme-text: #111827;
+            --theme-text-muted: #6b7280;
+            --theme-border: #d1d5db;
+            --theme-shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* V2 - Cividis colors */
+        .v2-panel {
+            --theme-primary: #3C873D;
+            --theme-secondary: #2EBD91;
+            --theme-accent: #16D8BA;
+            --theme-success: #4DF9FF;
+            --theme-warning: #FCE34F;
+            --theme-info: #F7CB17;
+            --theme-background: #ffffff;
+            --theme-surface: #f8f9fa;
+            --theme-text: #333333;
+            --theme-text-muted: #6c757d;
+            --theme-border: #e0e0e0;
+            --theme-shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Shared component styles */
+        .demo-card {
+            background: var(--theme-surface);
+            border: 2px solid var(--theme-border);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--theme-shadow);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px var(--theme-shadow);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        .btn-primary { background: var(--theme-primary); }
+        .btn-secondary { background: var(--theme-secondary); }
+        .btn-accent { background: var(--theme-accent); }
+        .btn-success { background: var(--theme-success); }
+        .btn-warning { background: var(--theme-warning); }
+        .btn-info { background: var(--theme-info); }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid var(--theme-border);
+            display: inline-block;
+            margin: 4px;
+        }
+        
+        .navigation {
+            background: var(--theme-surface);
+            border-bottom: 2px solid var(--theme-border);
+            box-shadow: 0 2px 8px var(--theme-shadow);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+            color: white;
+            padding: 4rem 2rem;
+        }
+        
+        .stats-card {
+            background: var(--theme-surface);
+            border: 2px solid var(--theme-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 16px var(--theme-shadow);
+        }
+        
+        .stats-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--theme-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(45deg, #414487FF, #FDE725FF);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .divider {
+            width: 2px;
+            background: linear-gradient(to bottom, #3C873D, #2EBD91, #16D8BA, #4DF9FF, #FCE34F, #F7CB17);
+            position: relative;
+        }
+        
+        .divider::after {
+            content: 'VS';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: #3C873D;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 8px 12px;
+            border-radius: 50%;
+            border: 3px solid #3C873D;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to demo button -->
+    <button class="back-button" onclick="window.location.href='demo.html'">
+        ← Back to Home
+    </button>
+
+    <div class="split-container">
+        <!-- V1 Panel - Traditional Colors -->
+        <div class="split-panel v1-panel">
+            <div class="version-label" style="background: #dc2626; color: white;">
+                V1 - Traditional Website Colors
+            </div>
+            
+            <div style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
+                <!-- Navigation -->
+                <nav class="navigation">
+                    <div style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+                        <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-primary);">
+                            MyWebsite
+                        </h1>
+                        <div>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Home</a>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">About</a>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Contact</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Hero Section -->
+                <section class="hero-section">
+                    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                        <h2 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">
+                            Welcome to Our Platform
+                        </h2>
+                        <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">
+                            Experience the power of traditional web design with classic color schemes
+                        </p>
+                        <a href="#" class="btn btn-info">Get Started</a>
+                        <a href="#" class="btn" style="background: rgba(255,255,255,0.2); border: 2px solid white;">Learn More</a>
+                    </div>
+                </section>
+
+                <!-- Color Palette -->
+                <section style="padding: 3rem 2rem; text-align: center; background: var(--theme-surface);">
+                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 2rem; color: var(--theme-text);">
+                        Traditional Color Palette
+                    </h3>
+                    <div>
+                        <div class="color-swatch" style="background: var(--theme-primary);" title="Red Primary"></div>
+                        <div class="color-swatch" style="background: var(--theme-secondary);" title="Purple Secondary"></div>
+                        <div class="color-swatch" style="background: var(--theme-accent);" title="Green Accent"></div>
+                        <div class="color-swatch" style="background: var(--theme-success);" title="Green Success"></div>
+                        <div class="color-swatch" style="background: var(--theme-warning);" title="Orange Warning"></div>
+                        <div class="color-swatch" style="background: var(--theme-info);" title="Blue Info"></div>
+                    </div>
+                </section>
+
+                <!-- Features -->
+                <section style="padding: 3rem 2rem;">
+                    <div style="max-width: 1200px; margin: 0 auto;">
+                        <h3 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 3rem; color: var(--theme-text);">
+                            Key Features
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                            <div class="demo-card" style="padding: 2rem;">
+                                <div class="feature-icon" style="background: var(--theme-primary);">1</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-primary); margin-bottom: 1rem;">
+                                    Strong Contrast
+                                </h4>
+                                <p style="color: var(--theme-text-muted);">
+                                    Traditional colors provide high contrast but can be harsh on the eyes during extended use.
+                                </p>
+                            </div>
+                            
+                            <div class="demo-card" style="padding: 2rem;">
+                                <div class="feature-icon" style="background: var(--theme-accent);">2</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-accent); margin-bottom: 1rem;">
+                                    Familiar Colors
+                                </h4>
+                                <p style="color: var(--theme-text-muted);">
+                                    Users are familiar with red for errors, green for success, but lacks scientific backing.
+                                </p>
+                            </div>
+                            
+                            <div class="demo-card" style="padding: 2rem;">
+                                <div class="feature-icon" style="background: var(--theme-secondary);">3</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
+                                    Limited Harmony
+                                </h4>
+                                <p style="color: var(--theme-text-muted);">
+                                    Random color combinations that may not work well together aesthetically.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stats -->
+                <section style="padding: 3rem 2rem; background: var(--theme-surface);">
+                    <div style="max-width: 1000px; margin: 0 auto;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                            <div class="stats-card">
+                                <div class="stats-number">67%</div>
+                                <p style="color: var(--theme-text-muted);">User Eye Strain</p>
+                            </div>
+                            <div class="stats-card">
+                                <div class="stats-number">3.2</div>
+                                <p style="color: var(--theme-text-muted);">Color Harmony Score</p>
+                            </div>
+                            <div class="stats-card">
+                                <div class="stats-number">45%</div>
+                                <p style="color: var(--theme-text-muted);">Accessibility Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Call to Action -->
+                <section style="padding: 3rem 2rem; text-align: center;">
+                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: var(--theme-text);">
+                        Ready to Get Started?
+                    </h3>
+                    <p style="font-size: 1.125rem; color: var(--theme-text-muted); margin-bottom: 2rem;">
+                        Join thousands using traditional color schemes
+                    </p>
+                    <a href="#" class="btn btn-primary">Sign Up Now</a>
+                    <a href="#" class="btn btn-secondary">Learn More</a>
+                </section>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- V2 Panel - Viridis Colors -->
+        <div class="split-panel v2-panel">
+            <div class="version-label" style="background: linear-gradient(45deg, #3C873D, #F7CB17); color: white;">
+                V2 - Cividis Scientific Color Palette
+            </div>
+            
+            <div style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
+                <!-- Navigation -->
+                <nav class="navigation">
+                    <div style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+                        <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-primary);">
+                            MyWebsite
+                        </h1>
+                        <div>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Home</a>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">About</a>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Contact</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Hero Section -->
+                <section class="hero-section">
+                    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                        <h2 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">
+                            Welcome to Our Platform
+                        </h2>
+                        <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">
+                            Experience the power of scientifically-designed Cividis color palette
+                        </p>
+                        <a href="#" class="btn btn-info" style="color: black;">Get Started</a>
+                        <a href="#" class="btn" style="background: rgba(255,255,255,0.2); border: 2px solid white;">Learn More</a>
+                    </div>
+                </section>
+
+                <!-- Color Palette -->
+                <section style="padding: 3rem 2rem; text-align: center; background: var(--theme-surface);">
+                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 2rem; color: var(--theme-text);">
+                        Cividis Color Palette
+                    </h3>
+                    <div>
+                        <div class="color-swatch" style="background: var(--theme-primary);" title="Forest Green"></div>
+                        <div class="color-swatch" style="background: var(--theme-secondary);" title="Teal"></div>
+                        <div class="color-swatch" style="background: var(--theme-accent);" title="Aqua Teal"></div>
+                        <div class="color-swatch" style="background: var(--theme-success);" title="Cyan"></div>
+                        <div class="color-swatch" style="background: var(--theme-warning);" title="Golden Yellow"></div>
+                        <div class="color-swatch" style="background: var(--theme-info);" title="Amber"></div>
+                    </div>
+                </section>
+
+                <!-- Features -->
+                <section style="padding: 3rem 2rem;">
+                    <div style="max-width: 1200px; margin: 0 auto;">
+                        <h3 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 3rem; color: var(--theme-text);">
+                            Key Features
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                            <div class="demo-card" style="padding: 2rem;">
+                                <div class="feature-icon" style="background: var(--theme-primary);">1</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-primary); margin-bottom: 1rem;">
+                                    Perceptually Uniform
+                                </h4>
+                                <p style="color: var(--theme-text-muted);">
+                                    Colors appear equally spaced to human vision, reducing eye strain and improving readability.
+                                </p>
+                            </div>
+                            
+                            <div class="demo-card" style="padding: 2rem;">
+                                <div class="feature-icon" style="background: var(--theme-accent);">2</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-accent); margin-bottom: 1rem;">
+                                    Colorblind Friendly
+                                </h4>
+                                <p style="color: var(--theme-text-muted);">
+                                    Scientifically designed to be accessible to all users, including those with color vision deficiency.
+                                </p>
+                            </div>
+                            
+                            <div class="demo-card" style="padding: 2rem;">
+                                <div class="feature-icon" style="background: var(--theme-secondary);">3</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
+                                    Perfect Harmony
+                                </h4>
+                                <p style="color: var(--theme-text-muted);">
+                                    Mathematically calculated gradients that create naturally pleasing color relationships.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stats -->
+                <section style="padding: 3rem 2rem; background: var(--theme-surface);">
+                    <div style="max-width: 1000px; margin: 0 auto;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                            <div class="stats-card">
+                                <div class="stats-number">12%</div>
+                                <p style="color: var(--theme-text-muted);">User Eye Strain</p>
+                            </div>
+                            <div class="stats-card">
+                                <div class="stats-number">9.7</div>
+                                <p style="color: var(--theme-text-muted);">Color Harmony Score</p>
+                            </div>
+                            <div class="stats-card">
+                                <div class="stats-number">98%</div>
+                                <p style="color: var(--theme-text-muted);">Accessibility Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Call to Action -->
+                <section style="padding: 3rem 2rem; text-align: center;">
+                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: var(--theme-text);">
+                        Ready to Get Started?
+                    </h3>
+                    <p style="font-size: 1.125rem; color: var(--theme-text-muted); margin-bottom: 2rem;">
+                        Join thousands using the scientifically superior Cividis palette
+                    </p>
+                    <a href="#" class="btn btn-primary">Sign Up Now</a>
+                    <a href="#" class="btn btn-secondary">Learn More</a>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for interactions -->
+    <script>
+        // Add some interactive elements
+        document.querySelectorAll('.demo-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-4px)';
+            });
+        });
+
+        // Smooth scrolling for both panels
+        document.querySelectorAll('.split-panel').forEach(panel => {
+            panel.addEventListener('scroll', function() {
+                // Sync scroll positions (optional)
+                // const otherPanel = panel.classList.contains('v1-panel') ? 
+                //     document.querySelector('.v2-panel') : 
+                //     document.querySelector('.v1-panel');
+                // otherPanel.scrollTop = this.scrollTop;
+            });
+        });
+
+        // Add analytics tracking for comparison views
+        console.log('Viridis comparison page loaded');
+        
+        // Track time spent on each side
+        let v1Time = 0, v2Time = 0;
+        let currentSide = null;
+        
+        document.querySelector('.v1-panel').addEventListener('mouseenter', () => {
+            currentSide = 'v1';
+            console.log('User viewing traditional colors');
+        });
+        
+        document.querySelector('.v2-panel').addEventListener('mouseenter', () => {
+            currentSide = 'v2';
+            console.log('User viewing Viridis colors');
+        });
+    </script>
+</body>
+</html>

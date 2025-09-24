@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cividis Theme Engine - Navigation</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #3C873D, #2EBD91, #16D8BA, #4DF9FF, #FCE34F, #F7CB17);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 3rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 2rem;
+        }
+        
+        h1 {
+            color: #3C873D;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            color: white;
+            display: inline-block;
+            min-width: 160px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .demo-btn {
+            background: linear-gradient(135deg, #3C873D, #16D8BA);
+        }
+        
+        .comparison-btn {
+            background: linear-gradient(135deg, #2EBD91, #F7CB17);
+        }
+        
+        .docs-btn {
+            background: linear-gradient(135deg, #4DF9FF, #FCE34F);
+        }
+        
+        .features {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3C873D;
+        }
+        
+        .feature h3 {
+            color: #3C873D;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature p {
+            color: #666;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Cividis Theme Engine</h1>
+        <p class="subtitle">
+            A green-free, scientifically-designed color palette system for truly accessible web applications. 
+            Experience the difference between traditional colors and the completely colorblind-safe Cividis palette.
+        </p>
+        
+        <div class="nav-buttons">
+            <a href="demo.html" class="nav-btn demo-btn">
+                📊 Interactive Demo
+            </a>
+            <a href="about.html" class="nav-btn" style="background: linear-gradient(135deg, #2A788EFF, #22A884FF);">
+                ℹ️ About & Mission
+            </a>
+            <a href="comparison.html" class="nav-btn comparison-btn">
+                🔄 Side-by-Side Comparison
+            </a>
+            <a href="#docs" class="nav-btn docs-btn" onclick="showDocs()">
+                📚 Documentation
+            </a>
+        </div>
+        
+        <div class="features">
+            <h2 style="color: #3C873D; margin-bottom: 1rem;">Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h3>🔗 API Integration</h3>
+                    <p>Fetch themes from remote endpoints with automatic retry logic</p>
+                </div>
+                <div class="feature">
+                    <h3>⚡ Dynamic Variables</h3>
+                    <p>Updates CSS custom properties in real-time</p>
+                </div>
+                <div class="feature">
+                    <h3>🎯 Single Script</h3>
+                    <p>Just include one script tag - no configuration needed</p>
+                </div>
+                <div class="feature">
+                    <h3>🚫 Green-Free</h3>
+                    <p>Completely avoids problematic green colors that confuse 8% of men</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showDocs() {
+            alert('📚 Documentation\n\nCheck out the README.md file for complete documentation including:\n\n• Installation guide\n• API integration\n• CSS variables reference\n• Customization options\n• Framework integrations\n\nOr explore the demo and comparison pages to see the system in action!');
+        }
+        
+        // Add some interactive effects
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.05)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

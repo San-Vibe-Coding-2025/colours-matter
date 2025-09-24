@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Cividis - Building for Color Vision Accessibility</title>
+    
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Include the Viridis Theme CSS -->
+    <link rel="stylesheet" href="viridis-theme.css">
+    
+    <style>
+        /* Custom styles using theme variables */
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary), var(--theme-accent));
+        }
+        
+        .content-section {
+            background: var(--theme-surface);
+            border-radius: var(--theme-border-radius-lg);
+            box-shadow: 0 4px 16px var(--theme-shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--theme-background);
+            border: 2px solid var(--theme-border);
+            border-radius: var(--theme-border-radius);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--theme-transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px var(--theme-shadow);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--theme-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent), var(--theme-info));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .cvd-example {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .cvd-demo {
+            background: var(--theme-surface);
+            border-radius: var(--theme-border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid var(--theme-border);
+        }
+        
+        .color-strip {
+            height: 60px;
+            border-radius: var(--theme-border-radius);
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+        
+        /* Normal vision colors */
+        .normal-red { background: #dc2626; }
+        .normal-green { background: #16a34a; }
+        .normal-blue { background: #2563eb; }
+        .normal-purple { background: #9333ea; }
+        .normal-orange { background: #ea580c; }
+        .normal-brown { background: #a16207; }
+        
+        /* Protanopia (red-blind) simulation */
+        .protanopia-red { background: #525252; }
+        .protanopia-green { background: #fbbf24; }
+        .protanopia-blue { background: #2563eb; }
+        .protanopia-purple { background: #1e40af; }
+        .protanopia-orange { background: #fbbf24; }
+        .protanopia-brown { background: #525252; }
+        
+        /* Deuteranopia (green-blind) simulation */
+        .deuteranopia-red { background: #fbbf24; }
+        .deuteranopia-green { background: #fbbf24; }
+        .deuteranopia-blue { background: #2563eb; }
+        .deuteranopia-purple { background: #7c3aed; }
+        .deuteranopia-orange { background: #fbbf24; }
+        .deuteranopia-brown { background: #a16207; }
+        
+        .quote-box {
+            background: linear-gradient(135deg, var(--theme-accent), var(--theme-success));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--theme-border-radius-lg);
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .quote-box::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .viridis-showcase {
+            background: linear-gradient(90deg, #3C873D, #2EBD91, #16D8BA, #4DF9FF, #FCE34F, #F7CB17);
+            height: 100px;
+            border-radius: var(--theme-border-radius-lg);
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        .back-button {
+            background: linear-gradient(45deg, var(--theme-secondary), var(--theme-info));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body style="background: var(--theme-background); color: var(--theme-text); min-height: 100vh;">
+    <!-- Header with navigation -->
+    <header style="background: var(--theme-surface); border-bottom: 2px solid var(--theme-border); box-shadow: 0 2px 8px var(--theme-shadow);">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold gradient-text">About Cividis</h1>
+                <nav class="flex items-center space-x-4">
+                    <a href="demo.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);" 
+                       onmouseover="this.style.color='var(--theme-accent)'" 
+                       onmouseout="this.style.color='var(--theme-text)'">Home</a>
+                    <a href="comparison.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);"
+                       onmouseover="this.style.color='var(--theme-success)'" 
+                       onmouseout="this.style.color='var(--theme-text)'">Comparison</a>
+                    <a href="mailto:team@coloursmatter.co.uk" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);"
+                       onmouseover="this.style.color='var(--theme-info)'" 
+                       onmouseout="this.style.color='var(--theme-text)'">Contact</a>
+                    <a href="index.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);"
+                       onmouseover="this.style.color='var(--theme-primary)'" 
+                       onmouseout="this.style.color='var(--theme-text)'">Landing</a>
+                    <!-- The CTA button will be automatically inserted here by the theme engine -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="container mx-auto px-4 py-8">
+        <a href="demo.html" class="back-button">← Back to Demo</a>
+
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white p-8 rounded-2xl mb-8 text-center">
+            <h1 class="text-5xl font-bold mb-4">Building for Everyone</h1>
+            <p class="text-xl mb-6 opacity-90">
+                Why we created Cividis Theme Engine: A scientifically-designed color system for the 300 million people worldwide with Color Vision Deficiency
+            </p>
+            <div class="viridis-showcase">
+                Cividis: Perceptually Uniform • Colorblind-Safe • Green-Free
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold gradient-text text-center mb-8">The Hidden Challenge</h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="stat-card">
+                    <div class="stat-number">300M</div>
+                    <p style="color: var(--theme-text-muted);">People worldwide with Color Vision Deficiency</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1 in 12</div>
+                    <p style="color: var(--theme-text-muted);">Men affected (8%)</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1 in 200</div>
+                    <p style="color: var(--theme-text-muted);">Women affected (0.5%)</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">40%</div>
+                    <p style="color: var(--theme-text-muted);">Leave school unaware they have CVD</p>
+                </div>
+            </div>
+            <p class="text-center mt-6 text-lg" style="color: var(--theme-text-muted);">
+                <em>Source: <a href="https://www.colourblindawareness.org/colour-blindness/" target="_blank" 
+                   style="color: var(--theme-accent);">Colour Blind Awareness</a></em>
+            </p>
+        </section>
+
+        <!-- What is Color Vision Deficiency Section -->
+        <section class="content-section p-8 mb-8">
+            <h2 class="text-3xl font-bold gradient-text mb-6">What is Color Vision Deficiency (CVD)?</h2>
+            
+            <div class="text-lg leading-relaxed space-y-4" style="color: var(--theme-text);">
+                <p>
+                    Color Vision Deficiency, commonly called "color blindness," affects how people perceive colors. 
+                    It's a genetic condition inherited from one's mother in most cases, though it can also be acquired 
+                    due to aging, diseases like diabetes and multiple sclerosis, or from medications.
+                </p>
+                
+                <p>
+                    <strong>The biggest myth:</strong> People with CVD don't just confuse red with green. The condition 
+                    affects perception across the entire color spectrum, potentially impacting reds, greens, oranges, 
+                    browns, purples, pinks, and grays. Even black can be confused with dark red, green, or blue.
+                </p>
+                
+                <p>
+                    Most people with moderate red/green color blindness can only accurately identify about 
+                    <strong>5 colored pencils</strong> from a standard box of 24 crayons, compared to the full 24 
+                    that people with normal vision can distinguish.
+                </p>
+            </div>
+
+            <!-- CVD Examples -->
+            <div class="mt-8">
+                <h3 class="text-2xl font-bold mb-4" style="color: var(--theme-primary);">How Colors Appear with Different Types of CVD</h3>
+                
+                <div class="cvd-example">
+                    <div class="cvd-demo">
+                        <h4 class="font-bold mb-3" style="color: var(--theme-text);">Normal Vision</h4>
+                        <div class="color-strip normal-red">Red</div>
+                        <div class="color-strip normal-green">Green</div>
+                        <div class="color-strip normal-blue">Blue</div>
+                        <div class="color-strip normal-purple">Purple</div>
+                        <div class="color-strip normal-orange">Orange</div>
+                        <div class="color-strip normal-brown">Brown</div>
+                    </div>
+                    
+                    <div class="cvd-demo">
+                        <h4 class="font-bold mb-3" style="color: var(--theme-text);">Protanopia (Red-Blind)</h4>
+                        <div class="color-strip protanopia-red">Red → Gray</div>
+                        <div class="color-strip protanopia-green">Green → Yellow</div>
+                        <div class="color-strip protanopia-blue">Blue</div>
+                        <div class="color-strip protanopia-purple">Purple → Blue</div>
+                        <div class="color-strip protanopia-orange">Orange → Yellow</div>
+                        <div class="color-strip protanopia-brown">Brown → Gray</div>
+                    </div>
+                    
+                    <div class="cvd-demo">
+                        <h4 class="font-bold mb-3" style="color: var(--theme-text);">Deuteranopia (Green-Blind)</h4>
+                        <div class="color-strip deuteranopia-red">Red → Yellow</div>
+                        <div class="color-strip deuteranopia-green">Green → Yellow</div>
+                        <div class="color-strip deuteranopia-blue">Blue</div>
+                        <div class="color-strip deuteranopia-purple">Purple</div>
+                        <div class="color-strip deuteranopia-orange">Orange → Yellow</div>
+                        <div class="color-strip deuteranopia-brown">Brown</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Problem Section -->
+        <section class="content-section p-8 mb-8">
+            <h2 class="text-3xl font-bold gradient-text mb-6">The Problem with Traditional Web Colors</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4" style="color: var(--theme-accent);">Common Issues</h3>
+                    <ul class="space-y-3 text-lg" style="color: var(--theme-text);">
+                        <li>• <strong>Red/Green combinations</strong> are indistinguishable to 8% of men</li>
+                        <li>• <strong>Traffic light systems</strong> rely solely on color coding</li>
+                        <li>• <strong>Data visualizations</strong> become meaningless</li>
+                        <li>• <strong>Form validation</strong> errors go unnoticed</li>
+                        <li>• <strong>Status indicators</strong> provide no information</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4" style="color: var(--theme-warning);">Real Impact</h3>
+                    <ul class="space-y-3 text-lg" style="color: var(--theme-text);">
+                        <li>• <strong>60% of CVD people</strong> experience daily problems</li>
+                        <li>• <strong>Career limitations</strong> in design, electrical work, and more</li>
+                        <li>• <strong>Educational barriers</strong> when color-coding is essential</li>
+                        <li>• <strong>Digital exclusion</strong> from poorly designed interfaces</li>
+                        <li>• <strong>Safety risks</strong> when color conveys critical information</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quote Section -->
+        <div class="quote-box">
+            <p class="text-2xl font-medium mb-4">
+                A common surprise for color blind people is the discovery that peanut butter ISN'T green (it's brown).
+            </p>
+            <p class="opacity-90">— Colour Blind Awareness Organization</p>
+        </div>
+
+        <!-- What is Cividis Section -->
+        <section class="content-section p-8 mb-8">
+            <h2 class="text-3xl font-bold gradient-text mb-6">What is Cividis?</h2>
+            
+            <div class="text-lg leading-relaxed space-y-4" style="color: var(--theme-text);">
+                <p>
+                    <strong>Cividis</strong> is a scientifically-designed color palette specifically created to be 
+                    completely accessible to people with color vision deficiency. Unlike traditional color schemes, 
+                    Cividis was mathematically engineered to <strong>avoid problematic green colors</strong> that 
+                    cause confusion for the most common types of colorblindness.
+                </p>
+                
+                <p>
+                    <strong>Why Cividis over other palettes?</strong> While Viridis is perceptually uniform, 
+                    Cividis takes accessibility one step further by completely eliminating the green spectrum 
+                    that causes issues for deuteranopia and protanopia (affecting 8% of men). This makes it 
+                    the gold standard for truly inclusive design.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-6 my-8">
+                    <div style="background: var(--theme-background); border: 2px solid var(--theme-primary); border-radius: var(--theme-border-radius); padding: 2rem; text-align: center;">
+                        <div style="background: var(--theme-primary); width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.5rem;">1</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--theme-primary);">Green-Free Design</h3>
+                        <p style="color: var(--theme-text-muted);">Completely avoids problematic green colors that confuse 8% of men</p>
+                    </div>
+                    
+                    <div style="background: var(--theme-background); border: 2px solid var(--theme-accent); border-radius: var(--theme-border-radius); padding: 2rem; text-align: center;">
+                        <div style="background: var(--theme-accent); width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.5rem;">2</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--theme-accent);">100% CVD Safe</h3>
+                        <p style="color: var(--theme-text-muted);">Accessible to all types of color vision deficiency without exception</p>
+                    </div>
+                    
+                    <div style="background: var(--theme-background); border: 2px solid var(--theme-success); border-radius: var(--theme-border-radius); padding: 2rem; text-align: center;">
+                        <div style="background: var(--theme-success); width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold; font-size: 1.5rem;">3</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--theme-success);">Perceptually Uniform</h3>
+                        <p style="color: var(--theme-text-muted);">Colors appear equally spaced, reducing eye strain for everyone</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Mission Section -->
+        <section class="content-section p-8 mb-8">
+            <h2 class="text-3xl font-bold gradient-text mb-6">Why We Built This</h2>
+            
+            <div class="text-lg leading-relaxed space-y-6" style="color: var(--theme-text);">
+                <p>
+                    <strong>300 million people worldwide</strong> have color vision deficiency. That's nearly the entire population of the United States. 
+                    Yet the vast majority of websites, applications, and digital tools are designed without considering their needs.
+                </p>
+                
+                <p>
+                    We built the Cividis Theme Engine because <strong>accessibility shouldn't be an afterthought</strong>. 
+                    Every person deserves equal access to information, regardless of how they perceive color.
+                </p>
+                
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 p-6 rounded-lg border-l-4" style="border-color: var(--theme-accent);">
+                    <h3 class="text-xl font-bold mb-3" style="color: var(--theme-accent);">Our Goals:</h3>
+                    <ul class="space-y-2">
+                        <li>• Make websites automatically accessible to people with CVD</li>
+                        <li>• Eliminate the need for manual color accessibility audits</li>
+                        <li>• Provide beautiful, scientifically-backed color schemes</li>
+                        <li>• Raise awareness about color vision deficiency</li>
+                        <li>• Prove that inclusive design benefits everyone</li>
+                    </ul>
+                </div>
+                
+                <p>
+                    With just <strong>one line of code</strong>, developers can transform their websites to be inclusive 
+                    of all users. The Cividis palette isn't just accessible—it's <em>beautiful</em>, creating harmonious 
+                    color relationships that enhance the user experience for everyone, while being completely free of 
+                    problematic green tones.
+                </p>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="text-center py-12">
+            <h2 class="text-4xl font-bold gradient-text mb-6">Join the Movement</h2>
+            <p class="text-xl mb-8" style="color: var(--theme-text-muted);">
+                Help us build a more inclusive web, one website at a time.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <a href="demo.html" 
+                   style="background: var(--theme-primary); color: white; padding: 16px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: var(--theme-transition);"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)'"
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    Try the Demo
+                </a>
+                <a href="comparison.html" 
+                   style="background: var(--theme-accent); color: white; padding: 16px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: var(--theme-transition);"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)'"
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    See the Comparison
+                </a>
+            </div>
+            
+            <p style="color: var(--theme-text-muted);">
+                Learn more about color blindness at 
+                <a href="https://www.colourblindawareness.org/" target="_blank" style="color: var(--theme-accent);">
+                    Colour Blind Awareness
+                </a>
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--theme-surface); border-top: 2px solid var(--theme-border); margin-top: 4rem; padding: 2rem 0;">
+        <div class="container mx-auto px-4 text-center">
+            <p style="color: var(--theme-text-muted);">
+                &copy; 2025 Cividis Theme Engine. Built with accessibility and inclusion in mind.
+            </p>
+            <p class="mt-2" style="color: var(--theme-text-muted); font-size: 0.9rem;">
+                Color statistics and information sourced from 
+                <a href="https://www.colourblindawareness.org/" target="_blank" style="color: var(--theme-accent);">
+                    Colour Blind Awareness
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Include the Viridis Theme Engine -->
+    <script src="viridis-theme.js"></script>
+    
+    <script>
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add intersection observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.content-section, .stat-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Log page view
+        console.log('About Viridis page loaded - spreading awareness about CVD accessibility');
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "name": "viridis-theme",
+  "version": "1.0.0",
+  "description": "A pluggable JavaScript theming tool for dynamic CSS variable management with remote API integration",
+  "main": "viridis-theme.js",
+  "scripts": {
+    "demo": "python -m http.server 8000",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build:js": "echo 'JavaScript build complete'",
+    "test": "echo 'Tests not implemented yet'",
+    "lint": "eslint viridis-theme.js",
+    "format": "prettier --write *.js *.css *.html"
+  },
+  "keywords": [
+    "theming",
+    "css-variables",
+    "javascript",
+    "tailwind",
+    "api",
+    "colors",
+    "viridis",
+    "dynamic-theming"
+  ],
+  "author": "Viridis Theme Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/viridis-theme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/viridis-theme/issues"
+  },
+  "homepage": "https://github.com/your-username/viridis-theme#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.3.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0"
+  },
+  "files": [
+    "viridis-theme.js",
+    "viridis-theme.css",
+    "tailwind.config.js",
+    "README.md"
+  ],
+  "browser": "viridis-theme.js",
+  "cdn": "https://cdn.jsdelivr.net/npm/viridis-theme@1.0.0/viridis-theme.js"
+}

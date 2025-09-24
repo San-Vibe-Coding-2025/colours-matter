@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cividis Theme Demo</title>
+    
+    <!-- Include Tailwind CSS (you can replace this with your own Tailwind build) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Include the Viridis Theme CSS -->
+    <link rel="stylesheet" href="viridis-theme.css">
+    
+    <style>
+        /* Custom styles that use theme variables */
+        .demo-card {
+            background: var(--theme-surface);
+            border: 2px solid var(--theme-border);
+            border-radius: var(--theme-border-radius-lg);
+            box-shadow: 0 4px 16px var(--theme-shadow);
+            transition: var(--theme-transition);
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px var(--theme-shadow);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent), var(--theme-info));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--theme-border-radius);
+            border: 2px solid var(--theme-border);
+            display: inline-block;
+            margin: 8px;
+        }
+
+        /* Enhanced button styles */
+        .theme-button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .gradient-button {
+            background: var(--theme-gradient-primary);
+        }
+
+        /* Feature card icons */
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body class="bg-theme-background text-theme min-h-screen">
+    <!-- Header with navigation -->
+    <header class="bg-theme-surface border-b border-theme-border shadow-theme">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold gradient-text">Cividis Theme Demo</h1>
+                <nav class="flex items-center space-x-4">
+                    <a href="about.html" class="text-theme hover:text-primary transition-theme">About</a>
+                    <a href="demo.html" class="text-theme hover:text-success transition-theme">Home</a>
+                    <a href="mailto:team@coloursmatter.co.uk" class="text-theme hover:text-info transition-theme">Contact</a>
+                    <!-- The CTA button will be automatically inserted here by the theme engine -->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero section -->
+        <section class="text-center py-16">
+            <h2 class="text-4xl font-bold gradient-text mb-6">
+                Dynamic Theming with Cividis
+            </h2>
+            <p class="text-xl text-theme-muted mb-8 max-w-2xl mx-auto">
+                A powerful JavaScript theming tool that dynamically updates your website's colors 
+                using CSS variables and remote API integration.
+            </p>
+            
+            <!-- Color palette display -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-theme mb-4">Current Color Palette</h3>
+                <div class="flex flex-wrap justify-center">
+                    <div class="color-swatch" style="background: var(--theme-primary);" title="Primary"></div>
+                    <div class="color-swatch" style="background: var(--theme-secondary);" title="Secondary"></div>
+                    <div class="color-swatch" style="background: var(--theme-accent);" title="Accent"></div>
+                    <div class="color-swatch" style="background: var(--theme-success);" title="Success"></div>
+                    <div class="color-swatch" style="background: var(--theme-warning);" title="Warning"></div>
+                    <div class="color-swatch" style="background: var(--theme-info);" title="Info"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature cards -->
+        <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
+            <div class="demo-card p-6">
+                <div class="feature-icon" style="background: var(--theme-primary);">
+                    <span>1</span>
+                </div>
+                <h3 class="text-xl font-bold" style="color: var(--theme-primary);">API Integration</h3>
+                <p style="color: var(--theme-text-muted);">
+                    Fetches color themes from a remote REST API with automatic retry logic and error handling.
+                </p>
+            </div>
+
+            <div class="demo-card p-6">
+                <div class="feature-icon" style="background: var(--theme-accent);">
+                    <span>2</span>
+                </div>
+                <h3 class="text-xl font-bold" style="color: var(--theme-accent);">CSS Variables</h3>
+                <p style="color: var(--theme-text-muted);">
+                    Dynamically updates CSS custom properties on the :root element for instant theme changes.
+                </p>
+            </div>
+
+            <div class="demo-card p-6">
+                <div class="feature-icon" style="background: var(--theme-success);">
+                    <span>3</span>
+                </div>
+                <h3 class="text-xl font-bold" style="color: var(--theme-success);">Single Script</h3>
+                <p style="color: var(--theme-text-muted);">
+                    Requires only one script tag inclusion - no additional setup or configuration needed.
+                </p>
+            </div>
+
+            <div class="demo-card p-6">
+                <div class="feature-icon" style="background: var(--theme-warning);">
+                    <span>4</span>
+                </div>
+                <h3 class="text-xl font-bold" style="color: var(--theme-warning);">Tailwind Compatible</h3>
+                <p style="color: var(--theme-text-muted);">
+                    Works seamlessly with Tailwind CSS and custom CSS files using the same variables.
+                </p>
+            </div>
+
+            <div class="demo-card p-6">
+                <div class="feature-icon" style="background: var(--theme-info); color: black;">
+                    <span>5</span>
+                </div>
+                <h3 class="text-xl font-bold" style="color: var(--theme-info);">Auto CTA</h3>
+                <p style="color: var(--theme-text-muted);">
+                    Automatically adds a themed CTA button to your website's header for easy theme activation.
+                </p>
+            </div>
+
+            <div class="demo-card p-6">
+                <div class="feature-icon" style="background: var(--theme-secondary);">
+                    <span>6</span>
+                </div>
+                <h3 class="text-xl font-bold" style="color: var(--theme-secondary);">Error Handling</h3>
+                <p style="color: var(--theme-text-muted);">
+                    Robust error handling with fallback colors ensures your site always looks great.
+                </p>
+            </div>
+        </section>
+
+        <!-- Button examples -->
+        <section class="py-16">
+            <h3 class="text-2xl font-bold text-center gradient-text mb-8">Interactive Elements</h3>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button style="background: var(--theme-primary);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
+                    Primary Button
+                </button>
+                <button style="background: var(--theme-secondary);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
+                    Secondary Button
+                </button>
+                <button style="background: var(--theme-accent);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
+                    Accent Button
+                </button>
+                <button style="background: var(--theme-gradient-primary);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
+                    Gradient Button
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-theme-surface border-t border-theme-border mt-16 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-theme-muted">
+                &copy; 2025 Cividis Theme Engine. Built with dynamic CSS variables and modern JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Include the Viridis Theme Engine -->
+    <script src="viridis-theme.js"></script>
+    
+    <!-- Example of listening to theme events -->
+    <script>
+        // Listen for theme application events
+        window.addEventListener('viridis-theme-applied', (event) => {
+            console.log('Theme applied:', event.detail.variables);
+        });
+
+        // Listen for CTA clicks
+        window.addEventListener('viridis-cta-clicked', () => {
+            console.log('Viridis CTA was clicked! Opening comparison page...');
+        });
+
+        // Listen for theme errors
+        window.addEventListener('viridis-theme-error', (event) => {
+            console.warn('Theme error:', event.detail.message);
+        });
+
+        // Example: Manually refresh theme after 10 seconds
+        setTimeout(() => {
+            if (window.viridisTheme) {
+                console.log('Manually refreshing theme...');
+                window.viridisTheme.refreshTheme();
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
