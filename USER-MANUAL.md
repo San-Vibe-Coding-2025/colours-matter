@@ -34,13 +34,13 @@ Add these two lines to your HTML and you're done:
 <html>
 <head>
     <!-- Include Cividis Theme CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
 </head>
 <body>
     <!-- Your content here -->
     
     <!-- Include Cividis Theme Engine - Add before closing body tag -->
-    <script src="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
 </body>
 </html>
 ```
@@ -85,10 +85,10 @@ Info:      #F7CB17  /* Amber */
 ### Method 1: CDN (Recommended)
 ```html
 <!-- CSS Variables -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
 
 <!-- JavaScript Engine -->
-<script src="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
 ```
 
 ### Method 2: Download Files
@@ -110,8 +110,8 @@ npm install cividis-theme
 ```php
 // Add to your theme's functions.php
 function enqueue_cividis_theme() {
-    wp_enqueue_style('cividis-theme', 'https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.css');
-    wp_enqueue_script('cividis-theme', 'https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.js');
+    wp_enqueue_style('cividis-theme', 'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css');
+    wp_enqueue_script('cividis-theme', 'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js');
 }
 add_action('wp_enqueue_scripts', 'enqueue_cividis_theme');
 ```
@@ -873,7 +873,7 @@ Join our community of developers building accessible web experiences:
     <title>Cividis Theme Example</title>
     
     <!-- Include Cividis Theme CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
     
     <style>
         body {
@@ -948,7 +948,7 @@ Join our community of developers building accessible web experiences:
     </div>
     
     <!-- Include Cividis Theme Engine -->
-    <script src="https://cdn.jsdelivr.net/npm/cividis-theme@1.0.0/viridis-theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
     
     <script>
         // Optional: Listen for theme events

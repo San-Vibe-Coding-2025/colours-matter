@@ -4,13 +4,11 @@
   "description": "A pluggable JavaScript theming tool for dynamic CSS variable management with remote API integration",
   "main": "viridis-theme.js",
   "scripts": {
+    "dev": "node api-server.js",
+    "build": "echo 'Static files ready for deployment'",
+    "start": "node api-server.js",
     "demo": "python -m http.server 8000",
-    "build": "npm run build:css && npm run build:js",
-    "build:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
-    "build:js": "echo 'JavaScript build complete'",
-    "test": "echo 'Tests not implemented yet'",
-    "lint": "eslint viridis-theme.js",
-    "format": "prettier --write *.js *.css *.html"
+    "test": "echo 'Tests not implemented yet'"
   },
   "keywords": [
     "theming",
