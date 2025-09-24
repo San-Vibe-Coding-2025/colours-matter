@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Viridis theme colors using CSS variables
+        // Cividis theme colors using CSS variables
         'theme-primary': 'var(--theme-primary)',
         'theme-secondary': 'var(--theme-secondary)', 
         'theme-accent': 'var(--theme-accent)',
@@ -34,7 +34,7 @@ module.exports = {
         'gradient-accent': 'var(--theme-gradient-accent)', 
         'gradient-warm': 'var(--theme-gradient-warm)',
         'gradient-cool': 'var(--theme-gradient-cool)',
-        'gradient-viridis': 'linear-gradient(135deg, var(--theme-primary), var(--theme-secondary), var(--theme-accent), var(--theme-success), var(--theme-warning), var(--theme-info))',
+        'gradient-cividis': 'linear-gradient(135deg, var(--theme-primary), var(--theme-secondary), var(--theme-accent), var(--theme-success), var(--theme-warning), var(--theme-info))',
       },
       borderColor: {
         'theme': 'var(--theme-border)',

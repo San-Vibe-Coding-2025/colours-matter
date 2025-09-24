@@ -8,10 +8,10 @@
 
 ```html
 <!-- 1. Include CSS -->
-<link rel="stylesheet" href="viridis-theme.css">
+<link rel="stylesheet" href="cividis-theme.css">
 
 <!-- 2. Include JS -->
-<script src="viridis-theme.js"></script>
+<script src="cividis-theme.js"></script>
 
 <!-- 3. Done! -->
 ```
@@ -22,12 +22,12 @@
 
 ```css
 /* Core Colors */
---theme-primary: #3C873D;    /* Forest Green */
---theme-secondary: #2EBD91;  /* Teal */
---theme-accent: #16D8BA;     /* Aqua Teal */
---theme-success: #4DF9FF;    /* Cyan */
---theme-warning: #FCE34F;    /* Golden Yellow */
---theme-info: #F7CB17;       /* Amber */
+--theme-primary: #00204c;    /* Forest Green */
+--theme-secondary: #ccbb68;  /* Teal */
+--theme-accent: #64676f;     /* Aqua Teal */
+--theme-success: #0a376d;    /* Cyan */
+--theme-warning: #ffe945;    /* Golden Yellow */
+--theme-info: #37476b;       /* Amber */
 
 /* Layout */
 --theme-background: #ffffff;
@@ -52,12 +52,12 @@ Your endpoint should return:
 {
     "success": true,
     "colors": {
-        "primary": "#3C873D",
-        "secondary": "#2EBD91",
-        "accent": "#16D8BA",
-        "success": "#4DF9FF",
-        "warning": "#FCE34F",
-        "info": "#F7CB17",
+        "primary": "#00204c",
+        "secondary": "#ccbb68",
+        "accent": "#64676f",
+        "success": "#0a376d",
+        "warning": "#ffe945",
+        "info": "#37476b",
         "background": "#ffffff",
         "text": "#333333",
         "border": "#e0e0e0"
@@ -71,13 +71,13 @@ Your endpoint should return:
 
 ```javascript
 // Basic config
-window.viridisTheme.updateConfig({
+window.cividisTheme.updateConfig({
     apiEndpoint: 'https://your-api.com/theme',
     debug: true
 });
 
 // Advanced config
-window.viridisTheme.updateConfig({
+window.cividisTheme.updateConfig({
     apiEndpoint: 'https://your-api.com/theme',
     retryAttempts: 3,
     retryDelay: 1000,
@@ -95,17 +95,17 @@ window.viridisTheme.updateConfig({
 
 ```javascript
 // Theme applied successfully
-window.addEventListener('viridis-theme-applied', (event) => {
+window.addEventListener('cividis-theme-applied', (event) => {
     console.log('Colors:', event.detail.variables);
 });
 
 // CTA button clicked
-window.addEventListener('viridis-cta-clicked', () => {
+window.addEventListener('cividis-cta-clicked', () => {
     console.log('Button clicked');
 });
 
 // Theme loading error
-window.addEventListener('viridis-theme-error', (event) => {
+window.addEventListener('cividis-theme-error', (event) => {
     console.warn('Error:', event.detail.message);
 });
 ```
@@ -116,18 +116,18 @@ window.addEventListener('viridis-theme-error', (event) => {
 
 ```javascript
 // Refresh theme
-await window.viridisTheme.refreshTheme();
+await window.cividisTheme.refreshTheme();
 
 // Get current colors
-const colors = window.viridisTheme.getCurrentTheme();
+const colors = window.cividisTheme.getCurrentTheme();
 
 // Check if loaded
-if (window.viridisTheme.isInitialized) {
+if (window.cividisTheme.isInitialized) {
     // Theme ready
 }
 
 // Update config
-window.viridisTheme.updateConfig({ debug: true });
+window.cividisTheme.updateConfig({ debug: true });
 ```
 
 ---
@@ -165,20 +165,20 @@ window.viridisTheme.updateConfig({ debug: true });
 
 ```javascript
 // Enable debug mode
-window.viridisTheme.updateConfig({ debug: true });
+window.cividisTheme.updateConfig({ debug: true });
 
 // Check config
-console.log(window.viridisTheme.config);
+console.log(window.cividisTheme.config);
 
 // Check current theme
-console.log(window.viridisTheme.getCurrentTheme());
+console.log(window.cividisTheme.getCurrentTheme());
 
 // Check CSS variable
 console.log(getComputedStyle(document.documentElement)
     .getPropertyValue('--theme-primary'));
 
 // Manual refresh
-window.viridisTheme.refreshTheme();
+window.cividisTheme.refreshTheme();
 ```
 
 ---
@@ -187,10 +187,10 @@ window.viridisTheme.refreshTheme();
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.css">
 
 <!-- JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js"></script>
 ```
 
 ---
@@ -206,7 +206,7 @@ window.viridisTheme.refreshTheme();
 
 1. **Always provide fallbacks:**
    ```css
-   background: #3C873D;  /* fallback */
+   background: #00204c;  /* fallback */
    background: var(--theme-primary);
    ```
 

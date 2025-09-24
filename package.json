@@ -1,8 +1,8 @@
 {
-  "name": "viridis-theme",
+  "name": "cividis-theme",
   "version": "1.0.0",
   "description": "A pluggable JavaScript theming tool for dynamic CSS variable management with remote API integration",
-  "main": "viridis-theme.js",
+  "main": "cividis-theme.js",
   "scripts": {
     "dev": "node api-server.js",
     "build": "echo 'Static files ready for deployment'",
@@ -17,10 +17,10 @@
     "tailwind",
     "api",
     "colors",
-    "viridis",
+    "cividis",
     "dynamic-theming"
   ],
-  "author": "Viridis Theme Team",
+  "author": "Cividis Theme Team",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -36,13 +36,13 @@
     "tailwindcss": "^3.3.0"
   },
   "files": [
-    "viridis-theme.js",
-    "viridis-theme.css",
+    "cividis-theme.js",
+    "cividis-theme.css",
     "tailwind.config.js",
     "README.md"
   ],
-  "browser": "viridis-theme.js",
-  "cdn": "https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js",
+  "browser": "cividis-theme.js",
+  "cdn": "https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0"

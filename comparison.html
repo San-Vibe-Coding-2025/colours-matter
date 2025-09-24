@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name viewport="width=device-width, initial-scale=1.0">
-    <title>Viridis Theme Comparison - Before vs After</title>
+    <title>Cividis Theme Comparison - Before vs After</title>
     
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -50,12 +50,12 @@
         
         /* V2 - Cividis colors */
         .v2-panel {
-            --theme-primary: #3C873D;
-            --theme-secondary: #2EBD91;
-            --theme-accent: #16D8BA;
-            --theme-success: #4DF9FF;
-            --theme-warning: #FCE34F;
-            --theme-info: #F7CB17;
+            --theme-primary: #00204c;
+            --theme-secondary: #ccbb68;
+            --theme-accent: #64676f;
+            --theme-success: #0a376d;
+            --theme-warning: #ffe945;
+            --theme-info: #37476b;
             --theme-background: #ffffff;
             --theme-surface: #f8f9fa;
             --theme-text: #333333;
@@ -176,7 +176,7 @@
         
         .divider {
             width: 2px;
-            background: linear-gradient(to bottom, #3C873D, #2EBD91, #16D8BA, #4DF9FF, #FCE34F, #F7CB17);
+            background: linear-gradient(to bottom, #00204c, #ccbb68, #64676f, #0a376d, #ffe945, #37476b);
             position: relative;
         }
         
@@ -187,12 +187,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            color: #3C873D;
+            color: #00204c;
             font-weight: bold;
             font-size: 1.2rem;
             padding: 8px 12px;
             border-radius: 50%;
-            border: 3px solid #3C873D;
+            border: 3px solid #00204c;
             box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
     </style>
@@ -331,9 +331,9 @@
         <!-- Divider -->
         <div class="divider"></div>
 
-        <!-- V2 Panel - Viridis Colors -->
+        <!-- V2 Panel - Cividis Colors -->
         <div class="split-panel v2-panel">
-            <div class="version-label" style="background: linear-gradient(45deg, #3C873D, #F7CB17); color: white;">
+            <div class="version-label" style="background: linear-gradient(45deg, #00204c, #37476b); color: white;">
                 V2 - Cividis Scientific Color Palette
             </div>
             
@@ -481,7 +481,7 @@
         });
 
         // Add analytics tracking for comparison views
-        console.log('Viridis comparison page loaded');
+        console.log('Cividis comparison page loaded');
         
         // Track time spent on each side
         let v1Time = 0, v2Time = 0;
@@ -494,7 +494,7 @@
         
         document.querySelector('.v2-panel').addEventListener('mouseenter', () => {
             currentSide = 'v2';
-            console.log('User viewing Viridis colors');
+            console.log('User viewing Cividis colors');
         });
     </script>
 </body>

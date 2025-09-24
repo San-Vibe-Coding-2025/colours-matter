@@ -8,8 +8,8 @@
     <!-- Include Tailwind CSS (you can replace this with your own Tailwind build) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Include the Viridis Theme CSS -->
-    <link rel="stylesheet" href="viridis-theme.css">
+    <!-- Include the Cividis Theme CSS -->
+    <link rel="stylesheet" href="cividis-theme.css">
     
     <style>
         /* Custom styles that use theme variables */
@@ -213,31 +213,32 @@
         </div>
     </footer>
 
-    <!-- Include the Viridis Theme Engine -->
-    <script src="viridis-theme.js"></script>
+    <!-- Include the Cividis Theme Engine -->
+    <script src="cividis-theme.js"></script>
     
     <!-- Example of listening to theme events -->
     <script>
         // Listen for theme application events
-        window.addEventListener('viridis-theme-applied', (event) => {
-            console.log('Theme applied:', event.detail.variables);
+        window.addEventListener('cividis-theme-applied', (event) => {
+            console.log('Theme applied with colors:', event.detail);
         });
-
-        // Listen for CTA clicks
-        window.addEventListener('viridis-cta-clicked', () => {
-            console.log('Viridis CTA was clicked! Opening comparison page...');
+        
+        // Listen for CTA button clicks
+        window.addEventListener('cividis-cta-clicked', () => {
+            console.log('Cividis CTA was clicked! Opening comparison page...');
+            window.open('comparison.html', '_blank');
         });
-
+        
         // Listen for theme errors
-        window.addEventListener('viridis-theme-error', (event) => {
-            console.warn('Theme error:', event.detail.message);
+        window.addEventListener('cividis-theme-error', (event) => {
+            console.error('Theme loading failed:', event.detail);
         });
 
         // Example: Manually refresh theme after 10 seconds
         setTimeout(() => {
-            if (window.viridisTheme) {
-                console.log('Manually refreshing theme...');
-                window.viridisTheme.refreshTheme();
+            if (window.cividisTheme) {
+                console.log('Refreshing theme...');
+                window.cividisTheme.refreshTheme();
             }
         }, 10000);
     </script>

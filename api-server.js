@@ -1,5 +1,5 @@
 /* 
- * Example API Server for Viridis Theme Engine
+ * Example API Server for Cividis Theme Engine
  * This is a simple Node.js/Express server that provides theme colors
  * Replace this with your actual API implementation
  */
@@ -18,15 +18,15 @@ const themes = {
     cividis: {
         name: "Cividis",
         colors: {
-            primary: "#3C873D",
-            secondary: "#2EBD91", 
-            accent: "#16D8BA",
-            success: "#4DF9FF",
-            warning: "#FCE34F",
-            info: "#F7CB17",
+            primary: "#00204c",
+            secondary: "#ccbb68", 
+            accent: "#64676f",
+            success: "#0a376d",
+            warning: "#ffe945",
+            info: "#37476b",
             background: "#ffffff",
             surface: "#f8f9fa",
-            text: "#333333",
+            text: "#1b1b1b",
             border: "#e0e0e0"
         }
     },
@@ -192,7 +192,7 @@ app.use((error, req, res, next) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`🎨 Viridis Theme API Server running on port ${PORT}`);
+    console.log(`🎨 Cividis Theme API Server running on port ${PORT}`);
     console.log(`📡 Theme endpoint: http://localhost:${PORT}/theme`);
     console.log(`📋 Available themes: ${Object.keys(themes).join(', ')}`);
     console.log(`🔍 Health check: http://localhost:${PORT}/health`);

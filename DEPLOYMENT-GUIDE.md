@@ -44,26 +44,26 @@ The Cividis Theme Engine can be distributed in multiple ways to make it accessib
 #### jsDelivr (Free)
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.css">
 
 <!-- JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js"></script>
 ```
 
 #### unpkg (npm-based)
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://unpkg.com/cividis-theme@latest/viridis-theme.css">
+<link rel="stylesheet" href="https://unpkg.com/cividis-theme@latest/cividis-theme.css">
 
 <!-- JavaScript -->
-<script src="https://unpkg.com/cividis-theme@latest/viridis-theme.js"></script>
+<script src="https://unpkg.com/cividis-theme@latest/cividis-theme.js"></script>
 ```
 
 #### Cloudflare CDN
 ```html
 <!-- Custom domain -->
-<link rel="stylesheet" href="https://themes.coloursmatter.co.uk/viridis-theme.css">
-<script src="https://themes.coloursmatter.co.uk/viridis-theme.js"></script>
+<link rel="stylesheet" href="https://themes.coloursmatter.co.uk/cividis-theme.css">
+<script src="https://themes.coloursmatter.co.uk/cividis-theme.js"></script>
 ```
 
 ---
@@ -78,10 +78,10 @@ Create `package.json`:
   "name": "cividis-theme",
   "version": "1.0.0",
   "description": "Colorblind-friendly theme engine using the Cividis color palette",
-  "main": "viridis-theme.js",
+  "main": "cividis-theme.js",
   "files": [
-    "viridis-theme.js",
-    "viridis-theme.css",
+    "cividis-theme.js",
+    "cividis-theme.css",
     "README.md"
   ],
   "keywords": [
@@ -143,8 +143,8 @@ yarn add cividis-theme
 
 2. **Access files at:**
    ```
-   https://san-vibe-coding-2025.github.io/colours-matter/viridis-theme.css
-   https://san-vibe-coding-2025.github.io/colours-matter/viridis-theme.js
+   https://san-vibe-coding-2025.github.io/colours-matter/cividis-theme.css
+   https://san-vibe-coding-2025.github.io/colours-matter/cividis-theme.js
    ```
 
 #### Option B: Netlify (Free tier available)
@@ -253,7 +253,7 @@ services:
 <head>
     <title>My Website</title>
     <!-- Cividis Theme Engine -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.css">
 </head>
 <body>
     <div class="container">
@@ -263,10 +263,10 @@ services:
         </button>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js"></script>
     <script>
         // Configure your API endpoint
-        window.viridisTheme.updateConfig({
+        window.CividisTheme.updateConfig({
             apiEndpoint: 'https://your-api.com/theme'
         });
     </script>
@@ -284,14 +284,14 @@ function App() {
     // Load CSS
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css';
+    link.href = 'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.css';
     document.head.appendChild(link);
 
     // Load JS
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js';
+    script.src = 'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js';
     script.onload = () => {
-      window.viridisTheme.updateConfig({
+      window.CividisTheme.updateConfig({
         apiEndpoint: 'https://your-api.com/theme'
       });
     };
@@ -325,13 +325,13 @@ function enqueue_cividis_theme() {
     // Enqueue CSS
     wp_enqueue_style(
         'cividis-theme-css',
-        'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css'
+        'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.css'
     );
     
     // Enqueue JS
     wp_enqueue_script(
         'cividis-theme-js',
-        'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js',
+        'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js',
         array(),
         '1.0',
         true
@@ -340,8 +340,8 @@ function enqueue_cividis_theme() {
     // Configure API endpoint
     wp_add_inline_script('cividis-theme-js', '
         window.addEventListener("DOMContentLoaded", function() {
-            if (window.viridisTheme) {
-                window.viridisTheme.updateConfig({
+            if (window.CividisTheme) {
+                window.CividisTheme.updateConfig({
                     apiEndpoint: "' . get_site_url() . '/wp-json/cividis/v1/theme"
                 });
             }
@@ -359,8 +359,8 @@ add_action('wp_enqueue_scripts', 'enqueue_cividis_theme');
 
 **Track integration usage:**
 ```javascript
-// Add to viridis-theme.js
-class ViridisTheme {
+// Add to cividis-theme.js
+class CividisTheme {
     constructor() {
         // ... existing code ...
         this.trackUsage();
@@ -386,8 +386,8 @@ class ViridisTheme {
 **Monitor load times:**
 ```javascript
 // Track performance
-window.addEventListener('viridis-theme-applied', () => {
-    const perfData = performance.getEntriesByName('viridis-theme-load');
+window.addEventListener('Cividis-theme-applied', () => {
+    const perfData = performance.getEntriesByName('Cividis-theme-load');
     if (perfData.length > 0) {
         console.log('Theme load time:', perfData[0].duration + 'ms');
     }
@@ -484,10 +484,10 @@ app.use('/api/', limiter);
 **CDN Cache Issues:**
 ```bash
 # Force CDN refresh (jsDelivr)
-https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js?v=123
+https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js?v=123
 
 # Purge cache
-curl -X POST https://purge.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js
+curl -X POST https://purge.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js
 ```
 
 **CORS Issues:**

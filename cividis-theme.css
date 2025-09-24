@@ -1,0 +1,208 @@
+/* 
+ * Cividis Theme CSS Variables
+ * These variables should be included in your main CSS files
+ * and referenced throughout your stylesheets for dynamic theming
+ */
+
+:root {
+  /* Cividis Color Palette - Default Values (Colorblind-Safe) */
+  --theme-primary: #00204c;      /* Dark Blue */
+  --theme-secondary: #ccbb68;    /* Yellow */
+  --theme-accent: #64676f;       /* Gray blue */
+  --theme-success: #0a376d;      /* blue gray */
+  --theme-warning: #ffe945;      /* Golden Yellow */
+  --theme-info: #37476b;         /* Light Blue */
+
+
+  /* Additional theme variables */
+  --theme-background: #ffffff;
+  --theme-surface: #f8f9fa;
+  --theme-text: #1b1b1b;
+  --theme-text-muted: #353a45;
+  --theme-border: #e0e0e0;
+  --theme-shadow: rgba(14, 14, 14, 0.1);
+  
+  /* Gradient combinations using Cividis palette */
+  --theme-gradient-cool: linear-gradient(135deg, var(--theme-primary), var(--theme-warning));
+  --theme-gradient-primary: linear-gradient(135deg, var(--theme-success), var(--theme-secondary));
+  --theme-gradient-accent: linear-gradient(135deg, var(--theme-warning), var(--theme-success));
+  
+  /* Interactive states */
+  --theme-hover-opacity: 0.8;
+  --theme-active-opacity: 0.9;
+  --theme-disabled-opacity: 0.5;
+  
+  /* Spacing and layout (optional - for complete theme system) */
+  --theme-border-radius: 6px;
+  --theme-border-radius-lg: 12px;
+  --theme-transition: all 0.3s ease;
+}
+
+
+/* Example usage in CSS classes */
+.btn-primary {
+  background: var(--theme-primary);
+  border-color: var(--theme-primary);
+  color: white;
+  transition: var(--theme-transition);
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--theme-primary) 80%, black);
+  opacity: var(--theme-hover-opacity);
+}
+
+.btn-secondary {
+  background: var(--theme-secondary);
+  border-color: var(--theme-secondary);
+  color: var(--theme-text);
+  transition: var(--theme-transition);
+}
+
+.btn-secondary:hover {
+  background: color-mix(in srgb, var(--theme-secondary) 80%, black);
+  opacity: var(--theme-hover-opacity);
+}
+
+.btn-accent {
+  background: var(--theme-accent);
+  border-color: var(--theme-accent);
+  color: var(--theme-text);
+  transition: var(--theme-transition);
+}
+
+.btn-accent:hover {
+  background: color-mix(in srgb, var(--theme-accent) 80%, black);
+  opacity: var(--theme-hover-opacity);
+}
+
+.btn-success {
+  background: var(--theme-success);
+  border-color: var(--theme-success);
+  color: white;
+  transition: var(--theme-transition);
+}
+
+.btn-success:hover {
+  background: color-mix(in srgb, var(--theme-success) 80%, black);
+  opacity: var(--theme-hover-opacity);
+}
+
+.btn-warning {
+  background: var(--theme-warning);
+  border-color: var(--theme-warning);
+  color: var(--theme-text);
+  transition: var(--theme-transition);
+}
+
+.btn-warning:hover {
+  background: color-mix(in srgb, var(--theme-warning) 80%, black);
+  opacity: var(--theme-hover-opacity);
+}
+
+.btn-info {
+  background: var(--theme-info);
+  border-color: var(--theme-info);
+  color: white;
+  transition: var(--theme-transition);
+}
+
+.btn-info:hover {
+  background: color-mix(in srgb, var(--theme-info) 80%, black);
+  opacity: var(--theme-hover-opacity);
+}
+
+.btn-gradient {
+  background: var(--theme-gradient-primary);
+  border: none;
+  color: white;
+}
+
+.card {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: var(--theme-border-radius);
+  box-shadow: 0 2px 8px var(--theme-shadow);
+}
+
+.text-primary {
+  color: var(--theme-primary);
+}
+
+.text-accent {
+  color: var(--theme-accent);
+}
+
+.border-primary {
+  border-color: var(--theme-primary);
+}
+
+/* Tailwind-style utility classes using theme variables */
+.bg-primary { 
+  background-color: var(--theme-primary); 
+  color: white;
+}
+.bg-secondary { 
+  background-color: var(--theme-secondary); 
+  color: var(--theme-text);
+}
+.bg-accent { 
+  background-color: var(--theme-accent); 
+  color: var(--theme-text);
+}
+.bg-success { 
+  background-color: var(--theme-success); 
+  color: white;
+}
+.bg-warning { 
+  background-color: var(--theme-warning); 
+  color: var(--theme-text);
+}
+.bg-info { 
+  background-color: var(--theme-info); 
+  color: white;
+}
+
+.text-primary { color: var(--theme-primary); }
+.text-secondary { color: var(--theme-secondary); }
+.text-accent { color: var(--theme-accent); }
+.text-success { color: var(--theme-success); }
+.text-warning { color: var(--theme-warning); }
+.text-info { color: var(--theme-info); }
+
+/* Warning elements with dark backgrounds */
+.warning-dark {
+  background-color: #00204c;
+  color: var(--theme-warning);
+  padding: 1rem;
+  border-radius: var(--theme-border-radius);
+}
+
+.warning-dark-alt {
+  background-color: #1b1b1b;
+  color: var(--theme-warning);
+  padding: 1rem;
+  border-radius: var(--theme-border-radius);
+}
+
+.btn-warning-dark {
+  background-color: #00204c;
+  color: var(--theme-warning);
+  border: 1px solid var(--theme-warning);
+  transition: var(--theme-transition);
+}
+
+.btn-warning-dark:hover {
+  background-color: #1b1b1b;
+  opacity: var(--theme-hover-opacity);
+}
+
+/* Animation for theme transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Ensure the CTA button integrates well with the theme */
+#cividis-cta-button {
+  background: linear-gradient(45deg, var(--theme-secondary), var(--theme-warning)) !important;
+}

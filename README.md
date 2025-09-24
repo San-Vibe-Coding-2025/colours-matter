@@ -1,4 +1,4 @@
-# Viridis Theme Engine 🎨
+# Cividis Theme Engine 🎨
 
 A powerful, pluggable JavaScript theming tool that dynamically manages CSS variables through remote API integration. Built with modern web standards and designed for seamless integration with any CSS framework.
 
@@ -8,7 +8,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 - **📡 API Endpoint:** https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme
 - **📚 GitHub Repo:** https://github.com/San-Vibe-Coding-2025/colours-matter
 
-![Viridis Color Palette](https://via.placeholder.com/800x200/440154/FFFFFF?text=Viridis+Color+Palette)
+![Cividis Color Palette](https://via.placeholder.com/800x200/440154/FFFFFF?text=Cividis+Color+Palette)
 
 ## ✨ Features
 
@@ -27,16 +27,16 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 
 ```html
 <!-- Simple inclusion -->
-<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js"></script>
 
 <!-- Or download and host locally -->
-<script src="path/to/viridis-theme.js"></script>
+<script src="path/to/cividis-theme.js"></script>
 ```
 
 ### 2. Include the CSS Variables
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/viridis-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.css">
 ```
 
 ### 3. That's It! 
@@ -44,7 +44,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 The theme engine will automatically:
 - Apply fallback colors immediately
 - Fetch colors from your API endpoint
-- Add a "Try Viridis Theme" CTA button to your header
+- Add a "Try Cividis Theme" CTA button to your header
 - Handle all errors gracefully
 
 ## 🔧 Configuration
@@ -53,7 +53,7 @@ The theme engine will automatically:
 
 ```javascript
 // Auto-initialized with default settings
-window.viridisTheme = new ViridisTheme({
+window.cividisTheme = new CividisTheme({
     apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme',
     debug: true
 });
@@ -62,7 +62,7 @@ window.viridisTheme = new ViridisTheme({
 ### Advanced Configuration
 
 ```javascript
-const theme = new ViridisTheme({
+const theme = new CividisTheme({
     // API Configuration
     apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme',
     retryAttempts: 3,
@@ -70,12 +70,12 @@ const theme = new ViridisTheme({
     
     // CTA Button Configuration  
     ctaConfig: {
-        text: 'Try Viridis Theme',
+        text: 'Try Cividis Theme',
         position: 'header', // 'header', 'top-right', 'bottom-right'
         gradient: 'linear-gradient(45deg, #414487FF, #FDE725FF)'
     },
     
-    // Fallback Colors (Viridis Palette)
+    // Fallback Colors (Cividis Palette)
     fallbackColors: {
         '--theme-primary': '#440154FF',    // Deep Purple
         '--theme-secondary': '#414487FF',  // Blue Purple  
@@ -152,7 +152,7 @@ The included `tailwind.config.js` provides theme-aware utilities:
         "border": "#e0e0e0"
     },
     "meta": {
-        "name": "Viridis Theme",
+        "name": "Cividis Theme",
         "version": "1.0"
     }
 }
@@ -189,18 +189,18 @@ Your API should support:
 
 ```javascript
 // Theme applied successfully
-window.addEventListener('viridis-theme-applied', (event) => {
+window.addEventListener('cividis-theme-applied', (event) => {
     console.log('New theme:', event.detail.variables);
 });
 
 // CTA button clicked
-window.addEventListener('viridis-cta-clicked', () => {
+window.addEventListener('cividis-cta-clicked', () => {
     console.log('User clicked the theme CTA');
     // Analytics tracking, etc.
 });
 
 // Error handling
-window.addEventListener('viridis-theme-error', (event) => {
+window.addEventListener('cividis-theme-error', (event) => {
     console.error('Theme error:', event.detail.message, event.detail.error);
 });
 ```
@@ -209,26 +209,26 @@ window.addEventListener('viridis-theme-error', (event) => {
 
 ```javascript
 // Manual theme refresh
-await window.viridisTheme.refreshTheme();
+await window.cividisTheme.refreshTheme();
 
 // Get current theme data
-const currentTheme = window.viridisTheme.getCurrentTheme();
+const currentTheme = window.cividisTheme.getCurrentTheme();
 
 // Update configuration
-window.viridisTheme.updateConfig({
+window.cividisTheme.updateConfig({
     apiEndpoint: 'https://new-api.com/theme',
     debug: true
 });
 
 // Destroy theme engine
-window.viridisTheme.destroy();
+window.cividisTheme.destroy();
 ```
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Your Website  │    │  Viridis Engine  │    │   Remote API    │
+│   Your Website  │    │  Cividis Engine  │    │   Remote API    │
 │                 │    │                  │    │                 │
 │ ┌─────────────┐ │    │ ┌──────────────┐ │    │ ┌─────────────┐ │
 │ │    HTML     │ │    │ │ Theme Fetcher│ │◄──►│ │Theme Colors │ │
@@ -264,8 +264,8 @@ python -m http.server 8000
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/viridis-theme.git
-cd viridis-theme
+git clone https://github.com/your-username/cividis-theme.git
+cd cividis-theme
 
 # Install dependencies  
 npm install
@@ -280,9 +280,9 @@ npm run build
 ### File Structure
 
 ```
-viridis-theme/
-├── viridis-theme.js      # Main theme engine
-├── viridis-theme.css     # CSS variables and utilities  
+cividis-theme/
+├── cividis-theme.js      # Main theme engine
+├── cividis-theme.css     # CSS variables and utilities  
 ├── tailwind.config.js    # Tailwind configuration
 ├── demo.html            # Interactive demo
 ├── package.json         # NPM configuration
@@ -303,7 +303,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎨 Color Palette
 
-The default Viridis color palette provides a scientifically-designed gradient from deep purple to bright yellow:
+The default Cividis color palette provides a scientifically-designed gradient from deep purple to bright yellow:
 
 - **Primary** (`#440154FF`): Deep Purple
 - **Secondary** (`#414487FF`): Blue Purple  
@@ -324,10 +324,10 @@ The default Viridis color palette provides a scientifically-designed gradient fr
 
 ## 📞 Support
 
-- 📧 Email: support@viridis-theme.com
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/viridis-theme/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/your-username/viridis-theme/discussions)
+- 📧 Email: support@cividis-theme.com
+- 🐛 Issues: [GitHub Issues](https://github.com/your-username/cividis-theme/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/your-username/cividis-theme/discussions)
 
 ---
 
-**Made with 💜 by the Viridis Theme Team**
+**Made with 💜 by the Cividis Theme Team**

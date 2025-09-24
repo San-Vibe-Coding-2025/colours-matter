@@ -1,5 +1,5 @@
 /**
- * Viridis Theme Engine
+ * Cividis Theme Engine
  * A pluggable JavaScript theming tool for dynamic CSS variable management
  * 
  * Features:
@@ -10,25 +10,26 @@
  * - Single script inclusion
  */
 
-class ViridisTheme {
+class CividisTheme {
     constructor(config = {}) {
         this.config = {
             apiEndpoint: config.apiEndpoint || 'https://api.example.com/theme',
             fallbackColors: {
-                '--theme-primary': '#3C873D',
-                '--theme-secondary': '#2EBD91', 
-                '--theme-accent': '#16D8BA',
-                '--theme-success': '#4DF9FF',
-                '--theme-warning': '#FCE34F',
-                '--theme-info': '#F7CB17',
+                '--theme-primary': '#00204c',
+                '--theme-secondary': '#ccbb68', 
+                '--theme-accent': '#64676f',
+                '--theme-success': '#0a376d',
+                '--theme-warning': '#ffe945',
+                '--theme-info': '#37476b',
                 '--theme-background': '#ffffff',
-                '--theme-text': '#333333',
+                '--theme-text': '#1b1b1b',
+                '--theme-text-muted': '#353a45',
                 '--theme-border': '#e0e0e0'
             },
             ctaConfig: {
                 text: 'Try Cividis Theme',
                 position: 'header', // 'header', 'top-right', 'bottom-right'
-                gradient: 'linear-gradient(45deg, #2EBD91, #FCE34F)'
+                gradient: 'linear-gradient(45deg, #ccbb68, #ffe945)'
             },
             retryAttempts: 3,
             retryDelay: 1000,
@@ -48,7 +49,7 @@ class ViridisTheme {
      */
     async init() {
         try {
-            this.log('Initializing Viridis Theme Engine...');
+            this.log('Initializing Cividis Theme Engine...');
             
             // Wait for DOM to be ready
             if (document.readyState === 'loading') {
@@ -76,7 +77,7 @@ class ViridisTheme {
             await this.fetchAndApplyTheme();
             
             this.isInitialized = true;
-            this.log('Viridis Theme Engine initialized successfully');
+            this.log('Cividis Theme Engine initialized successfully');
             
         } catch (error) {
             this.handleError('Startup failed', error);
@@ -220,7 +221,7 @@ class ViridisTheme {
         }
 
         // Dispatch custom event for other scripts to listen to
-        window.dispatchEvent(new CustomEvent('viridis-theme-applied', {
+        window.dispatchEvent(new CustomEvent('cividis-theme-applied', {
             detail: { variables: cssVariables }
         }));
     }
@@ -236,9 +237,9 @@ class ViridisTheme {
 
         // Create button element
         this.ctaButton = document.createElement('button');
-        this.ctaButton.id = 'viridis-cta-button';
+        this.ctaButton.id = 'cividis-cta-button';
         this.ctaButton.textContent = this.config.ctaConfig.text;
-        this.ctaButton.setAttribute('aria-label', 'Activate Viridis Theme');
+        this.ctaButton.setAttribute('aria-label', 'Activate Cividis Theme');
         
         // Apply styles
         this.applyCTAStyles();
@@ -263,9 +264,9 @@ class ViridisTheme {
             background: this.config.ctaConfig.gradient,
             color: 'white',
             border: 'none',
-            padding: '12px 24px',
+            padding: '8px 16px',
             borderRadius: '6px',
-            fontSize: '14px',
+            fontSize: '12px',
             fontWeight: '600',
             cursor: 'pointer',
             boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
@@ -357,7 +358,7 @@ class ViridisTheme {
         }, 500);
 
         // Dispatch custom event
-        window.dispatchEvent(new CustomEvent('viridis-cta-clicked'));
+        window.dispatchEvent(new CustomEvent('cividis-cta-clicked'));
     }
 
     /**
@@ -371,7 +372,7 @@ class ViridisTheme {
      * Error handling
      */
     handleError(message, error) {
-        const fullMessage = `Viridis Theme: ${message}`;
+        const fullMessage = `Cividis Theme: ${message}`;
         
         if (this.config.debug) {
             console.error(fullMessage, error);
@@ -380,7 +381,7 @@ class ViridisTheme {
         }
 
         // Dispatch error event
-        window.dispatchEvent(new CustomEvent('viridis-theme-error', {
+        window.dispatchEvent(new CustomEvent('cividis-theme-error', {
             detail: { message, error }
         }));
     }
@@ -390,7 +391,7 @@ class ViridisTheme {
      */
     log(...args) {
         if (this.config.debug) {
-            console.log('Viridis Theme:', ...args);
+            console.log('Cividis Theme:', ...args);
         }
     }
 
@@ -434,17 +435,17 @@ class ViridisTheme {
 }
 
 // Auto-initialize if not in module environment
-if (typeof window !== 'undefined' && !window.ViridisTheme) {
-    window.ViridisTheme = ViridisTheme;
+if (typeof window !== 'undefined' && !window.CividisTheme) {
+    window.CividisTheme = CividisTheme;
     
     // Auto-start with default configuration
-    window.viridisTheme = new ViridisTheme({
+    window.cividisTheme = new CividisTheme({
         debug: true, // Enable debug mode by default
-        apiEndpoint: 'https://api.viridis-theme.com/colors' // Replace with your API
+        apiEndpoint: 'https://api.cividis-theme.com/colors' // Replace with your API
     });
 }
 
 // Export for module environments
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ViridisTheme;
+    module.exports = CividisTheme;
 }

@@ -1,7 +1,7 @@
 {
-  "name": "viridis-theme-api",
+  "name": "cividis-theme-api",
   "version": "1.0.0",
-  "description": "Example API server for Viridis Theme Engine",
+  "description": "Example API server for Cividis Theme Engine",
   "main": "api-server.js",
   "scripts": {
     "start": "node api-server.js",
@@ -16,12 +16,12 @@
     "nodemon": "^3.0.1"
   },
   "keywords": [
-    "viridis",
+    "cividis",
     "theme",
     "api",
     "colors",
     "express"
   ],
-  "author": "Viridis Theme Team",
+  "author": "Cividis Theme Team",
   "license": "MIT"
 }
