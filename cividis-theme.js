@@ -35,14 +35,193 @@ class CividisTheme {
             retryAttempts: 3,
             retryDelay: 1000,
             debug: config.debug || false,
+            intelligentMapping: config.intelligentMapping !== false, // Enabled by default
             ...config
         };
 
         this.isInitialized = false;
         this.currentTheme = null;
         this.ctaButton = null;
+        this.detectedColors = null;
         
         this.init();
+    }
+
+    /**
+     * Analyze website colors and create intelligent mapping
+     */
+    async analyzeWebsiteColors() {
+        this.log('Analyzing website colors for intelligent mapping...');
+        
+        try {
+            const colorUsage = new Map();
+            
+            // Get a sample of elements for performance (not every single element)
+            const allElements = document.querySelectorAll('*');
+            const sampleSize = Math.min(1000, allElements.length); // Limit to 1000 elements max
+            const elements = Array.from(allElements).slice(0, sampleSize);
+            
+            this.log(`Analyzing ${elements.length} elements (sample of ${allElements.length} total)`);
+            
+            // Analyze sample elements for color usage
+            elements.forEach(element => {
+                try {
+                    const styles = window.getComputedStyle(element);
+                    
+                    // Check background colors
+                    const bgColor = styles.backgroundColor;
+                    if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+                        const normalizedBg = this.normalizeColorForDetection(bgColor);
+                        if (normalizedBg && !this.isNeutralColor(normalizedBg)) {
+                            colorUsage.set(normalizedBg, (colorUsage.get(normalizedBg) || 0) + 1);
+                        }
+                    }
+                    
+                    // Check text colors
+                    const textColor = styles.color;
+                    if (textColor && textColor !== 'rgba(0, 0, 0, 0)') {
+                        const normalizedText = this.normalizeColorForDetection(textColor);
+                        if (normalizedText && !this.isNeutralColor(normalizedText)) {
+                            colorUsage.set(normalizedText, (colorUsage.get(normalizedText) || 0) + 1);
+                        }
+                    }
+                    
+                    // Check border colors (only if not default)
+                    const borderColor = styles.borderColor;
+                    if (borderColor && borderColor !== 'rgba(0, 0, 0, 0)' && borderColor !== styles.color) {
+                        const normalizedBorder = this.normalizeColorForDetection(borderColor);
+                        if (normalizedBorder && !this.isNeutralColor(normalizedBorder)) {
+                            colorUsage.set(normalizedBorder, (colorUsage.get(normalizedBorder) || 0) + 1);
+                        }
+                    }
+                } catch (elementError) {
+                    // Skip problematic elements silently
+                }
+            });
+            
+            // Sort colors by usage frequency (minimum 2 occurrences to be considered)
+            const sortedColors = Array.from(colorUsage.entries())
+                .filter(([, count]) => count >= 2) // Must appear at least twice
+                .sort(([,a], [,b]) => b - a)
+                .map(([color, count]) => ({ color, count }));
+            
+            this.log(`Detected ${sortedColors.length} significant brand colors:`, sortedColors);
+            
+            // Only proceed if we found meaningful colors
+            if (sortedColors.length === 0) {
+                this.log('No significant brand colors detected, using fallback');
+                return null;
+            }
+            
+            // Create intelligent mapping
+            const mapping = this.createIntelligentMapping(sortedColors.map(c => c.color));
+            this.detectedColors = { colors: sortedColors, mapping };
+            
+            return mapping;
+            
+        } catch (error) {
+            this.log('Color analysis failed, using fallback:', error.message);
+            return null;
+        }
+    }
+    
+    /**
+     * Create intelligent mapping from detected colors to Cividis palette
+     */
+    createIntelligentMapping(detectedColors) {
+        const cividisColors = [
+            { key: 'primary', color: '#00204c', priority: 1 },
+            { key: 'secondary', color: '#7f7c75', priority: 2 }, 
+            { key: 'accent', color: '#bbaf71', priority: 3 },
+            { key: 'success', color: '#0a376d', priority: 4 },
+            { key: 'warning', color: '#ffe945', priority: 5 },
+            { key: 'info', color: '#37476b', priority: 6 }
+        ];
+        
+        const mapping = {};
+        
+        // Map most used colors to primary Cividis colors
+        for (let i = 0; i < Math.min(detectedColors.length, 6); i++) {
+            const detectedColor = detectedColors[i];
+            const cividisColor = cividisColors[i];
+            mapping[`--theme-${cividisColor.key}`] = cividisColor.color;
+            
+            this.log(`Mapping rank ${i+1} color ${detectedColor} → --theme-${cividisColor.key} (${cividisColor.color})`);
+        }
+        
+        // Handle extra colors (7+) by cycling through info, accent, secondary
+        if (detectedColors.length > 6) {
+            const extraColors = detectedColors.slice(6);
+            const extraTargets = ['info', 'accent', 'secondary']; // Priority targets for extra colors
+            
+            extraColors.forEach((color, index) => {
+                const targetKey = extraTargets[index % extraTargets.length];
+                const cividisColor = cividisColors.find(c => c.key === targetKey);
+                
+                this.log(`Extra color ${index + 7}: ${color} → --theme-${targetKey} (${cividisColor.color})`);
+                mapping[`--theme-${targetKey}`] = cividisColor.color;
+            });
+        }
+        
+        // Always include neutral colors
+        mapping['--theme-background'] = '#ffffff';
+        mapping['--theme-surface'] = '#f8f9fa';
+        mapping['--theme-text'] = '#1b1b1b';
+        mapping['--theme-text-muted'] = '#353a45';
+        mapping['--theme-border'] = '#e0e0e0';
+        
+        return mapping;
+    }
+    
+    /**
+     * Normalize color for detection (convert to hex)
+     */
+    normalizeColorForDetection(colorString) {
+        if (!colorString) return null;
+        
+        // Handle rgb/rgba
+        const rgbMatch = colorString.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        if (rgbMatch) {
+            const [, r, g, b, a] = rgbMatch;
+            // Skip transparent or very transparent colors
+            if (a && parseFloat(a) < 0.1) return null;
+            
+            return `#${parseInt(r).toString(16).padStart(2, '0')}${parseInt(g).toString(16).padStart(2, '0')}${parseInt(b).toString(16).padStart(2, '0')}`;
+        }
+        
+        // Handle hex colors
+        if (colorString.startsWith('#')) {
+            return colorString.toLowerCase();
+        }
+        
+        // Handle named colors (basic support)
+        const namedColors = {
+            'white': '#ffffff',
+            'black': '#000000',
+            'red': '#ff0000',
+            'green': '#008000',
+            'blue': '#0000ff',
+            'yellow': '#ffff00',
+            'purple': '#800080',
+            'orange': '#ffa500'
+        };
+        
+        return namedColors[colorString.toLowerCase()] || null;
+    }
+    
+    /**
+     * Check if color is neutral (should be ignored for brand mapping)
+     */
+    isNeutralColor(color) {
+        const neutrals = [
+            '#ffffff', '#000000', // Pure white/black
+            '#f8f9fa', '#e9ecef', '#dee2e6', '#ced4da', '#adb5bd', // Bootstrap grays
+            '#6c757d', '#495057', '#343a40', '#212529', // Bootstrap darker grays
+            '#fefefe', '#fdfdfd', '#fcfcfc', '#fbfbfb', // Near whites
+            '#010101', '#020202', '#030303', '#040404'  // Near blacks
+        ];
+        
+        return neutrals.includes(color.toLowerCase());
     }
 
     /**
@@ -71,10 +250,21 @@ class CividisTheme {
             // Apply fallback theme first
             this.applyTheme(this.config.fallbackColors);
             
+            // Analyze website colors for intelligent mapping (if enabled)
+            if (this.config.intelligentMapping) {
+                const intelligentMapping = await this.analyzeWebsiteColors();
+                
+                // If we have intelligent mapping, use it instead of fallback
+                if (intelligentMapping) {
+                    this.log('Applying intelligent color mapping based on website analysis');
+                    this.applyTheme(intelligentMapping);
+                }
+            }
+            
             // Create CTA button
             this.createCTAButton();
             
-            // Fetch and apply remote theme
+            // Fetch and apply remote theme (this will override with API colors if available)
             await this.fetchAndApplyTheme();
             
             this.isInitialized = true;
@@ -560,33 +750,75 @@ class CividisTheme {
         const position = this.config.ctaConfig.position;
         let targetElement = null;
 
-        // Try to find header element
-        const headerSelectors = ['header', '.header', '#header', 'nav', '.navbar', '.nav'];
+        // Try to find header element with expanded selectors
+        const headerSelectors = [
+            'header', '.header', '#header', 
+            'nav', '.navbar', '.nav', '.navigation',
+            '[role="banner"]', '[role="navigation"]',
+            '.top-nav', '.main-nav', '.primary-nav',
+            '.site-header', '.page-header',
+            'header nav', 'nav ul', '.menu'
+        ];
         
         for (const selector of headerSelectors) {
-            targetElement = document.querySelector(selector);
-            if (targetElement) {
-                this.log(`Found target element with selector: ${selector}`);
-                break;
+            try {
+                targetElement = document.querySelector(selector);
+                if (targetElement && targetElement.offsetParent !== null) { // Visible element
+                    this.log(`Found target element with selector: ${selector}`);
+                    break;
+                }
+            } catch (e) {
+                // Skip invalid selectors
+                continue;
             }
         }
 
         if (targetElement && position === 'header') {
-            // Insert into header
-            targetElement.appendChild(this.ctaButton);
-            this.log('CTA button inserted into header element');
+            try {
+                // Try to insert into the most appropriate location within the header
+                const bestLocation = this.findBestInsertionPoint(targetElement);
+                bestLocation.appendChild(this.ctaButton);
+                this.log('CTA button inserted into header element');
+            } catch (insertError) {
+                this.log('Failed to insert into header, falling back to floating:', insertError.message);
+                this.createFloatingCTA(position);
+            }
         } else {
             // Create floating button
             this.log('No suitable header found, creating floating CTA');
             this.createFloatingCTA(position);
         }
         
-        // Force visibility
+        // Force visibility with additional fallbacks
         this.ctaButton.style.setProperty('display', 'inline-block', 'important');
         this.ctaButton.style.setProperty('visibility', 'visible', 'important');
         this.ctaButton.style.setProperty('opacity', '1', 'important');
+        this.ctaButton.style.setProperty('pointer-events', 'auto', 'important');
         
         this.log('CTA button visibility forced');
+    }
+    
+    /**
+     * Find the best insertion point within a header element
+     */
+    findBestInsertionPoint(headerElement) {
+        // Look for common navigation patterns
+        const navContainers = [
+            headerElement.querySelector('ul'),
+            headerElement.querySelector('.nav-links'),
+            headerElement.querySelector('.menu-items'),
+            headerElement.querySelector('nav'),
+            headerElement.querySelector('.navigation'),
+            headerElement
+        ];
+        
+        for (const container of navContainers) {
+            if (container && container.offsetParent !== null) {
+                return container;
+            }
+        }
+        
+        return headerElement; // Fallback to the header itself
     }
 
     /**
@@ -625,9 +857,24 @@ class CividisTheme {
         this.ctaButton.textContent = 'Opening...';
         this.ctaButton.disabled = true;
 
-        // Open comparison page
+        // Open comparison page with fallback
         setTimeout(() => {
-            window.open('comparison.html', '_blank');
+            try {
+                // Determine the correct URL based on current environment
+                if (window.location.hostname === 'localhost' || 
+                    window.location.hostname.includes('127.0.0.1') ||
+                    window.location.hostname.includes('colours-matter')) {
+                    // Local or project environment
+                    window.open('comparison.html', '_blank');
+                } else {
+                    // External website - open the hosted demo
+                    window.open('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/comparison.html', '_blank');
+                }
+            } catch (error) {
+                this.log('Failed to open comparison page:', error);
+                // Fallback: just log the click
+                console.log('Cividis Theme CTA clicked - demo not available in this environment');
+            }
             
             // Reset button state
             this.ctaButton.textContent = originalText;
@@ -718,7 +965,8 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
     // Auto-start with default configuration
     window.cividisTheme = new CividisTheme({
         debug: true, // Enable debug mode by default
-        apiEndpoint: 'http://localhost:3001/theme/cividis' // Local API endpoint
+        apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/cividis', // Production API endpoint
+        intelligentMapping: true // Enable intelligent color analysis
     });
     
     // FORCE CTA BUTTON CREATION - BULLETPROOF METHOD
@@ -755,7 +1003,16 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
                             z-index: 999999 !important;
                         `;
                         ctaButton.addEventListener('click', () => {
-                            window.open('comparison.html', '_blank');
+                            // Open a demo page or redirect to the theme website
+                            try {
+                                if (window.location.hostname === 'localhost' || window.location.hostname.includes('colours-matter')) {
+                                    window.open('comparison.html', '_blank');
+                                } else {
+                                    window.open('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/comparison.html', '_blank');
+                                }
+                            } catch (e) {
+                                console.log('CTA clicked but no demo available');
+                            }
                         });
                         header.appendChild(ctaButton);
                         console.log('EMERGENCY CTA BUTTON CREATED AND INSERTED');

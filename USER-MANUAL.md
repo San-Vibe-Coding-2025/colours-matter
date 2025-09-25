@@ -169,8 +169,8 @@ Create an endpoint that returns theme colors in JSON format:
     "success": true,
     "colors": {
         "primary": "#00204c",
-        "secondary": "#bbaf71", 
-        "accent": "#7f7c75",
+        "secondary": "#7f7c75", 
+        "accent": "#bbaf71",
         "success": "#0a376d",
         "warning": "#ffe945",
         "info": "#37476b",
@@ -197,8 +197,8 @@ app.get('/api/theme', (req, res) => {
         success: true,
         colors: {
             primary: "#00204c",
-            secondary: "#bbaf71",
-            accent: "#7f7c75",
+            secondary: "#7f7c75",
+            accent: "#bbaf71",
             success: "#0a376d",
             warning: "#ffe945",
             info: "#37476b",
@@ -222,8 +222,8 @@ $theme = [
     'success' => true,
     'colors' => [
         'primary' => '#00204c',
-        'secondary' => '#bbaf71',
-        'accent' => '#7f7c75',
+        'secondary' => '#7f7c75',
+        'accent' => '#bbaf71',
         'success' => '#0a376d',
         'warning' => '#ffe945',
         'info' => '#37476b',
