@@ -23,7 +23,8 @@ app.use(cors({
         // Allow requests with no origin (like mobile apps, curl, etc.)
         if (!origin) return callback(null, true);
         if (allowedOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error('Not allowed by CORS: ' + origin));
+        // Gracefully reject disallowed origins
+        return callback(null, false);
     }
 }));
 app.use(express.json());
@@ -34,35 +35,30 @@ let toggleStates = {};
 // Function to generate intelligent styling rules based on theme colors
 function generateIntelligentStyling(colors) {
     return {
-        // When warning color is used as background, text should be --theme-text
         warning_background: {
             selector: '.warning-bg, [style*="background: var(--theme-warning)"], [style*="background-color: var(--theme-warning)"]',
             background: colors.warning,
             text_color: colors.text,
             description: "Warning color as background with readable text"
         },
-        // When accent color is used as background, text should be --theme-text  
         accent_background: {
             selector: '.accent-bg, [style*="background: var(--theme-accent)"], [style*="background-color: var(--theme-accent)"]',
             background: colors.accent,
             text_color: colors.text,
             description: "Accent color as background with readable text"
         },
-        // When warning color is used as text/font, background should be --theme-info
         warning_text: {
             selector: '.warning-text, [style*="color: var(--theme-warning)"]',
             background: colors.info,
             text_color: colors.warning,
             description: "Warning color as text with info background"
         },
-        // When accent color is used as text/font, background should be --theme-info
         accent_text: {
             selector: '.accent-text, [style*="color: var(--theme-accent)"]', 
             background: colors.info,
             text_color: colors.accent,
             description: "Accent color as text with info background"
         },
-        // Additional intelligent combinations
         warning_container: {
             selector: '.warning-container, .alert-warning',
             background: `rgba(${hexToRgb(colors.warning).join(', ')}, 0.1)`,
@@ -80,9 +76,13 @@ function generateIntelligentStyling(colors) {
     };
 }
 
-// Helper function to convert hex to RGB
+// Helper function to convert hex to RGB (supports 3- and 6-digit hex)
 function hexToRgb(hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    hex = hex.replace('#', '');
+    if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join('');
+    }
+    const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? [
         parseInt(result[1], 16),
         parseInt(result[2], 16),
@@ -106,7 +106,6 @@ const themes = {
             text: "#1b1b1b",
             border: "#e0e0e0"
         },
-        // Dynamic styling rules will be generated
         get styling_rules() {
             return generateIntelligentStyling(this.colors);
         }
@@ -117,7 +116,7 @@ const themes = {
             primary: "#7A6B13",
             secondary: "#A48B0D", 
             accent: "#CFAB0B",
-            success: "#4762a7ff",
+            success: "#4762a7", // fixed from #4762a7ff
             warning: "#FEEA8B",
             info: "#FCEEB6",
             background: "#ffffff",
@@ -125,7 +124,6 @@ const themes = {
             text: "#333333",
             border: "#e0e0e0"
         },
-        // Dynamic styling rules will be generated
         get styling_rules() {
             return generateIntelligentStyling(this.colors);
         }
@@ -135,15 +133,11 @@ const themes = {
 // Get current theme
 app.get('/theme', (req, res) => {
     try {
-        // You can implement logic to determine which theme to return
-        // For demo purposes, we'll cycle through themes based on time
         const themeNames = Object.keys(themes);
-        const themeIndex = Math.floor(Date.now() / 30000) % themeNames.length; // Change every 30 seconds
+        const themeIndex = Math.floor(Date.now() / 30000) % themeNames.length;
         const themeName = themeNames[themeIndex];
         const theme = themes[themeName];
-        
         console.log(`Serving theme: ${theme.name}`);
-        
         res.json({
             success: true,
             theme: theme.name,
@@ -156,11 +150,7 @@ app.get('/theme', (req, res) => {
         });
     } catch (error) {
         console.error('Error serving theme:', error);
-        res.status(500).json({
-            success: false,
-            error: "Internal server error",
-            message: error.message
-        });
+        res.status(500).json({ success: false, error: "Internal server error", message: error.message });
     }
 });
 
@@ -169,7 +159,6 @@ app.get('/theme/:themeName', (req, res) => {
     try {
         const { themeName } = req.params;
         const theme = themes[themeName.toLowerCase()];
-        
         if (!theme) {
             return res.status(404).json({
                 success: false,
@@ -177,9 +166,7 @@ app.get('/theme/:themeName', (req, res) => {
                 availableThemes: Object.keys(themes)
             });
         }
-        
         console.log(`Serving specific theme: ${theme.name}`);
-        
         res.json({
             success: true,
             theme: theme.name,
@@ -192,11 +179,7 @@ app.get('/theme/:themeName', (req, res) => {
         });
     } catch (error) {
         console.error('Error serving specific theme:', error);
-        res.status(500).json({
-            success: false,
-            error: "Internal server error",
-            message: error.message
-        });
+        res.status(500).json({ success: false, error: "Internal server error", message: error.message });
     }
 });
 
@@ -212,36 +195,23 @@ app.get('/themes', (req, res) => {
                 accent: theme.colors.accent
             }
         }));
-        
-        res.json({
-            success: true,
-            themes: themeList,
-            total: themeList.length
-        });
+        res.json({ success: true, themes: themeList, total: themeList.length });
     } catch (error) {
         console.error('Error listing themes:', error);
-        res.status(500).json({
-            success: false,
-            error: "Internal server error",
-            message: error.message
-        });
+        res.status(500).json({ success: false, error: "Internal server error", message: error.message });
     }
 });
 
-// Toggle theme endpoint - toggles between Cividis and traditional colors
+// Toggle theme endpoint
 app.post('/theme/toggle', (req, res) => {
     try {
         const { clientId = 'default' } = req.body;
         const currentState = toggleStates[clientId] || false;
         const newState = !currentState;
-        
         toggleStates[clientId] = newState;
-        
         if (newState) {
-            // Return Cividis colors
             const theme = themes.cividis;
             console.log(`Toggle ON: Serving Cividis theme for client ${clientId}`);
-            
             res.json({
                 success: true,
                 toggled: true,
@@ -250,14 +220,9 @@ app.post('/theme/toggle', (req, res) => {
                 colors: theme.colors,
                 styling_rules: theme.styling_rules || {},
                 button_text: 'Turn Off Cividis',
-                meta: {
-                    timestamp: new Date().toISOString(),
-                    version: "1.0.0",
-                    clientId: clientId
-                }
+                meta: { timestamp: new Date().toISOString(), version: "1.0.0", clientId }
             });
         } else {
-            // Return traditional colors with intelligent styling
             const traditionalColors = {
                 primary: '#dc2626',
                 secondary: '#9333ea', 
@@ -270,9 +235,7 @@ app.post('/theme/toggle', (req, res) => {
                 text: '#1b1b1b',
                 border: '#e0e0e0'
             };
-            
             console.log(`Toggle OFF: Serving traditional colors for client ${clientId}`);
-            
             res.json({
                 success: true,
                 toggled: false,
@@ -280,31 +243,18 @@ app.post('/theme/toggle', (req, res) => {
                 colors: traditionalColors,
                 styling_rules: generateIntelligentStyling(traditionalColors),
                 button_text: 'Cividis Theme',
-                meta: {
-                    timestamp: new Date().toISOString(),
-                    version: "1.0.0", 
-                    clientId: clientId
-                }
+                meta: { timestamp: new Date().toISOString(), version: "1.0.0", clientId }
             });
         }
     } catch (error) {
         console.error('Error handling theme toggle:', error);
-        res.status(500).json({
-            success: false,
-            error: "Internal server error",
-            message: error.message
-        });
+        res.status(500).json({ success: false, error: "Internal server error", message: error.message });
     }
 });
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-    res.json({
-        success: true,
-        status: "healthy",
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime()
-    });
+    res.json({ success: true, status: "healthy", timestamp: new Date().toISOString(), uptime: process.uptime() });
 });
 
 // Handle 404
@@ -312,37 +262,26 @@ app.use((req, res) => {
     res.status(404).json({
         success: false,
         error: "Endpoint not found",
-        availableEndpoints: [
-            "GET /theme",
-            "GET /theme/:themeName", 
-            "GET /themes",
-            "GET /health"
-        ]
+        availableEndpoints: ["GET /theme", "GET /theme/:themeName", "GET /themes", "GET /health"]
     });
 });
 
 // Error handling middleware
 app.use((error, req, res, next) => {
     console.error('Unhandled error:', error);
-    res.status(500).json({
-        success: false,
-        error: "Internal server error",
-        message: error.message
-    });
+    res.status(500).json({ success: false, error: "Internal server error", message: error.message });
 });
 
 // Start server
-app.listen(PORT, 'localhost', () => {
+console.log('🔧 Attempting to start API server...');
+app.listen(PORT, () => {
     console.log(`🎨 Cividis Theme API Server running on port ${PORT}`);
     console.log(`📡 Theme endpoint: http://localhost:${PORT}/theme`);
     console.log(`📋 Available themes: ${Object.keys(themes).join(', ')}`);
     console.log(`🔍 Health check: http://localhost:${PORT}/health`);
-    console.log(`🚀 Server bound to localhost:${PORT}`);
 }).on('error', (err) => {
     console.error('❌ Server failed to start:', err.message);
     console.error('Full error:', err);
 });
-
-console.log('🔧 Attempting to start API server...');
 
 module.exports = app;
