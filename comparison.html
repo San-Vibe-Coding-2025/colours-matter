@@ -308,17 +308,20 @@
             console.log('Initializing Cividis comparison demo...');
             
             const toggleBtn = document.getElementById('cividis-toggle-btn');
-            
-            // Add click handler for toggle button
-            toggleBtn.addEventListener('click', async function() {
-                if (isCividisActive) {
-                    // Turn OFF Cividis theme - revert to traditional
-                    revertToTraditional();
-                } else {
-                    // Turn ON Cividis theme - apply API colors
-                    await applyCividisTheme();
-                }
-            });
+            if (toggleBtn) {
+                // Add click handler for toggle button
+                toggleBtn.addEventListener('click', async function() {
+                    if (isCividisActive) {
+                        // Turn OFF Cividis theme - revert to traditional
+                        revertToTraditional();
+                    } else {
+                        // Turn ON Cividis theme - apply API colors
+                        await applyCividisTheme();
+                    }
+                });
+            } else {
+                console.warn('Cividis toggle button not found in DOM.');
+            }
             
             console.log('☑️ Comparison demo ready - click button to toggle Cividis theme');
         }
