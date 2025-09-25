@@ -27,7 +27,7 @@
   /* Gradient combinations using Cividis palette */
   --theme-gradient-vibrant: linear-gradient(135deg, var(--theme-primary), var(--theme-info), var(--theme-warning));
   --theme-gradient-warm: linear-gradient(45deg, var(--theme-warning), var(--theme-info), var(--theme-primary));
-  --theme-gradient-cool: linear-gradient(90deg, var(--theme-primary), var(--theme-success), var(--theme-accent));
+  --theme-gradient-cool: linear-gradient(90deg, var(--theme-primary), var(--theme-success), var(--theme-success), var(--theme-accent));
   --theme-gradient-accent: linear-gradient(135deg, var(--theme-success), var(--theme-accent), var(--theme-info));
   --theme-gradient-primary: linear-gradient(135deg, var(--theme-warning), var(--theme-primary), var(--theme-success));
   --theme-gradient-full: linear-gradient(135deg, var(--theme-warning), var(--theme-accent), var(--theme-info), var(--theme-success), var(--theme-primary));
