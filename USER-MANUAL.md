@@ -71,8 +71,8 @@ Add these two lines to your HTML and you're done:
 ### Color Palette
 ```css
 Primary:   #00204c  /* dark blue */
-Secondary: #ccbb68  /* yellow */
-Accent:    #64676f  /* gray blue*/
+Secondary: #64676f  /* yellow */
+Accent:    #ccbb68  /* gray blue*/
 Success:   #0a376d  /* mid blue */
 Warning:   #ffe945  /* Golden Yellow */
 Info:      #37476b  /* light blue */
@@ -286,8 +286,8 @@ The theme engine provides these CSS custom properties:
 :root {
     /* Core Colors */
     --theme-primary: #00204c;      /* Main brand color */
-    --theme-secondary: #ccbb68;    /* Secondary brand */
-    --theme-accent: #64676f;       /* Highlights */
+    --theme-secondary: #64676f;    /* Secondary brand */
+    --theme-accent: #ccbb68;       /* Highlights */
     --theme-success: #0a376d;      /* Success states */
     --theme-warning: #ffe945;      /* Warnings */
     --theme-info: #37476b;         /* Information */

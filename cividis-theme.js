@@ -16,8 +16,8 @@ class CividisTheme {
             apiEndpoint: config.apiEndpoint || 'https://api.example.com/theme',
             fallbackColors: {
                 '--theme-primary': '#00204c',
-                '--theme-secondary': '#ccbb68', 
-                '--theme-accent': '#64676f',
+                '--theme-secondary': '#64676f', 
+                '--theme-accent': '#ccbb68',
                 '--theme-success': '#0a376d',
                 '--theme-warning': '#ffe945',
                 '--theme-info': '#37476b',

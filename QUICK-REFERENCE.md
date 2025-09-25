@@ -28,8 +28,8 @@
 ```css
 /* Core Colors */
 --theme-primary: #00204c;    /* Dark Blue */
---theme-secondary: #ccbb68;  /* Yellow */
---theme-accent: #64676f;     /* Gray Blue */
+--theme-secondary: #64676f;  /* Yellow */
+--theme-accent: #ccbb68;     /* Gray Blue */
 --theme-success: #0a376d;    /* Blue Gray */
 --theme-warning: #ffe945;    /* Golden Yellow */
 --theme-info: #37476b;       /* Light Blue */
