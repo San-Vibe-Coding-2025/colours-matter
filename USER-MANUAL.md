@@ -47,7 +47,7 @@ Add these two lines to your HTML and you're done:
 
 **That's it!** Your website is now colorblind-accessible with:
 - ✅ Scientifically-designed colors
-- ✅ Automatic "Try Cividis Theme" button
+- ✅ Automatic "Cividis Theme" button
 - ✅ CSS variables for easy styling
 - ✅ Error handling and fallbacks
 
@@ -152,7 +152,7 @@ add_action('wp_enqueue_scripts', 'enqueue_cividis_theme');
 ### Step 3: That's It!
 The theme engine automatically:
 - Applies Cividis colors
-- Adds a "Try Cividis Theme" button
+- Adds a "Cividis Theme" button
 - Handles errors and provides fallbacks
 
 ---
@@ -419,7 +419,7 @@ If using the provided `tailwind.config.js`:
     
     // CTA Button Settings
     ctaConfig: {
-        text: 'Try Cividis Theme',
+        text: 'Cividis Theme',
         position: 'header',
         gradient: 'linear-gradient(45deg, #00204c, #ffe945)'
     },

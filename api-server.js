@@ -264,7 +264,7 @@ app.post('/theme/toggle', (req, res) => {
                 state: 'traditional',
                 colors: traditionalColors,
                 styling_rules: generateIntelligentStyling(traditionalColors),
-                button_text: 'Try Cividis Theme',
+                button_text: 'Cividis Theme',
                 meta: {
                     timestamp: new Date().toISOString(),
                     version: "1.0.0", 

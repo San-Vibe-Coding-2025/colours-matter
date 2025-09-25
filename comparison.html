@@ -173,7 +173,7 @@
 </head>
 <body>
     <!-- Back to demo button -->
-    <button class="back-button floating" onclick="window.location.href='demo.html'">
+    <button class="back-button floating" onclick="window.location.href='index.html'">
         ← Back to Home
     </button>
 
@@ -310,23 +310,21 @@
             <div class="version-label" id="cividis-status" style="background: #dc2626; color: white;">
                 V2 - Traditional Website Colors 
             </div>
-            
+
             <div style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
-                <!-- Navigation -->
                 <nav class="navigation">
                     <div style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
                         <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-primary);">
                             MyWebsite
                         </h1>
                         <div>
-                            <a href="index.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Home</a>
-                            <a href="demo.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Demo</a>
-                            <a href="comparison.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">API in Action</a>
-                            <a href="mailto:team@coloursmatter.co.uk" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Contact</a>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Home</a>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">About</a>
+                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Contact</a>
                         </div>
                     </div>
-                    <button id="cividis-toggle-btn" class="cta-button">
-                        Try Cividis Theme
+                    <button id="cividis-toggle-btn" class="cta-button ml-2">
+                        Cividis Theme
                     </button>
                 </nav>
 
@@ -358,7 +356,7 @@
                         <div class="color-swatch" style="background: var(--theme-info);" title="Info Color" data-color="info"></div>
                     </div>
                     <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--theme-text-muted);">
-                        <p id="color-source">Click "Try Cividis Theme" button to transform these colors</p>
+                        <p id="color-source">Click "Cividis Theme" button to transform these colors</p>
                     </div>
                 </section>
 
@@ -617,14 +615,14 @@
             statusElement.style.background = '#dc2626';
             
             // Update button state without recreating it
-            toggleBtn.textContent = 'Try Cividis Theme';
+            toggleBtn.textContent = 'Cividis Theme';
             toggleBtn.disabled = false;
             toggleBtn.style.background = '#fff';
             toggleBtn.style.color = '#dc2626';
             
             document.getElementById('api-status').textContent = '(Click button to transform)';
             document.getElementById('api-status').style.color = '#6b7280';
-            document.getElementById('color-source').textContent = 'Click "Try Cividis Theme" button to transform these colors';
+            document.getElementById('color-source').textContent = 'Click "Cividis Theme" button to transform these colors';
             
             // Update hero text
             const heroText = cividisPanel.querySelector('.hero-section p');

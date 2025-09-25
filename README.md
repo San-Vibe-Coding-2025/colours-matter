@@ -53,7 +53,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 The theme engine will automatically:
 - Apply fallback colors immediately
 - Fetch colors from your API endpoint
-- Add a "Try Cividis Theme" CTA button to your header
+- Add a "Cividis Theme" CTA button to your header
 - Handle all errors gracefully
 
 ## 🔧 Configuration
@@ -79,7 +79,7 @@ const theme = new CividisTheme({
     
     // CTA Button Configuration  
     ctaConfig: {
-        text: 'Try Cividis Theme',
+        text: 'Cividis Theme',
         position: 'header', // 'header', 'top-right', 'bottom-right'
         gradient: 'linear-gradient(45deg, var(--theme-primary), var(--theme-warning))'
     },

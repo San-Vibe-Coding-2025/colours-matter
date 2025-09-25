@@ -27,7 +27,7 @@ class CividisTheme {
                 '--theme-border': '#e0e0e0'
             },
             ctaConfig: {
-                text: 'Try Cividis Theme',
+                text: 'Cividis Theme',
                 position: 'header', // 'header', 'top-right', 'bottom-right'
                 gradient: 'var(--theme-gradient-cool)',
                 textColor: '#ffffffff'
@@ -914,7 +914,7 @@ class CividisTheme {
                     this.log('Reverting to traditional colors from toggle API');
                     await this.applyThemeFromData(themeData);
                     
-                    this.ctaButton.textContent = themeData.button_text || 'Try Cividis Theme';
+                    this.ctaButton.textContent = themeData.button_text || 'Cividis Theme';
                     this.ctaButton.style.background = this.config.ctaConfig.gradient;
                     this.ctaButton.style.color = this.config.ctaConfig.textColor || '#ffffff';
                     
@@ -958,7 +958,7 @@ class CividisTheme {
                 if (isCurrentlyCividis) {
                     // Revert to traditional colors
                     this.applyFallbackColors('traditional');
-                    this.ctaButton.textContent = 'Try Cividis Theme';
+                    this.ctaButton.textContent = 'Cividis Theme';
                     this.showToggleFeedback('Reverted to Traditional Colors', 'info');
                 } else {
                     // Apply Cividis fallback colors
@@ -1265,7 +1265,7 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
                     if (header) {
                         const ctaButton = document.createElement('button');
                         ctaButton.id = 'cividis-cta-button';
-                        ctaButton.textContent = 'Try Cividis Theme';
+                        ctaButton.textContent = 'Cividis Theme';
                         ctaButton.style.cssText = `
                             background: var(--theme-gradient-cool) !important;
                             color: #ffffffff !important;
