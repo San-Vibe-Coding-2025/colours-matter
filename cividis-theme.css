@@ -255,7 +255,8 @@
 
 /* Ensure the CTA button integrates well with the theme */
 .cta-button, #cividis-cta-button {
-  background: var(--theme-gradient-cool) !important;
+  /* Always use the full gradient for CTA per project rule */
+  background: var(--theme-gradient-full) !important;
   color: #ffffff !important;
   border: none !important;
   padding: 6px 12px !important;

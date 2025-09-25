@@ -29,7 +29,8 @@ class CividisTheme {
             ctaConfig: {
                 text: 'Cividis Theme',
                 position: 'header', // 'header', 'top-right', 'bottom-right'
-                gradient: 'var(--theme-gradient-cool)',
+                // CTA must always use the full gradient per project rule
+                gradient: 'var(--theme-gradient-full)',
                 textColor: '#ffffffff'
             },
             retryAttempts: 3,
@@ -493,7 +494,8 @@ class CividisTheme {
     reapplyCTAGradient() {
         if (this.ctaButton) {
             // Force update the gradient with current CSS variables
-            this.ctaButton.style.setProperty('background', this.config.ctaConfig.gradient, 'important');
+            // Enforce full gradient for CTA regardless of state
+            this.ctaButton.style.setProperty('background', 'var(--theme-gradient-full)', 'important');
             this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
             this.log('CTA gradient re-applied');
         }
@@ -982,16 +984,18 @@ class CividisTheme {
                     // Revert to traditional colors locally
                     this.applyFallbackColors('traditional');
                     this.ctaButton.textContent = 'Cividis Theme';
-                    this.ctaButton.style.background = this.config.ctaConfig.gradient;
-                    this.ctaButton.style.color = this.config.ctaConfig.textColor || '#ffffff';
+                    // Do not override CTA background; enforce gradient via reapplyCTAGradient
+                    this.reapplyCTAGradient();
+                    this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffff', 'important');
                     this.showToggleFeedback('Traditional Colors Restored (server toggled)', 'info');
                     window.dispatchEvent(new CustomEvent('cividis-theme-toggled', { detail: { active: false, state: 'traditional' } }));
                 } else {
                     // Apply Cividis fallback colors locally
                     this.applyFallbackColors('cividis');
                     this.ctaButton.textContent = 'Turn Off Cividis';
-                    this.ctaButton.style.background = 'var(--theme-primary)';
-                    this.ctaButton.style.color = '#ffffff';
+                    // Preserve enforced gradient; adjust text color only
+                    this.reapplyCTAGradient();
+                    this.ctaButton.style.setProperty('color', '#ffffff', 'important');
                     this.showToggleFeedback('✨ Cividis Theme Active (server toggled)', 'success');
                     window.dispatchEvent(new CustomEvent('cividis-theme-toggled', { detail: { active: true, state: 'cividis' } }));
                 }
@@ -1136,11 +1140,38 @@ class CividisTheme {
         
         let cssRules = '';
         
+        // Helper: append an exclusion to each selector chunk so it won't match the CTA button
+        const protectCTAInSelector = (selector) => {
+            // Split by commas to process combined selectors
+            return selector.split(',').map(s => {
+                const trimmed = s.trim();
+                // If this selector explicitly targets the CTA, leave unchanged
+                if (trimmed.includes('#cividis-cta-button') || trimmed.includes('.cividis-cta-button') || trimmed.includes('#cividis-toggle-feedback')) {
+                    return trimmed;
+                }
+
+                // Avoid double-appending if :not(#cividis-cta-button) already present
+                if (trimmed.includes(':not(#cividis-cta-button)')) return trimmed;
+
+                // Append :not(#cividis-cta-button) to the simple selector
+                // Try to place it before pseudo-classes if present
+                const pseudoIndex = trimmed.search(/:(?!not\()/);
+                if (pseudoIndex > 0) {
+                    return trimmed.slice(0, pseudoIndex) + `:not(#cividis-cta-button)` + trimmed.slice(pseudoIndex);
+                }
+
+                return `${trimmed}:not(#cividis-cta-button)`;
+            }).join(', ');
+        };
+
         // Process each styling rule
         Object.entries(stylingRules).forEach(([ruleName, rule]) => {
             if (rule.selector) {
-                let ruleCSS = `${rule.selector} {\n`;
-                
+                // Sanitize selector to protect CTA button from accidental overrides
+                const safeSelector = protectCTAInSelector(rule.selector);
+
+                let ruleCSS = `${safeSelector} {\n`;
+
                 if (rule.background) {
                     ruleCSS += `  background: ${rule.background} !important;\n`;
                 }
@@ -1150,10 +1181,10 @@ class CividisTheme {
                 if (rule.border_color) {
                     ruleCSS += `  border-color: ${rule.border_color} !important;\n`;
                 }
-                
+
                 ruleCSS += '}\n\n';
                 cssRules += ruleCSS;
-                
+
                 this.log(`Applied rule ${ruleName}:`, rule.description || 'No description');
             }
         });
