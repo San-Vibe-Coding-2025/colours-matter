@@ -847,42 +847,269 @@ class CividisTheme {
     }
 
     /**
-     * Handle CTA button click
+     * Handle CTA button click - Toggle theme on/off
      */
-    handleCTAClick() {
-        this.log('CTA button clicked - opening comparison page');
+    async handleCTAClick() {
+        this.log('CTA button clicked - toggling theme');
         
         // Add loading state
         const originalText = this.ctaButton.textContent;
-        this.ctaButton.textContent = 'Opening...';
+        this.ctaButton.textContent = 'Loading...';
         this.ctaButton.disabled = true;
 
-        // Open comparison page with fallback
-        setTimeout(() => {
+        try {
+            // Check if we have a toggle endpoint
+            let response;
+            const clientId = `page-${window.location.pathname}`;
+            
             try {
-                // Determine the correct URL based on current environment
-                if (window.location.hostname === 'localhost' || 
-                    window.location.hostname.includes('127.0.0.1') ||
-                    window.location.hostname.includes('colours-matter')) {
-                    // Local or project environment
-                    window.open('comparison.html', '_blank');
-                } else {
-                    // External website - open the hosted demo
-                    window.open('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/comparison.html', '_blank');
+                // First try production API toggle
+                response = await fetch('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ clientId: clientId })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Production toggle API unavailable');
                 }
-            } catch (error) {
-                this.log('Failed to open comparison page:', error);
-                // Fallback: just log the click
-                console.log('Cividis Theme CTA clicked - demo not available in this environment');
+            } catch (prodError) {
+                // Fallback to local API
+                try {
+                    response = await fetch('http://localhost:3001/theme/toggle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ clientId: clientId })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Local toggle API unavailable');
+                    }
+                } catch (localError) {
+                    throw new Error('Both toggle APIs unavailable - falling back to demo link');
+                }
             }
             
-            // Reset button state
-            this.ctaButton.textContent = originalText;
+            const themeData = await response.json();
+            
+            if (themeData.success) {
+                if (themeData.toggled) {
+                    // Apply Cividis theme
+                    this.log('Applying Cividis theme from toggle API');
+                    await this.applyThemeFromData(themeData);
+                    
+                    this.ctaButton.textContent = themeData.button_text || 'Turn Off Cividis';
+                    this.ctaButton.style.background = 'var(--theme-primary)';
+                    this.ctaButton.style.color = '#ffffff';
+                    
+                    // Show visual feedback
+                    this.showToggleFeedback('✨ Cividis Theme Active', 'success');
+                    
+                } else {
+                    // Revert to traditional colors
+                    this.log('Reverting to traditional colors from toggle API');
+                    await this.applyThemeFromData(themeData);
+                    
+                    this.ctaButton.textContent = themeData.button_text || 'Try Cividis Theme';
+                    this.ctaButton.style.background = this.config.ctaConfig.gradient;
+                    this.ctaButton.style.color = this.config.ctaConfig.textColor || '#ffffff';
+                    
+                    // Show visual feedback
+                    this.showToggleFeedback('Traditional Colors Restored', 'info');
+                }
+                
+                this.ctaButton.disabled = false;
+                
+                // Dispatch custom event
+                window.dispatchEvent(new CustomEvent('cividis-theme-toggled', {
+                    detail: { 
+                        active: themeData.toggled, 
+                        state: themeData.state,
+                        colors: themeData.colors 
+                    }
+                }));
+                
+            } else {
+                throw new Error('Toggle API returned error');
+            }
+            
+        } catch (error) {
+            this.log('Toggle failed, handling locally:', error.message);
+            
+            // Check if we're already on the comparison page
+            const currentPage = window.location.pathname.toLowerCase();
+            const isOnComparisonPage = currentPage.includes('comparison') || currentPage.includes('compare');
+            
+            if (isOnComparisonPage) {
+                // We're on comparison page - just show error, don't redirect
+                this.log('On comparison page - API unavailable, showing error');
+                this.showToggleFeedback('API unavailable - start API server to enable toggle', 'error');
+            } else {
+                // We're on other pages - try to toggle with fallback colors instead of redirecting
+                this.log('API unavailable - using fallback toggle instead of redirect');
+                
+                // Toggle between traditional and cividis fallback colors
+                const isCurrentlyCividis = document.documentElement.style.getPropertyValue('--theme-primary').includes('#00204c');
+                
+                if (isCurrentlyCividis) {
+                    // Revert to traditional colors
+                    this.applyFallbackColors('traditional');
+                    this.ctaButton.textContent = 'Try Cividis Theme';
+                    this.showToggleFeedback('Reverted to Traditional Colors', 'info');
+                } else {
+                    // Apply Cividis fallback colors
+                    this.applyFallbackColors('cividis');
+                    this.ctaButton.textContent = 'Turn Off Cividis';
+                    this.showToggleFeedback('Cividis Theme Applied (Offline Mode)', 'success');
+                }
+            }
+            
+            // Reset button state  
             this.ctaButton.disabled = false;
-        }, 500);
+        }
+    }
 
-        // Dispatch custom event
-        window.dispatchEvent(new CustomEvent('cividis-cta-clicked'));
+    /**
+     * Apply theme from toggle API response data
+     */
+    async applyThemeFromData(themeData) {
+        this.log('Applying theme from API data:', themeData.state);
+        
+        if (themeData.colors) {
+            // Apply all color variables to :root
+            Object.entries(themeData.colors).forEach(([key, value]) => {
+                document.documentElement.style.setProperty(`--theme-${key}`, value);
+            });
+            
+            // Apply styling rules if present
+            if (themeData.styling_rules && themeData.styling_rules.warning_container) {
+                const rule = themeData.styling_rules.warning_container;
+                document.documentElement.style.setProperty('--warning-container-bg', rule.background);
+                document.documentElement.style.setProperty('--warning-container-text', rule.text_color);
+            }
+            
+            // Update current theme state
+            this.currentTheme = {
+                name: themeData.theme || themeData.state,
+                colors: themeData.colors,
+                styling_rules: themeData.styling_rules || {},
+                applied_at: new Date().toISOString()
+            };
+            
+            // Re-apply intelligent styling if enabled
+            if (this.config.intelligentMapping && themeData.state === 'cividis') {
+                this.applyIntelligentStyling(this.currentTheme);
+            }
+            
+            this.log(`✅ ${themeData.state} theme applied successfully`);
+            
+            // Dispatch theme applied event
+            window.dispatchEvent(new CustomEvent('cividis-theme-applied', {
+                detail: this.currentTheme
+            }));
+        }
+    }
+
+    /**
+     * Apply fallback colors when API is unavailable
+     */
+    applyFallbackColors(type = 'cividis') {
+        const root = document.documentElement;
+        
+        if (type === 'cividis') {
+            // Apply Cividis fallback colors
+            Object.entries(this.config.fallbackColors).forEach(([key, value]) => {
+                root.style.setProperty(key, value);
+            });
+            this.log('Applied Cividis fallback colors');
+        } else {
+            // Apply traditional colors
+            const traditionalColors = {
+                '--theme-primary': '#dc2626',
+                '--theme-secondary': '#9333ea', 
+                '--theme-accent': '#059669',
+                '--theme-success': '#16a34a',
+                '--theme-warning': '#ea580c',
+                '--theme-info': '#0ea5e9',
+                '--theme-background': '#ffffff',
+                '--theme-text': '#1b1b1b',
+                '--theme-text-muted': '#6b7280',
+                '--theme-border': '#e0e0e0'
+            };
+            
+            Object.entries(traditionalColors).forEach(([key, value]) => {
+                root.style.setProperty(key, value);
+            });
+            this.log('Applied traditional fallback colors');
+        }
+    }
+
+    /**
+     * Show visual feedback for toggle actions
+     */
+    showToggleFeedback(message, type = 'info') {
+        // Create or update feedback element
+        let feedback = document.getElementById('cividis-toggle-feedback');
+        if (!feedback) {
+            feedback = document.createElement('div');
+            feedback.id = 'cividis-toggle-feedback';
+            feedback.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                z-index: 1000000;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                max-width: 300px;
+                pointer-events: none;
+            `;
+            document.body.appendChild(feedback);
+        }
+        
+        // Set style based on type
+        const typeStyles = {
+            success: { 
+                background: 'var(--theme-success, #16a34a)', 
+                color: '#ffffff' 
+            },
+            error: { 
+                background: 'var(--theme-warning, #ea580c)', 
+                color: '#ffffff' 
+            },
+            info: { 
+                background: 'var(--theme-info, #0ea5e9)', 
+                color: '#ffffff' 
+            }
+        };
+        
+        const style = typeStyles[type] || typeStyles.info;
+        feedback.style.background = style.background;
+        feedback.style.color = style.color;
+        feedback.textContent = message;
+        feedback.style.opacity = '1';
+        feedback.style.transform = 'translateY(0)';
+        
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            if (feedback) {
+                feedback.style.opacity = '0';
+                feedback.style.transform = 'translateY(-20px)';
+                
+                setTimeout(() => {
+                    if (feedback && feedback.parentNode) {
+                        feedback.parentNode.removeChild(feedback);
+                    }
+                }, 300);
+            }
+        }, 3000);
     }
 
     /**
@@ -1002,16 +1229,30 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
                             display: inline-block !important;
                             z-index: 999999 !important;
                         `;
-                        ctaButton.addEventListener('click', () => {
-                            // Open a demo page or redirect to the theme website
-                            try {
-                                if (window.location.hostname === 'localhost' || window.location.hostname.includes('colours-matter')) {
-                                    window.open('comparison.html', '_blank');
-                                } else {
-                                    window.open('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/comparison.html', '_blank');
+                        ctaButton.addEventListener('click', async () => {
+                            // Use the same toggle functionality as main class
+                            if (window.cividisTheme && window.cividisTheme.handleCTAClick) {
+                                // Update reference to emergency button
+                                const originalButton = window.cividisTheme.ctaButton;
+                                window.cividisTheme.ctaButton = ctaButton;
+                                
+                                try {
+                                    await window.cividisTheme.handleCTAClick();
+                                } finally {
+                                    // Restore original button reference
+                                    window.cividisTheme.ctaButton = originalButton;
                                 }
-                            } catch (e) {
-                                console.log('CTA clicked but no demo available');
+                            } else {
+                                // Fallback to demo page
+                                try {
+                                    if (window.location.hostname === 'localhost' || window.location.hostname.includes('colours-matter')) {
+                                        window.open('comparison.html', '_blank');
+                                    } else {
+                                        window.open('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/comparison.html', '_blank');
+                                    }
+                                } catch (e) {
+                                    console.log('CTA clicked but no demo available');
+                                }
                             }
                         });
                         header.appendChild(ctaButton);

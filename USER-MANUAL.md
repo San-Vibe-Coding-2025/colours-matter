@@ -70,12 +70,12 @@ Add these two lines to your HTML and you're done:
 
 ### Color Palette
 ```css
-Primary:   #00204c  /* dark blue */
-Secondary: #7f7c75  /* yellow */
-Accent:    #bbaf71  /* gray blue*/
-Success:   #0a376d  /* mid blue */
-Warning:   #ffe945  /* Golden Yellow */
-Info:      #37476b  /* light blue */
+**Primary** (`#00204c`): Dark Blue
+**Secondary** (`#7f7c75`): Gray Blue  
+**Accent** (`#bbaf71`): Golden Yellow
+**Success** (`#0a376d`): Blue Gray
+**Warning** (`#ffe945`): Bright Yellow
+**Info** (`#37476b`): Light Blue
 ```
 
 ---

@@ -101,10 +101,10 @@
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold gradient-text">Cividis Theme Demo</h1>
                 <nav class="flex items-center space-x-4">
-                    <a href="about.html" class="text-theme hover:text-primary transition-theme">About</a>
-                    <a href="demo.html" class="text-theme hover:text-success transition-theme">Home</a>
-                    <a href="mailto:team@coloursmatter.co.uk" class="text-theme hover:text-info transition-theme">Contact</a>
-                    <!-- CTA button will be automatically inserted here by JavaScript -->
+                    <a href="index.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Home</a>
+                    <a href="demo.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Demo</a>
+                    <a href="comparison.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">API in Action</a>
+                    <a href="mailto:team@coloursmatter.co.uk" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Contact</a>
                 </nav>
             </div>
         </div>
@@ -212,6 +212,9 @@
                 <button style="background: var(--theme-accent); color: var(--theme-text);" class="px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
                     Accent Button
                 </button>
+                <!-- <button style="background: var(--theme-accent); color: white;" class="px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
+                    Accent Button
+                </button> -->
                 <button style="background: var(--theme-gradient-warm);" class="text-white px-6 py-3 rounded-lg hover:opacity-80 transition-all duration-300">
                     Gradient Button
                 </button>
@@ -227,35 +230,5 @@
             </p>
         </div>
     </footer>
-
-    <!-- Include the Cividis Theme Engine -->
-    <script src="cividis-theme.js"></script>
-    
-    <!-- Example of listening to theme events -->
-    <script>
-        // Listen for theme application events
-        window.addEventListener('cividis-theme-applied', (event) => {
-            console.log('Theme applied with colors:', event.detail);
-        });
-        
-        // Listen for CTA button clicks
-        window.addEventListener('cividis-cta-clicked', () => {
-            console.log('Cividis CTA was clicked! Opening comparison page...');
-            window.open('comparison.html', '_blank');
-        });
-        
-        // Listen for theme errors
-        window.addEventListener('cividis-theme-error', (event) => {
-            console.error('Theme loading failed:', event.detail);
-        });
-
-        // Example: Manually refresh theme after 10 seconds
-        setTimeout(() => {
-            if (window.cividisTheme) {
-                console.log('Refreshing theme...');
-                window.cividisTheme.refreshTheme();
-            }
-        }, 10000);
-    </script>
 </body>
 </html>

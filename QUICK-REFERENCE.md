@@ -29,9 +29,9 @@
 /* Core Colors */
 --theme-primary: #00204c;    /* Dark Blue */
 --theme-secondary: #7f7c75;  /* Yellow */
---theme-accent: #bbaf71;     /* Gray Blue */
---theme-success: #0a376d;    /* Blue Gray */
---theme-warning: #ffe945;    /* Golden Yellow */
+--theme-accent: #bbaf71;       /* Golden Yellow */
+--theme-success: #0a376d;      /* blue gray */
+--theme-warning: #ffe945;      /* Bright Yellow */
 --theme-info: #37476b;       /* Light Blue */
 
 /* Layout */

@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Toggle state tracking (in production, this would be stored in a database)
+let toggleStates = {};
+
 // Cividis color palettes
 const themes = {
     cividis: {
@@ -155,6 +158,72 @@ app.get('/themes', (req, res) => {
         });
     } catch (error) {
         console.error('Error listing themes:', error);
+        res.status(500).json({
+            success: false,
+            error: "Internal server error",
+            message: error.message
+        });
+    }
+});
+
+// Toggle theme endpoint - toggles between Cividis and traditional colors
+app.post('/theme/toggle', (req, res) => {
+    try {
+        const { clientId = 'default' } = req.body;
+        const currentState = toggleStates[clientId] || false;
+        const newState = !currentState;
+        
+        toggleStates[clientId] = newState;
+        
+        if (newState) {
+            // Return Cividis colors
+            const theme = themes.cividis;
+            console.log(`Toggle ON: Serving Cividis theme for client ${clientId}`);
+            
+            res.json({
+                success: true,
+                toggled: true,
+                state: 'cividis',
+                theme: theme.name,
+                colors: theme.colors,
+                styling_rules: theme.styling_rules || {},
+                button_text: 'Turn Off Cividis',
+                meta: {
+                    timestamp: new Date().toISOString(),
+                    version: "1.0.0",
+                    clientId: clientId
+                }
+            });
+        } else {
+            // Return traditional colors
+            console.log(`Toggle OFF: Serving traditional colors for client ${clientId}`);
+            
+            res.json({
+                success: true,
+                toggled: false,
+                state: 'traditional',
+                colors: {
+                    primary: '#dc2626',
+                    secondary: '#9333ea', 
+                    accent: '#059669',
+                    success: '#16a34a',
+                    warning: '#ea580c',
+                    info: '#0ea5e9',
+                    background: '#ffffff',
+                    surface: '#f8f9fa',
+                    text: '#1b1b1b',
+                    border: '#e0e0e0'
+                },
+                button_text: 'Try Cividis Theme',
+                meta: {
+                    timestamp: new Date().toISOString(),
+                    version: "1.0.0", 
+                    clientId: clientId
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error handling theme toggle:', error);
         res.status(500).json({
             success: false,
             error: "Internal server error",

@@ -51,14 +51,20 @@
             --theme-shadow: rgba(0, 0, 0, 0.1);
         }
         
-        /* V2 - Cividis colors - Will be set dynamically by the API */
+        /* V2 - Starts identical to V1, then gets transformed by API */
         .v2-panel {
-            /* Initial values - will be overridden by the theme engine */
+            /* IDENTICAL to V1 - same traditional colors initially */
+            --theme-primary: #dc2626;     /* Red */
+            --theme-secondary: #9333ea;   /* Purple */
+            --theme-accent: #059669;      /* Green */
+            --theme-success: #16a34a;     /* Green */
+            --theme-warning: #ea580c;     /* Orange */
+            --theme-info: #0ea5e9;        /* Blue */
             --theme-background: #ffffff;
-            --theme-surface: #f8f9fa;
-            --theme-text: #333333;
-            --theme-text-muted: #6c757d;
-            --theme-border: #e0e0e0;
+            --theme-surface: #f9fafb;
+            --theme-text: #111827;
+            --theme-text-muted: #6b7280;
+            --theme-border: #d1d5db;
             --theme-shadow: rgba(0, 0, 0, 0.1);
         }
         
@@ -301,23 +307,27 @@
 
         <!-- V2 Panel - Cividis Colors -->
         <div class="split-panel v2-panel" id="cividis-panel">
-            <div class="version-label" id="cividis-status" style="background: linear-gradient(45deg, #666, #999); color: white;">
-                V2 - Loading Cividis Theme from API...
+            <div class="version-label" id="cividis-status" style="background: #dc2626; color: white;">
+                V2 - Traditional Website Colors 
             </div>
             
-            <div style="background: var(--theme-info); color: white; min-height: 100%;">
+            <div style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
                 <!-- Navigation -->
                 <nav class="navigation">
                     <div style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
-                        <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-warning);">
+                        <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-primary);">
                             MyWebsite
                         </h1>
                         <div>
-                            <a href="#" style="color: white; margin: 0 1rem; text-decoration: none;">Home</a>
-                            <a href="#" style="color: white; margin: 0 1rem; text-decoration: none;">About</a>
-                            <a href="#" style="color: white; margin: 0 1rem; text-decoration: none;">Contact</a>
+                            <a href="index.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Home</a>
+                            <a href="demo.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Demo</a>
+                            <a href="comparison.html" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">API in Action</a>
+                            <a href="mailto:team@coloursmatter.co.uk" style="color: var(--theme-text); text-decoration: none; transition: var(--theme-transition);">Contact</a>
                         </div>
                     </div>
+                    <button id="cividis-toggle-btn" class="cta-button">
+                        Try Cividis Theme
+                    </button>
                 </nav>
 
                 <!-- Hero Section -->
@@ -327,17 +337,17 @@
                             Welcome to Our Platform
                         </h2>
                         <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">
-                            Experience the power of scientifically-designed Cividis color palette
+                            Experience the power of traditional web design with classic color schemes
                         </p>
-                        <a href="#" class="btn btn-secondary">Get Started</a>
-                        <a href="#" class="btn btn-accent" style="border: 2px solid white;">Learn More</a>
+                        <a href="#" class="btn btn-info">Get Started</a>
+                        <a href="#" class="btn" style="background: rgba(255,255,255,0.2); border: 2px solid white;">Learn More</a>
                     </div>
                 </section>
 
                 <!-- Color Palette -->
                 <section style="padding: 3rem 2rem; text-align: center; background: var(--theme-surface);">
                     <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 2rem; color: var(--theme-text);">
-                        Cividis Color Palette <span id="api-status" style="font-size: 1rem; opacity: 0.7;">(Loading...)</span>
+                        Traditional Color Palette <span id="api-status" style="font-size: 1rem; opacity: 0.7;">(Click button to transform)</span>
                     </h3>
                     <div id="color-swatches">
                         <div class="color-swatch" style="background: var(--theme-primary);" title="Primary Color" data-color="primary"></div>
@@ -348,20 +358,20 @@
                         <div class="color-swatch" style="background: var(--theme-info);" title="Info Color" data-color="info"></div>
                     </div>
                     <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--theme-text-muted);">
-                        <p id="color-source">Colors fetched from Cividis API</p>
+                        <p id="color-source">Click "Try Cividis Theme" button to transform these colors</p>
                     </div>
                 </section>
 
                 <!-- Features -->
                 <section style="padding: 3rem 2rem;">
                     <div style="max-width: 1200px; margin: 0 auto;">
-                        <h3 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 3rem; color: white;">
+                        <h3 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 3rem; color: var(--theme-text);">
                             Key Features
                         </h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-info);">1</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-info); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-primary);">1</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-primary); margin-bottom: 1rem;">
                                     Perceptually Uniform
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -370,8 +380,8 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-secondary);">2</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-accent);">2</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-accent); margin-bottom: 1rem;">
                                     Colorblind Friendly
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -380,8 +390,8 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-success);">3</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-success); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-secondary); color: var(--theme-text);">3</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
                                     Perfect Harmony
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -414,10 +424,10 @@
 
                 <!-- Call to Action -->
                 <section style="padding: 3rem 2rem; text-align: center;">
-                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: white;">
+                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: var(--theme-text);">
                         Ready to Get Started?
                     </h3>
-                    <p style="font-size: 1.125rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem;">
+                    <p style="font-size: 1.125rem; color: var(--theme-text-muted); margin-bottom: 2rem;">
                         Join thousands using the scientifically superior Cividis palette
                     </p>
                     <a href="#" class="btn btn-primary">Sign Up Now</a>
@@ -429,118 +439,208 @@
 
     <!-- JavaScript for interactions -->
     <script>
+        let isCividisActive = false;
+        let cividisThemeData = null;
+        
         // Initialize comparison demo
         async function initializeCividisComparison() {
             console.log('Initializing Cividis comparison demo...');
             
+            const toggleBtn = document.getElementById('cividis-toggle-btn');
+            
+            // Add click handler for toggle button
+            toggleBtn.addEventListener('click', async function() {
+                if (isCividisActive) {
+                    // Turn OFF Cividis theme - revert to traditional
+                    revertToTraditional();
+                } else {
+                    // Turn ON Cividis theme - apply API colors
+                    await applyCividisTheme();
+                }
+            });
+            
+            console.log('✅ Comparison demo ready - click button to toggle Cividis theme');
+        }
+        
+        // Apply Cividis theme from API
+        async function applyCividisTheme() {
+            const statusElement = document.getElementById('cividis-status');
+            const toggleBtn = document.getElementById('cividis-toggle-btn');
+            const cividisPanel = document.getElementById('cividis-panel');
+            
+            // Update button to loading state
+            toggleBtn.textContent = 'Loading...';
+            toggleBtn.disabled = true;
+            statusElement.textContent = 'V2 - Fetching Cividis colors from API...';
+            
             try {
-                // Simulate the real-world usage of the Cividis API
-                const statusElement = document.getElementById('cividis-status');
-                const cividisPanel = document.getElementById('cividis-panel');
-                
-                statusElement.textContent = 'V2 - Fetching colors from Cividis API...';
-                
-                // Use the actual theme engine (like a real website would)
-                const themeEngine = window.CividisTheme || {};
-                
-                // Try to fetch theme from API
-                let themeData = null;
-                let apiSource = 'fallback';
-                try {
-                    // First try the production API
-                    const response = await fetch('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/cividis');
-                    if (response.ok) {
-                        themeData = await response.json();
-                        apiSource = 'production';
-                        statusElement.textContent = 'V2 - Cividis Theme (Live from Production API)';
-                        statusElement.style.background = 'linear-gradient(45deg, #4ade80, #22c55e)'; // Success green
-                    } else {
-                        throw new Error('Production API unavailable');
-                    }
-                } catch (apiError) {
-                    // Fallback to local API if available
+                // Try to fetch theme from API if we don't have it cached
+                if (!cividisThemeData) {
+                    let apiSource = 'fallback';
                     try {
-                        const localResponse = await fetch('http://localhost:3000/api/theme/cividis');
-                        if (localResponse.ok) {
-                            themeData = await localResponse.json();
-                            apiSource = 'local';
-                            statusElement.textContent = 'V2 - Cividis Theme (Local Development API)';
-                            statusElement.style.background = 'linear-gradient(45deg, #3b82f6, #1d4ed8)'; // Dev blue
+                        // First try the production API
+                        const response = await fetch('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/cividis');
+                        if (response.ok) {
+                            cividisThemeData = await response.json();
+                            apiSource = 'production';
                         } else {
-                            throw new Error('Local API unavailable');
+                            throw new Error('Production API unavailable');
                         }
-                    } catch (localError) {
-                        // Use the theme engine's built-in colors as final fallback
-                        themeData = {
-                            primary: '#00204c',
-                            secondary: '#7f7c75',
-                            accent: '#bbaf71',
-                            success: '#0a376d',
-                            warning: '#ffe945',
-                            info: '#37476b'
-                        };
-                        apiSource = 'fallback';
-                        statusElement.textContent = 'V2 - Cividis Theme (Fallback Colors)';
-                        statusElement.style.background = 'linear-gradient(45deg, #f59e0b, #d97706)'; // Warning orange
-                        console.warn('APIs unavailable, using fallback Cividis colors');
+                    } catch (apiError) {
+                        // Fallback to local API if available
+                        try {
+                            const localResponse = await fetch('http://localhost:3001/theme/cividis');
+                            if (localResponse.ok) {
+                                cividisThemeData = await localResponse.json();
+                                apiSource = 'local';
+                            } else {
+                                throw new Error('Local API unavailable');
+                            }
+                        } catch (localError) {
+                            throw new Error('Both production and local APIs unavailable');
+                        }
                     }
                 }
                 
-                // Apply the theme colors to the V2 panel (like the real theme engine would)
-                if (themeData) {
+                // Apply the Cividis colors to V2 panel
+                if (cividisThemeData && cividisThemeData.colors) {
                     const panelRoot = cividisPanel;
-                    panelRoot.style.setProperty('--theme-primary', themeData.primary);
-                    panelRoot.style.setProperty('--theme-secondary', themeData.secondary);
-                    panelRoot.style.setProperty('--theme-accent', themeData.accent);
-                    panelRoot.style.setProperty('--theme-success', themeData.success);
-                    panelRoot.style.setProperty('--theme-warning', themeData.warning);
-                    panelRoot.style.setProperty('--theme-info', themeData.info);
                     
-                    // Update color swatch tooltips with actual hex values
+                    // Apply color variables from API
+                    Object.entries(cividisThemeData.colors).forEach(([key, value]) => {
+                        panelRoot.style.setProperty(`--theme-${key}`, value);
+                    });
+                    
+                    // Apply styling rules from API
+                    if (cividisThemeData.styling_rules && cividisThemeData.styling_rules.warning_container) {
+                        const rule = cividisThemeData.styling_rules.warning_container;
+                        panelRoot.style.setProperty('--warning-container-bg', rule.background);
+                        panelRoot.style.setProperty('--warning-container-text', rule.text_color);
+                    }
+                    
+                    // Update color swatch tooltips
                     document.querySelectorAll('#cividis-panel .color-swatch').forEach(swatch => {
                         const colorName = swatch.getAttribute('data-color');
-                        const colorValue = themeData[colorName];
+                        const colorValue = cividisThemeData.colors[colorName];
                         if (colorValue) {
-                            swatch.setAttribute('title', `${colorName}: ${colorValue}`);
+                            swatch.setAttribute('title', `${colorName}: ${colorValue} (Cividis)`);
                         }
                     });
                     
-                    // Update API status indicator
-                    const apiStatus = document.getElementById('api-status');
-                    const colorSource = document.getElementById('color-source');
+                    // Update UI elements - Keep button intact to preserve event listeners
+                    statusElement.firstChild.textContent = 'V2 - ✨ Cividis Theme Active ';
+                    statusElement.style.background = 'linear-gradient(45deg, #4ade80, #22c55e)';
                     
-                    if (apiSource === 'production') {
-                        apiStatus.textContent = '(Live from API ✅)';
-                        apiStatus.style.color = '#22c55e';
-                        colorSource.textContent = `Colors fetched from production API at ${new Date().toLocaleTimeString()}`;
-                    } else if (apiSource === 'local') {
-                        apiStatus.textContent = '(Local Dev API 🔧)';
-                        apiStatus.style.color = '#3b82f6';
-                        colorSource.textContent = `Colors fetched from local API at ${new Date().toLocaleTimeString()}`;
-                    } else {
-                        apiStatus.textContent = '(Fallback Colors ⚠️)';
-                        apiStatus.style.color = '#f59e0b';
-                        colorSource.textContent = 'Using built-in Cividis colors (API unavailable)';
-                    }
+                    // Update button state without recreating it
+                    toggleBtn.textContent = 'Turn Off Cividis';
+                    toggleBtn.disabled = false;
+                    toggleBtn.style.background = '#fff';
+                    toggleBtn.style.color = '#00204c';
                     
-                    // Add visual indicator that Cividis theme is active
+                    document.getElementById('api-status').textContent = '(✨ Active via API ✅)';
+                    document.getElementById('api-status').style.color = '#22c55e';
+                    document.getElementById('color-source').textContent = `Cividis colors active - transformed at ${new Date().toLocaleTimeString()}`;
+                    
+                    // Update hero text
+                    const heroText = cividisPanel.querySelector('.hero-section p');
+                    heroText.textContent = 'Experience the power of scientifically-designed Cividis color palette';
+                    
+                    // Update palette title
+                    document.querySelector('#cividis-panel h3').innerHTML = `
+                        Cividis Color Palette <span id="api-status" style="font-size: 1rem; opacity: 0.7;">(✨ Active via API ✅)</span>
+                    `;
+                    
+                    // Add visual indicator
                     setTimeout(() => {
                         cividisPanel.classList.add('cividis-active');
                     }, 500);
                     
-                    // Update the header gradient with actual theme colors
+                    // Update header gradient
                     setTimeout(() => {
-                        statusElement.style.background = `linear-gradient(45deg, ${themeData.primary}, ${themeData.info})`;
+                        statusElement.style.background = `linear-gradient(45deg, ${cividisThemeData.colors.primary}, ${cividisThemeData.colors.info})`;
                     }, 1000);
                     
-                    console.log('✅ Cividis theme applied successfully:', themeData);
+                    isCividisActive = true;
+                    console.log('✅ Cividis theme applied successfully');
                 }
                 
             } catch (error) {
-                console.error('❌ Failed to initialize Cividis theme:', error);
-                document.getElementById('cividis-status').textContent = 'V2 - Theme Loading Failed';
-                document.getElementById('cividis-status').style.background = 'linear-gradient(45deg, #ef4444, #dc2626)'; // Error red
+                console.error('❌ Failed to apply Cividis theme:', error);
+                
+                // Update status and button state without recreating elements
+                statusElement.firstChild.textContent = 'V2 - ❌ API Failed (Traditional Colors) ';
+                statusElement.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+                
+                // Update button state
+                toggleBtn.textContent = 'Try Again';
+                toggleBtn.disabled = false;
+                toggleBtn.style.background = '#fff';
+                toggleBtn.style.color = '#dc2626';
+                
+                document.getElementById('api-status').textContent = '(❌ API Failed)';
+                document.getElementById('api-status').style.color = '#ef4444';
+                document.getElementById('color-source').textContent = 'API unavailable - start the API server to enable Cividis transformation';
             }
+        }
+        
+        // Revert to traditional colors
+        async function revertToTraditional() {
+            const statusElement = document.getElementById('cividis-status');
+            const cividisPanel = document.getElementById('cividis-panel');
+            
+            // Reset to traditional colors
+            const traditionalColors = {
+                primary: '#dc2626',
+                secondary: '#9333ea',
+                accent: '#059669',
+                success: '#16a34a',
+                warning: '#ea580c',
+                info: '#0ea5e9'
+            };
+            
+            Object.entries(traditionalColors).forEach(([key, value]) => {
+                cividisPanel.style.setProperty(`--theme-${key}`, value);
+            });
+            
+            // Update color swatch tooltips
+            document.querySelectorAll('#cividis-panel .color-swatch').forEach(swatch => {
+                const colorName = swatch.getAttribute('data-color');
+                const colorValue = traditionalColors[colorName];
+                if (colorValue) {
+                    swatch.setAttribute('title', `${colorName}: ${colorValue} (Traditional)`);
+                }
+            });
+            
+            // Update UI elements - Keep button intact to preserve event listeners
+            const toggleBtn = document.getElementById('cividis-toggle-btn');
+            statusElement.firstChild.textContent = 'V2 - Traditional Colors ';
+            statusElement.style.background = '#dc2626';
+            
+            // Update button state without recreating it
+            toggleBtn.textContent = 'Try Cividis Theme';
+            toggleBtn.disabled = false;
+            toggleBtn.style.background = '#fff';
+            toggleBtn.style.color = '#dc2626';
+            
+            document.getElementById('api-status').textContent = '(Click button to transform)';
+            document.getElementById('api-status').style.color = '#6b7280';
+            document.getElementById('color-source').textContent = 'Click "Try Cividis Theme" button to transform these colors';
+            
+            // Update hero text
+            const heroText = cividisPanel.querySelector('.hero-section p');
+            heroText.textContent = 'Experience the power of traditional web design with classic color schemes';
+            
+            // Update palette title
+            document.querySelector('#cividis-panel h3').innerHTML = `
+                Traditional Color Palette <span id="api-status" style="font-size: 1rem; opacity: 0.7;">(Click button to transform)</span>
+            `;
+            
+            // Remove visual indicator
+            cividisPanel.classList.remove('cividis-active');
+            
+            isCividisActive = false;
+            
+            console.log('✅ Reverted to traditional colors');
         }
         
         // Add some interactive elements
@@ -558,28 +658,21 @@
         document.querySelectorAll('.split-panel').forEach(panel => {
             panel.addEventListener('scroll', function() {
                 // Sync scroll positions (optional)
-                // const otherPanel = panel.classList.contains('v1-panel') ? 
-                //     document.querySelector('.v2-panel') : 
-                //     document.querySelector('.v1-panel');
-                // otherPanel.scrollTop = this.scrollTop;
             });
         });
 
         // Add analytics tracking for comparison views
         console.log('Cividis comparison page loaded');
         
-        // Track time spent on each side
-        let v1Time = 0, v2Time = 0;
-        let currentSide = null;
+        // Track theme toggles
+        let toggleCount = 0;
         
         document.querySelector('.v1-panel').addEventListener('mouseenter', () => {
-            currentSide = 'v1';
-            console.log('User viewing traditional colors');
+            console.log('User viewing traditional colors (V1)');
         });
         
         document.querySelector('.v2-panel').addEventListener('mouseenter', () => {
-            currentSide = 'v2';
-            console.log('User viewing Cividis colors');
+            console.log(`User viewing ${isCividisActive ? 'Cividis' : 'traditional'} colors (V2)`);
         });
         
         // Initialize the comparison when page loads
