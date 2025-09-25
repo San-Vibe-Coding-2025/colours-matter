@@ -9,8 +9,8 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Enable CORS for localhost:8000 only (for local development)
-app.use(cors({ origin: 'http://localhost:8000' }));
+// Enable CORS for all local dev origins (localhost, 127.0.0.1, LAN IPs)
+app.use(cors());
 app.use(express.json());
 
 // Toggle state tracking (in production, this would be stored in a database)
