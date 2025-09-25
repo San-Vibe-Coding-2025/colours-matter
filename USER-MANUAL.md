@@ -954,7 +954,7 @@ Join our community of developers building accessible web experiences:
     
     <div class="card">
         <h2>Status Messages</h2>
-        <div class="success">✅ Success: Operation completed successfully</div>
+        <div class="success">☑️ Success: Operation completed successfully</div>
         <br>
         <div class="warning">⚠️ Warning: Please review your settings</div>
         <br>

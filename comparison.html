@@ -108,10 +108,10 @@
         }
         
         .btn-primary { background: var(--theme-primary); color: white; }
-        .btn-secondary { background: var(--theme-secondary); color: var(--theme-text); }
+        .btn-secondary { background: var(--theme-secondary); color: white; }
         .btn-accent { background: var(--theme-accent); color: white; }
         .btn-success { background: var(--theme-success); color: white; }
-        .btn-warning { background: var(--theme-warning); color: var(--theme-text); }
+        .btn-warning { background: var(--theme-warning); color: white; }
         .btn-info { background: var(--theme-info); color: white; }
         
         .feature-icon {
@@ -177,141 +177,13 @@
         ← Back to Home
     </button>
 
-    <div class="split-container">
-        <!-- V1 Panel - Traditional Colors -->
-        <div class="split-panel v1-panel">
-            <div class="version-label" style="background: #dc2626; color: white;">
-                V1 - Traditional Website Colors
-            </div>
-            
-            <div style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
-                <!-- Navigation -->
-                <nav class="navigation">
-                    <div style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
-                        <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-primary);">
-                            MyWebsite
-                        </h1>
-                        <div>
-                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Home</a>
-                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">About</a>
-                            <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Contact</a>
-                        </div>
-                    </div>
-                </nav>
-
-                <!-- Hero Section -->
-                <section class="hero-section">
-                    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                        <h2 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">
-                            Welcome to Our Platform
-                        </h2>
-                        <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">
-                            Experience the power of traditional web design with classic color schemes
-                        </p>
-                        <a href="#" class="btn btn-info">Get Started</a>
-                        <a href="#" class="btn" style="background: rgba(255,255,255,0.2); border: 2px solid white;">Learn More</a>
-                    </div>
-                </section>
-
-                <!-- Color Palette -->
-                <section style="padding: 3rem 2rem; text-align: center; background: var(--theme-surface);">
-                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 2rem; color: var(--theme-text);">
-                        Traditional Color Palette
-                    </h3>
-                    <div>
-                        <div class="color-swatch" style="background: var(--theme-primary);" title="Red Primary"></div>
-                        <div class="color-swatch" style="background: var(--theme-secondary);" title="Purple Secondary"></div>
-                        <div class="color-swatch" style="background: var(--theme-accent);" title="Green Accent"></div>
-                        <div class="color-swatch" style="background: var(--theme-success);" title="Green Success"></div>
-                        <div class="color-swatch" style="background: var(--theme-warning);" title="Orange Warning"></div>
-                        <div class="color-swatch" style="background: var(--theme-info);" title="Blue Info"></div>
-                    </div>
-                </section>
-
-                <!-- Features -->
-                <section style="padding: 3rem 2rem;">
-                    <div style="max-width: 1200px; margin: 0 auto;">
-                        <h3 style="font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 3rem; color: var(--theme-text);">
-                            Key Features
-                        </h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                            <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-primary);">1</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-primary); margin-bottom: 1rem;">
-                                    Strong Contrast
-                                </h4>
-                                <p style="color: var(--theme-text-muted);">
-                                    Traditional colors provide high contrast but can be harsh on the eyes during extended use.
-                                </p>
-                            </div>
-                            
-                            <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-accent);">2</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-accent); margin-bottom: 1rem;">
-                                    Familiar Colors
-                                </h4>
-                                <p style="color: var(--theme-text-muted);">
-                                    Users are familiar with red for errors, green for success, but lacks scientific backing.
-                                </p>
-                            </div>
-                            
-                            <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-secondary); color: var(--theme-text);">3</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
-                                    Limited Harmony
-                                </h4>
-                                <p style="color: var(--theme-text-muted);">
-                                    Random color combinations that may not work well together aesthetically.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Stats -->
-                <section style="padding: 3rem 2rem; background: var(--theme-surface);">
-                    <div style="max-width: 1000px; margin: 0 auto;">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
-                            <div class="stats-card">
-                                <div class="stats-number">67%</div>
-                                <p style="color: var(--theme-text-muted);">User Eye Strain</p>
-                            </div>
-                            <div class="stats-card">
-                                <div class="stats-number">3.2</div>
-                                <p style="color: var(--theme-text-muted);">Color Harmony Score</p>
-                            </div>
-                            <div class="stats-card">
-                                <div class="stats-number">45%</div>
-                                <p style="color: var(--theme-text-muted);">Accessibility Rating</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Call to Action -->
-                <section style="padding: 3rem 2rem; text-align: center;">
-                    <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: var(--theme-text);">
-                        Ready to Get Started?
-                    </h3>
-                    <p style="font-size: 1.125rem; color: var(--theme-text-muted); margin-bottom: 2rem;">
-                        Join thousands using traditional color schemes
-                    </p>
-                    <a href="#" class="btn btn-primary">Sign Up Now</a>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
-                </section>
-            </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="divider"></div>
-
-        <!-- V2 Panel - Cividis Colors -->
-        <div class="split-panel v2-panel" id="cividis-panel">
+    <div>
+        <div>
             <div class="version-label" id="cividis-status" style="background: #dc2626; color: white;">
-                V2 - Traditional Website Colors 
+                V2 - Traditional Colors
             </div>
 
-            <div style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
+            <div id="cividis-panel" class="v2-panel" style="background: var(--theme-background); color: var(--theme-text); min-height: 100%;">
                 <nav class="navigation">
                     <div style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
                         <h1 style="font-size: 1.5rem; font-weight: bold; color: var(--theme-primary);">
@@ -323,9 +195,6 @@
                             <a href="#" style="color: var(--theme-text); margin: 0 1rem; text-decoration: none;">Contact</a>
                         </div>
                     </div>
-                    <button id="cividis-toggle-btn" class="cta-button ml-2">
-                        Cividis Theme
-                    </button>
                 </nav>
 
                 <!-- Hero Section -->
@@ -338,7 +207,7 @@
                             Experience the power of traditional web design with classic color schemes
                         </p>
                         <a href="#" class="btn btn-info">Get Started</a>
-                        <a href="#" class="btn" style="background: rgba(255,255,255,0.2); border: 2px solid white;">Learn More</a>
+                        <a href="#" class="btn" style="border: 2px solid white;">Learn More</a>
                     </div>
                 </section>
 
@@ -368,8 +237,8 @@
                         </h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-primary);">1</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-primary); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-warning);">1</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-warning); margin-bottom: 1rem;">
                                     Perceptually Uniform
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -378,8 +247,8 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-accent);">2</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-accent); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-info);">2</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-info); margin-bottom: 1rem;">
                                     Colorblind Friendly
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -388,8 +257,8 @@
                             </div>
                             
                             <div class="demo-card" style="padding: 2rem;">
-                                <div class="feature-icon" style="background: var(--theme-secondary); color: var(--theme-text);">3</div>
-                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-secondary); margin-bottom: 1rem;">
+                                <div class="feature-icon" style="background: var(--theme-warning);">3</div>
+                                <h4 style="font-size: 1.25rem; font-weight: bold; color: var(--theme-warning); margin-bottom: 1rem;">
                                     Perfect Harmony
                                 </h4>
                                 <p style="color: var(--theme-text-muted);">
@@ -457,7 +326,7 @@
                 }
             });
             
-            console.log('✅ Comparison demo ready - click button to toggle Cividis theme');
+            console.log('☑️ Comparison demo ready - click button to toggle Cividis theme');
         }
         
         // Apply Cividis theme from API
@@ -472,31 +341,13 @@
             statusElement.textContent = 'V2 - Fetching Cividis colors from API...';
             
             try {
-                // Try to fetch theme from API if we don't have it cached
+                // Always fetch theme from Vercel API
                 if (!cividisThemeData) {
-                    let apiSource = 'fallback';
-                    try {
-                        // First try the production API
-                        const response = await fetch('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/cividis');
-                        if (response.ok) {
-                            cividisThemeData = await response.json();
-                            apiSource = 'production';
-                        } else {
-                            throw new Error('Production API unavailable');
-                        }
-                    } catch (apiError) {
-                        // Fallback to local API if available
-                        try {
-                            const localResponse = await fetch('http://localhost:3001/theme/cividis');
-                            if (localResponse.ok) {
-                                cividisThemeData = await localResponse.json();
-                                apiSource = 'local';
-                            } else {
-                                throw new Error('Local API unavailable');
-                            }
-                        } catch (localError) {
-                            throw new Error('Both production and local APIs unavailable');
-                        }
+                    const response = await fetch('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/cividis');
+                    if (response.ok) {
+                        cividisThemeData = await response.json();
+                    } else {
+                        throw new Error('Vercel API unavailable');
                     }
                 }
                 
@@ -559,7 +410,7 @@
                     }, 1000);
                     
                     isCividisActive = true;
-                    console.log('✅ Cividis theme applied successfully');
+                    console.log('☑️ Cividis theme applied successfully');
                 }
                 
             } catch (error) {
@@ -611,7 +462,7 @@
             
             // Update UI elements - Keep button intact to preserve event listeners
             const toggleBtn = document.getElementById('cividis-toggle-btn');
-            statusElement.firstChild.textContent = 'V2 - Traditional Colors ';
+            statusElement.firstChild.textContent = 'Traditional Colors ';
             statusElement.style.background = '#dc2626';
             
             // Update button state without recreating it
@@ -638,7 +489,7 @@
             
             isCividisActive = false;
             
-            console.log('✅ Reverted to traditional colors');
+            console.log('☑️ Reverted to traditional colors');
         }
         
         // Add some interactive elements

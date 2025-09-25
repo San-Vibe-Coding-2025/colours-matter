@@ -223,7 +223,7 @@ window.cividisTheme.refreshTheme();
 
 ## 📱 Browser Support
 
-✅ Chrome 49+, Firefox 31+, Safari 9.1+, Edge 16+  
+☑️ Chrome 49+, Firefox 31+, Safari 9.1+, Edge 16+  
 ⚠️ IE11 (needs CSS variables polyfill)
 
 ---

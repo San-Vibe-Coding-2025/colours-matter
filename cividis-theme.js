@@ -1072,7 +1072,7 @@ class CividisTheme {
                 this.applyIntelligentStyling(this.currentTheme);
             }
             
-            this.log(`✅ ${themeData.state} theme applied successfully`);
+            this.log(`☑️ ${themeData.state} theme applied successfully`);
             
             // Dispatch theme applied event
             window.dispatchEvent(new CustomEvent('cividis-theme-applied', {
@@ -1164,7 +1164,7 @@ class CividisTheme {
         // Append to head
         document.head.appendChild(styleElement);
         
-        this.log('✅ All intelligent styling rules applied');
+        this.log('☑️ All intelligent styling rules applied');
     }
 
     /**
