@@ -6,23 +6,9 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api-server.js"
-    },
-    {
-      "src": "/(.*\\.(css|js|html|ico|png|jpg|jpeg|gif|svg))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/api/:match*", "destination": "/api-server.js" },
+    { "source": "/:all*", "destination": "/index.html" }
   ],
   "headers": [
     {
