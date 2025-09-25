@@ -139,8 +139,8 @@ The included `tailwind.config.js` provides theme-aware utilities:
 {
     "colors": {
         "primary": "#00204c",
-        "secondary": "#ccbb68", 
-        "accent": "#64676f",
+        "secondary": "#64676f", 
+        "accent": "#ccbb68",
         "success": "#0a376d",
         "warning": "#ffe945",
         "info": "#37476b",
@@ -168,8 +168,8 @@ Your API should support:
 | Variable | Purpose | Default Value |
 |----------|---------|---------------|
 | `--theme-primary` | Main brand color | `#00204c` |
-| `--theme-secondary` | Secondary brand color | `#ccbb68` |
-| `--theme-accent` | Accent/highlight color | `#64676f` |
+| `--theme-secondary` | Secondary brand color | `#64676f` |
+| `--theme-accent` | Accent/highlight color | `#ccbb68` |
 | `--theme-success` | Success states | `#0a376d` |
 | `--theme-warning` | Warning states | `#ffe945` |
 | `--theme-info` | Information states | `#37476b` |
@@ -305,14 +305,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎨 Color Palette
 
-The default Cividis color palette provides a scientifically-designed gradient from deep purple to bright yellow:
+The Cividis color palette provides a scientifically-designed, colorblind-safe gradient:
 
-- **Primary** (`#440154FF`): Deep Purple
-- **Secondary** (`#414487FF`): Blue Purple  
-- **Accent** (`#2A788EFF`): Teal Blue
-- **Success** (`#22A884FF`): Green Teal
-- **Warning** (`#7AD151FF`): Lime Green
-- **Info** (`#FDE725FF`): Bright Yellow
+- **Primary** (`#00204c`): Dark Blue
+- **Secondary** (`#64676f`): Gray Blue  
+- **Accent** (`#ccbb68`): Golden Yellow
+- **Success** (`#0a376d`): Blue Gray
+- **Warning** (`#ffe945`): Bright Yellow
+- **Info** (`#37476b`): Light Blue
 
 ## 🚀 Roadmap
 
