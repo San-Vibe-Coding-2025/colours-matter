@@ -9,24 +9,16 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Enable CORS for all local dev origins and deployed Vercel frontend
-const allowedOrigins = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'http://192.168.1.110:8000',
-    'http://172.23.112.1:8000',
-    'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app',
-    'https://colours-matter.vercel.app'
-];
-app.use(cors({
-    origin: function(origin, callback) {
-        // Allow requests with no origin (like mobile apps, curl, etc.)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) return callback(null, true);
-        // Gracefully reject disallowed origins
-        return callback(null, false);
+// Set CORS headers for all API responses (Vercel 2025: headers must be in code, not config)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
     }
-}));
+    next();
+});
 app.use(express.json());
 
 // Toggle state tracking (in production, this would be stored in a database)
