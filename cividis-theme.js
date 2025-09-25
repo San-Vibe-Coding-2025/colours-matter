@@ -287,17 +287,25 @@ class CividisTheme {
         let lastError = null;
         const maxAttempts = this.config.retryAttempts || 3;
         const delay = this.config.retryDelay || 1000;
+        const timeoutMs = 10000;
         while (attempt < maxAttempts) {
             try {
                 this.log(`Fetching theme data... (attempt ${attempt + 1} of ${maxAttempts})`);
-                const response = await fetch(this.config.apiEndpoint, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    timeout: 10000
-                });
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+                let response;
+                try {
+                    response = await fetch(this.config.apiEndpoint, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        signal: controller.signal
+                    });
+                } finally {
+                    clearTimeout(timeoutId);
+                }
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
@@ -306,7 +314,11 @@ class CividisTheme {
                 return data;
             } catch (error) {
                 lastError = error;
-                this.log(`Theme fetch failed (attempt ${attempt + 1}):`, error.message);
+                if (error.name === 'AbortError') {
+                    this.log(`Theme fetch timed out (attempt ${attempt + 1})`);
+                } else {
+                    this.log(`Theme fetch failed (attempt ${attempt + 1}):`, error.message);
+                }
                 if (attempt < maxAttempts - 1) {
                     await new Promise(res => setTimeout(res, delay));
                 }
