@@ -214,7 +214,7 @@
                 <!-- Color Palette -->
                 <section style="padding: 3rem 2rem; text-align: center; background: var(--theme-surface);">
                     <h3 style="font-size: 2rem; font-weight: bold; margin-bottom: 2rem; color: var(--theme-text);">
-                        Traditional Color Palette <span id="api-status" style="font-size: 1rem; opacity: 0.7;">(Click button to transform)</span>
+                        Traditional Color Palette
                     </h3>
                     <div id="color-swatches">
                         <div class="color-swatch" style="background: var(--theme-primary);" title="Primary Color" data-color="primary"></div>
@@ -223,9 +223,6 @@
                         <div class="color-swatch" style="background: var(--theme-success);" title="Success Color" data-color="success"></div>
                         <div class="color-swatch" style="background: var(--theme-warning);" title="Warning Color" data-color="warning"></div>
                         <div class="color-swatch" style="background: var(--theme-info);" title="Info Color" data-color="info"></div>
-                    </div>
-                    <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--theme-text-muted);">
-                        <p id="color-source">Click "Cividis Theme" button to transform these colors</p>
                     </div>
                 </section>
 
@@ -516,13 +513,18 @@
         // Track theme toggles
         let toggleCount = 0;
         
-        document.querySelector('.v1-panel').addEventListener('mouseenter', () => {
-            console.log('User viewing traditional colors (V1)');
-        });
-        
-        document.querySelector('.v2-panel').addEventListener('mouseenter', () => {
-            console.log(`User viewing ${isCividisActive ? 'Cividis' : 'traditional'} colors (V2)`);
-        });
+        const v1Panel = document.querySelector('.v1-panel');
+        if (v1Panel) {
+            v1Panel.addEventListener('mouseenter', () => {
+                console.log('User viewing traditional colors (V1)');
+            });
+        }
+        const v2Panel = document.querySelector('.v2-panel');
+        if (v2Panel) {
+            v2Panel.addEventListener('mouseenter', () => {
+                console.log(`User viewing ${isCividisActive ? 'Cividis' : 'traditional'} colors (V2)`);
+            });
+        }
         
         // Initialize the comparison when page loads
         document.addEventListener('DOMContentLoaded', initializeCividisComparison);
