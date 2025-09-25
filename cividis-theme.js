@@ -11,6 +11,22 @@
  */
 
 class CividisTheme {
+    /**
+     * Log utility (only if debug is enabled)
+     */
+    log(...args) {
+        if (this.config && this.config.debug) {
+            console.log('🎨 Cividis:', ...args);
+        }
+    }
+
+    /**
+     * Error handler utility
+     */
+    handleError(message, error) {
+        console.error('Cividis Theme Error:', message, error);
+        // Optionally, could throw or dispatch an event here
+    }
     constructor(config = {}) {
         this.config = {
             apiEndpoint: config.apiEndpoint || 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
