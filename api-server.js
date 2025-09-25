@@ -16,6 +16,65 @@ app.use(express.json());
 // Toggle state tracking (in production, this would be stored in a database)
 let toggleStates = {};
 
+// Function to generate intelligent styling rules based on theme colors
+function generateIntelligentStyling(colors) {
+    return {
+        // When warning color is used as background, text should be --theme-text
+        warning_background: {
+            selector: '.warning-bg, [style*="background: var(--theme-warning)"], [style*="background-color: var(--theme-warning)"]',
+            background: colors.warning,
+            text_color: colors.text,
+            description: "Warning color as background with readable text"
+        },
+        // When accent color is used as background, text should be --theme-text  
+        accent_background: {
+            selector: '.accent-bg, [style*="background: var(--theme-accent)"], [style*="background-color: var(--theme-accent)"]',
+            background: colors.accent,
+            text_color: colors.text,
+            description: "Accent color as background with readable text"
+        },
+        // When warning color is used as text/font, background should be --theme-info
+        warning_text: {
+            selector: '.warning-text, [style*="color: var(--theme-warning)"]',
+            background: colors.info,
+            text_color: colors.warning,
+            description: "Warning color as text with info background"
+        },
+        // When accent color is used as text/font, background should be --theme-info
+        accent_text: {
+            selector: '.accent-text, [style*="color: var(--theme-accent)"]', 
+            background: colors.info,
+            text_color: colors.accent,
+            description: "Accent color as text with info background"
+        },
+        // Additional intelligent combinations
+        warning_container: {
+            selector: '.warning-container, .alert-warning',
+            background: `rgba(${hexToRgb(colors.warning).join(', ')}, 0.1)`,
+            border_color: colors.warning,
+            text_color: colors.text,
+            description: "Warning container with subtle background"
+        },
+        accent_container: {
+            selector: '.accent-container, .highlight',
+            background: `rgba(${hexToRgb(colors.accent).join(', ')}, 0.1)`,
+            border_color: colors.accent,
+            text_color: colors.text,
+            description: "Accent container with subtle background"
+        }
+    };
+}
+
+// Helper function to convert hex to RGB
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+        parseInt(result[1], 16),
+        parseInt(result[2], 16),
+        parseInt(result[3], 16)
+    ] : [0, 0, 0];
+}
+
 // Cividis color palettes
 const themes = {
     cividis: {
@@ -32,15 +91,9 @@ const themes = {
             text: "#1b1b1b",
             border: "#e0e0e0"
         },
-        styling_rules: {
-            warning_container: {
-                background: "var(--theme-info)", // --theme-info with 50% opacity
-                text_color: "#ffffff"
-            },
-            accent_container: {
-                background: "var(theme-info)", // --theme-info with 50% opacity
-                text_color: "#ffffff"
-            }
+        // Dynamic styling rules will be generated
+        get styling_rules() {
+            return generateIntelligentStyling(this.colors);
         }
     },
     alternate: {
@@ -57,15 +110,9 @@ const themes = {
             text: "#333333",
             border: "#e0e0e0"
         },
-        styling_rules: {
-            warning_container: {
-                background: "rgba(207, 171, 11, 0.5)", // --theme-accent with 50% opacity
-                text_color: "#ffffff"
-            },
-            secondary_container: {
-                background: "rgba(252, 238, 182, 0.5)", // --theme-info with 50% opacity
-                text_color: "#ffffff"
-            }
+        // Dynamic styling rules will be generated
+        get styling_rules() {
+            return generateIntelligentStyling(this.colors);
         }
     },
 };
@@ -195,25 +242,28 @@ app.post('/theme/toggle', (req, res) => {
                 }
             });
         } else {
-            // Return traditional colors
+            // Return traditional colors with intelligent styling
+            const traditionalColors = {
+                primary: '#dc2626',
+                secondary: '#9333ea', 
+                accent: '#059669',
+                success: '#16a34a',
+                warning: '#ea580c',
+                info: '#0ea5e9',
+                background: '#ffffff',
+                surface: '#f8f9fa',
+                text: '#1b1b1b',
+                border: '#e0e0e0'
+            };
+            
             console.log(`Toggle OFF: Serving traditional colors for client ${clientId}`);
             
             res.json({
                 success: true,
                 toggled: false,
                 state: 'traditional',
-                colors: {
-                    primary: '#dc2626',
-                    secondary: '#9333ea', 
-                    accent: '#059669',
-                    success: '#16a34a',
-                    warning: '#ea580c',
-                    info: '#0ea5e9',
-                    background: '#ffffff',
-                    surface: '#f8f9fa',
-                    text: '#1b1b1b',
-                    border: '#e0e0e0'
-                },
+                colors: traditionalColors,
+                styling_rules: generateIntelligentStyling(traditionalColors),
                 button_text: 'Try Cividis Theme',
                 meta: {
                     timestamp: new Date().toISOString(),

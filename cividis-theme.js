@@ -986,10 +986,8 @@ class CividisTheme {
             });
             
             // Apply styling rules if present
-            if (themeData.styling_rules && themeData.styling_rules.warning_container) {
-                const rule = themeData.styling_rules.warning_container;
-                document.documentElement.style.setProperty('--warning-container-bg', rule.background);
-                document.documentElement.style.setProperty('--warning-container-text', rule.text_color);
+            if (themeData.styling_rules) {
+                this.applyIntelligentStylingRules(themeData.styling_rules);
             }
             
             // Update current theme state
@@ -1046,6 +1044,58 @@ class CividisTheme {
             });
             this.log('Applied traditional fallback colors');
         }
+    }
+
+    /**
+     * Apply intelligent styling rules from API
+     */
+    applyIntelligentStylingRules(stylingRules) {
+        if (!stylingRules) return;
+        
+        this.log('Applying intelligent styling rules from API');
+        
+        // Remove existing intelligent styling if any
+        const existingStyle = document.getElementById('cividis-intelligent-styling');
+        if (existingStyle) {
+            existingStyle.remove();
+        }
+        
+        // Create new style element
+        const styleElement = document.createElement('style');
+        styleElement.id = 'cividis-intelligent-styling';
+        styleElement.type = 'text/css';
+        
+        let cssRules = '';
+        
+        // Process each styling rule
+        Object.entries(stylingRules).forEach(([ruleName, rule]) => {
+            if (rule.selector) {
+                let ruleCSS = `${rule.selector} {\n`;
+                
+                if (rule.background) {
+                    ruleCSS += `  background: ${rule.background} !important;\n`;
+                }
+                if (rule.text_color) {
+                    ruleCSS += `  color: ${rule.text_color} !important;\n`;
+                }
+                if (rule.border_color) {
+                    ruleCSS += `  border-color: ${rule.border_color} !important;\n`;
+                }
+                
+                ruleCSS += '}\n\n';
+                cssRules += ruleCSS;
+                
+                this.log(`Applied rule ${ruleName}:`, rule.description || 'No description');
+            }
+        });
+        
+        // Add CSS to style element
+        styleElement.textContent = cssRules;
+        
+        // Append to head
+        document.head.appendChild(styleElement);
+        
+        this.log('✅ All intelligent styling rules applied');
     }
 
     /**
