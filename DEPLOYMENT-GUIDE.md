@@ -513,7 +513,7 @@ app.use((req, res, next) => {
 ### High Traffic Scenarios
 
 1. **Use multiple CDNs**
-2. **Implement fallback URLs**
+2. **Ensure API health endpoints and CORS are configured**
 3. **Cache API responses**
 4. **Consider serverless functions**
 

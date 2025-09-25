@@ -230,11 +230,11 @@ window.cividisTheme.refreshTheme();
 
 ## 🎯 Best Practices
 
-1. **Always provide fallbacks:**
-   ```css
-   background: #00204c;  /* fallback */
-   background: var(--theme-primary);
-   ```
+1. **Production-first styling (no client-side defaults):**
+    ```css
+    /* Do not include a static default color block; styling must be supplied by the production API */
+    background: var(--theme-primary);
+    ```
 
 2. **Use semantic naming:**
    ```css
