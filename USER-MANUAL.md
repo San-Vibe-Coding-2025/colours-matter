@@ -6,6 +6,12 @@ A complete guide to implementing the Cividis Theme Engine for colorblind-accessi
 
 ---
 
+# IMPORTANT: NO FALLBACKS FOR COLOUR CHANGES
+
+**MUST NOT add fallback to the implementation of the colour changes. If the API fails, log in console but NEVER, EVER use a fallback to change the colours.**
+
+---
+
 ## 📋 Table of Contents
 
 1. [Quick Start](#quick-start)
@@ -46,10 +52,10 @@ Add these two lines to your HTML and you're done:
 ```
 
 **That's it!** Your website is now colorblind-accessible with:
-- ☑️ Scientifically-designed colors
-- ☑️ Automatic "Cividis Theme" button
-- ☑️ CSS variables for easy styling
-- ☑️ Error handling and fallbacks
+☑️ Scientifically-designed colors
+☑️ Automatic "Cividis Theme" button
+☑️ CSS variables for easy styling
+☑️ Error handling (no color fallback)
 
 ---
 
@@ -151,9 +157,9 @@ add_action('wp_enqueue_scripts', 'enqueue_cividis_theme');
 
 ### Step 3: That's It!
 The theme engine automatically:
-- Applies Cividis colors
-- Adds a "Cividis Theme" button
-- Handles errors and provides fallbacks
+Applies Cividis colors
+Adds a "Cividis Theme" button
+Handles errors (no color fallback)
 
 ---
 
@@ -424,14 +430,6 @@ If using the provided `tailwind.config.js`:
         gradient: 'linear-gradient(45deg, #00204c, #ffe945)'
     },
     
-    // Fallback Colors
-    fallbackColors: {
-        '--theme-primary': '#00204c',
-        '--theme-secondary': '#bbaf71',
-        '--theme-accent': '#7f7c75',
-        // ... etc
-    },
-    
     // Development
     debug: false
 }
@@ -472,10 +470,6 @@ window.cividisTheme.updateConfig({
 window.cividisTheme.updateConfig({
     retryAttempts: 3,        // Number of API retry attempts
     retryDelay: 1000,        // Delay between retries (ms)
-    fallbackColors: {        // Colors to use if API fails
-        '--theme-primary': '#00204c',
-        '--theme-secondary': '#bbaf71'
-    }
 });
 ```
 
@@ -511,9 +505,7 @@ window.addEventListener('cividis-cta-clicked', () => {
 // Theme loading errors
 window.addEventListener('cividis-theme-error', (event) => {
     console.warn('Theme error:', event.detail.message);
-    
-    // Fallback handling, user notification, etc.
-    showNotification('Using default colors', 'info');
+    // You may notify the user, but DO NOT change colors or apply fallback theme.
 });
 ```
 
@@ -589,8 +581,7 @@ window.addEventListener('cividis-theme-applied', (event) => {
     // Check color contrast ratios
     if (!isAccessibleContrast(colors['--theme-text'], colors['--theme-background'])) {
         console.warn('Poor color contrast detected');
-        // Apply high-contrast fallback
-        applyHighContrastMode();
+        // DO NOT apply fallback colors. Log only.
     }
 });
 
@@ -991,10 +982,10 @@ Join our community of developers building accessible web experiences:
 
 ## 🎯 Best Practices
 
-### 1. Always Provide Fallbacks
+### 1. Always Provide Browser Fallbacks (for legacy browser support only)
 ```css
 .my-element {
-    /* Fallback for browsers without CSS variables */
+    /* Fallback for browsers without CSS variables (legacy support only) */
     background: #00204c;
     /* Theme variable */
     background: var(--theme-primary);
@@ -1043,6 +1034,7 @@ window.addEventListener('DOMContentLoaded', () => {
 ```
 
 ---
+
 
 **Made with 💙 for the 300 million people worldwide with color vision deficiency.**
 

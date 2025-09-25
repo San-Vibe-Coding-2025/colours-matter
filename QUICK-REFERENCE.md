@@ -1,3 +1,9 @@
+# IMPORTANT: NO FALLBACKS FOR COLOUR CHANGES
+
+**MUST NOT add fallback to the implementation of the colour changes. If the API fails, log in console but NEVER, EVER use a fallback to change the colours.**
+
+---
+
 # Cividis Theme Engine - Quick Reference
 
 **Version 1.1 | One-page reference for developers**

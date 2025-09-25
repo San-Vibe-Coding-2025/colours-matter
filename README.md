@@ -4,6 +4,10 @@
 
 A powerful, pluggable JavaScript theming tool that dynamically manages CSS variables through remote API integration. Built with modern web standards and designed for seamless integration with any CSS framework.
 
+# IMPORTANT: NO FALLBACKS FOR COLOUR CHANGES
+
+**MUST NOT add fallback to the implementation of the colour changes. If the API fails, log in console but NEVER, EVER use a fallback to change the colours.**
+
 ## 🆕 Recent Updates (v1.1)
 
 - ☑️ **Text Contrast Rules**: Proper white/dark text contrast on all background colors for WCAG compliance

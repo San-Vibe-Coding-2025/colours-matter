@@ -291,7 +291,7 @@
                             <li>Fetches colors from the API</li>
                             <li>Applies CSS variables to your page</li>
                             <li>Adds a toggle button (optional)</li>
-                            <li>Handles errors with fallback colors</li>
+                            <li>Handles errors (no color fallback)</li>
                         </ul>
                     </div>
                 </section>
@@ -371,13 +371,7 @@ window.cividisTheme = new CividisTheme({
     intelligentMapping: true, // Auto-detect and style elements
     debug: false,
     
-    // Fallback colors (used if API fails)
-    fallbackColors: {
-        '--theme-primary': '#00204c',
-        '--theme-secondary': '#7f7c75',
-        '--theme-accent': '#bbaf71'
-        // ... more colors
-    }
+    // No fallback colors allowed. API is required for color changes.
 });</code></pre>
                     </div>
                     
@@ -918,12 +912,7 @@ window.cividisTheme = new CividisTheme({
     // Disable intelligent mapping if needed
     intelligentMapping: false,
     
-    // Custom fallback colors
-    fallbackColors: {
-        '--theme-primary': '#003366',
-        '--theme-secondary': '#666666',
-        '--theme-accent': '#cc9900'
-    }
+    // No fallback colors allowed. API is required for color changes.
 });
 
 // Listen for events
@@ -1076,7 +1065,7 @@ export default App;</code></pre>
                                     <li>Check if your API server is running</li>
                                     <li>Verify CORS settings on your server</li>
                                     <li>Use the health endpoint: <code>GET /health</code></li>
-                                    <li>Fallback colors will be used automatically</li>
+                                    <li><b>No fallback colors will be used. API is required for color changes.</b></li>
                                 </ul>
                             </div>
                             
@@ -1135,7 +1124,7 @@ curl -X POST https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api
                             <li>❌ Internet Explorer (not supported)</li>
                         </ul>
                         <p class="mt-4" style="color: var(--theme-text-muted);">
-                            For older browsers, the fallback colors will be used automatically.
+                            For older browsers, browser/CSS variable fallbacks will be used automatically (not for API failure).
                         </p>
                     </div>
                 </section>
