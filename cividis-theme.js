@@ -8,6 +8,23 @@
  */
 
 class CividisTheme {
+    // Initialize the theme engine (was missing, causing error)
+    async init() {
+        try {
+            this.log('Initializing Cividis Theme Engine...');
+            // Fetch and apply theme on load
+            const themeData = await this.fetchThemeData();
+            if (themeData && themeData.colors) {
+                this.applyTheme(themeData.colors);
+            }
+            // Create CTA button
+            this.createCTAButton();
+            this.isInitialized = true;
+            this.log('Cividis Theme Engine initialized successfully');
+        } catch (error) {
+            this.handleError('Initialization failed', error);
+        }
+    }
     log(...args) {
         if (this.config && this.config.debug) {
             console.log('Cividis:', ...args);
