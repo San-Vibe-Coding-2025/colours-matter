@@ -264,16 +264,17 @@ app.use((error, req, res, next) => {
     res.status(500).json({ success: false, error: "Internal server error", message: error.message });
 });
 
-// Start server
-console.log('🔧 Attempting to start API server...');
-app.listen(PORT, () => {
-    console.log(`🎨 Cividis Theme API Server running on port ${PORT}`);
-    console.log(`📡 Theme endpoint: http://localhost:${PORT}/theme`);
-    console.log(`📋 Available themes: ${Object.keys(themes).join(', ')}`);
-    console.log(`🔍 Health check: http://localhost:${PORT}/health`);
-}).on('error', (err) => {
-    console.error('❌ Server failed to start:', err.message);
-    console.error('Full error:', err);
-});
+if (require.main === module) {
+    console.log('🔧 Attempting to start API server...');
+    app.listen(PORT, () => {
+        console.log(`🎨 Cividis Theme API Server running on port ${PORT}`);
+        console.log(`📡 Theme endpoint: http://localhost:${PORT}/theme`);
+        console.log(`📋 Available themes: ${Object.keys(themes).join(', ')}`);
+        console.log(`🔍 Health check: http://localhost:${PORT}/health`);
+    }).on('error', (err) => {
+        console.error('❌ Server failed to start:', err.message);
+        console.error('Full error:', err);
+    });
+}
 
 module.exports = app;
