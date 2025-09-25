@@ -9,8 +9,23 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Enable CORS for all local dev origins (localhost, 127.0.0.1, LAN IPs)
-app.use(cors());
+// Enable CORS for all local dev origins and deployed Vercel frontend
+const allowedOrigins = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://192.168.1.110:8000',
+    'http://172.23.112.1:8000',
+    'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app',
+    'https://colours-matter.vercel.app'
+];
+app.use(cors({
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl, etc.)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        return callback(new Error('Not allowed by CORS: ' + origin));
+    }
+}));
 app.use(express.json());
 
 // Toggle state tracking (in production, this would be stored in a database)
