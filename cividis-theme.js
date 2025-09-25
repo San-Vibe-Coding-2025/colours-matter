@@ -13,19 +13,7 @@
 class CividisTheme {
     constructor(config = {}) {
         this.config = {
-            apiEndpoint: config.apiEndpoint || 'https://api.example.com/theme',
-            fallbackColors: {
-                '--theme-primary': '#00204c',
-                '--theme-secondary': '#7f7c75', 
-                '--theme-accent': '#bbaf71',
-                '--theme-success': '#0a376d',
-                '--theme-warning': '#ffe945',
-                '--theme-info': '#37476b',
-                '--theme-background': '#ffffff',
-                '--theme-text': '#1b1b1b',
-                '--theme-text-muted': '#353a45',
-                '--theme-border': '#e0e0e0'
-            },
+            apiEndpoint: config.apiEndpoint || 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
             ctaConfig: {
                 text: 'Cividis Theme',
                 position: 'header', // 'header', 'top-right', 'bottom-right'
@@ -921,7 +909,7 @@ class CividisTheme {
             // Always use the production Vercel API first (per project requirement).
             // To avoid CORS preflight failures when running on dev origins, use
             // navigator.sendBeacon if available, or a fetch with mode:'no-cors' as a fallback.
-            const prodToggle = 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/toggle';
+            const prodToggle = 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/toggle';
             let requestSucceeded = false;
             let lastError = null;
 
@@ -1320,7 +1308,7 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
     // Auto-start with default configuration
     window.cividisTheme = new CividisTheme({
         debug: true, // Enable debug mode by default
-        apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/cividis', // Production API endpoint
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis', // Production API endpoint
         intelligentMapping: true // Enable intelligent color analysis
     });
     
@@ -1376,7 +1364,7 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
                                     if (window.location.hostname === 'localhost' || window.location.hostname.includes('colours-matter')) {
                                         window.open('comparison.html', '_blank');
                                     } else {
-                                        window.open('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/comparison.html', '_blank');
+                                        window.open('https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/comparison.html', '_blank');
                                     }
                                 } catch (e) {
                                     console.log('CTA clicked but no demo available');

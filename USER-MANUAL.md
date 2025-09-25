@@ -270,7 +270,7 @@ if __name__ == '__main__':
 ```javascript
 // Set your API endpoint
 window.cividisTheme.updateConfig({
-    apiEndpoint: 'https://your-api.com/theme'
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis'
 });
 ```
 
@@ -413,7 +413,7 @@ If using the provided `tailwind.config.js`:
 ```javascript
 {
     // API Settings
-    apiEndpoint: 'https://api.example.com/theme',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     retryAttempts: 3,
     retryDelay: 1000,
     
@@ -454,7 +454,7 @@ window.cividisTheme = new CividisTheme({
 #### Method 2: Update After Load
 ```javascript
 window.cividisTheme.updateConfig({
-    apiEndpoint: 'https://new-api.com/theme',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     retryAttempts: 5,
     debug: true
 });
@@ -698,7 +698,7 @@ window.cividisTheme.updateConfig({
 
 ```javascript
 // Test API endpoint manually
-fetch('https://your-api.com/theme')
+fetch('https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis')
     .then(response => response.json())
     .then(data => console.log('API Response:', data))
     .catch(error => console.error('API Error:', error));

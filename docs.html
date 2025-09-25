@@ -346,7 +346,7 @@ node api-server.js
 
 // Or customize initialization:
 window.cividisTheme = new CividisTheme({
-    apiEndpoint: 'https://your-api.com/theme',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     debug: true
 });</code></pre>
                     </div>
@@ -355,7 +355,7 @@ window.cividisTheme = new CividisTheme({
                         <h3 class="text-xl font-bold mb-4" style="color: var(--theme-primary);">Advanced Configuration</h3>
                         <pre class="response-example"><code class="language-javascript">window.cividisTheme = new CividisTheme({
     // API Configuration
-    apiEndpoint: 'https://your-api.com/theme/cividis',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     retryAttempts: 3,
     retryDelay: 1000,
     
@@ -491,7 +491,7 @@ window.cividisTheme = new CividisTheme({
                         </table>
                         
                         <h4 class="font-bold mb-2 mt-4" style="color: var(--theme-primary);">Example Request:</h4>
-                        <pre class="response-example"><code class="language-bash">curl https://your-api.com/theme/cividis</code></pre>
+                        <pre class="response-example"><code class="language-bash">curl https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis</code></pre>
                     </div>
 
                     <div class="endpoint-card">
@@ -955,7 +955,7 @@ function App() {
     useEffect(() => {
         // Initialize Cividis theme
         window.cividisTheme = new CividisTheme({
-            apiEndpoint: 'https://your-api.com/theme',
+            apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
             ctaConfig: { position: 'none' }, // We'll handle the button ourselves
             debug: true
         });
@@ -1113,13 +1113,13 @@ export default App;</code></pre>
                         <h3 class="text-xl font-bold mb-4" style="color: var(--theme-primary);">API Testing</h3>
                         <p class="mb-4" style="color: var(--theme-text-muted);">Test your API endpoints manually:</p>
                         <pre class="response-example"><code class="language-bash"># Test health check
-curl https://your-api.com/health
+curl https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/health
 
 # Test theme endpoint
-curl https://your-api.com/theme/cividis
+curl https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis
 
 # Test toggle endpoint
-curl -X POST https://your-api.com/theme/toggle \
+curl -X POST https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/toggle \
   -H "Content-Type: application/json" \
   -d '{"clientId": "test"}'</code></pre>
                     </div>

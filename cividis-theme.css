@@ -145,7 +145,8 @@
   background: var(--theme-gradient-full);
   color: white;
   border: none;
-  padding: 12px 24px;
+  font-size: small;
+  padding: 8px 12px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;

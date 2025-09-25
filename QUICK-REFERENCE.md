@@ -85,7 +85,7 @@ Your endpoint should return:
 ```javascript
 // Basic config
 window.cividisTheme.updateConfig({
-    apiEndpoint: 'https://your-api.com/theme',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     debug: true
 });
 

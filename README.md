@@ -63,7 +63,7 @@ The theme engine will automatically:
 ```javascript
 // Auto-initialized with default settings
 window.cividisTheme = new CividisTheme({
-    apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     debug: true
 });
 ```
@@ -73,7 +73,7 @@ window.cividisTheme = new CividisTheme({
 ```javascript
 const theme = new CividisTheme({
     // API Configuration
-    apiEndpoint: 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     retryAttempts: 3,
     retryDelay: 1000,
     
@@ -218,7 +218,7 @@ const currentTheme = window.cividisTheme.getCurrentTheme();
 
 // Update configuration
 window.cividisTheme.updateConfig({
-    apiEndpoint: 'https://new-api.com/theme',
+    apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis',
     debug: true
 });
 

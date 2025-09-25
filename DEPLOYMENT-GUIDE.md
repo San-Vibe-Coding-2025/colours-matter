@@ -267,7 +267,7 @@ services:
     <script>
         // Configure your API endpoint
         window.CividisTheme.updateConfig({
-            apiEndpoint: 'https://your-api.com/theme'
+            apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis'
         });
     </script>
 </body>
@@ -292,7 +292,7 @@ function App() {
     script.src = 'https://cdn.jsdelivr.net/gh/San-Vibe-Coding-2025/colours-matter@main/cividis-theme.js';
     script.onload = () => {
       window.CividisTheme.updateConfig({
-        apiEndpoint: 'https://your-api.com/theme'
+  apiEndpoint: 'https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app/api/theme/cividis'
       });
     };
     document.head.appendChild(script);
@@ -427,7 +427,7 @@ window.addEventListener('Cividis-theme-applied', () => {
         default-src 'self';
         style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
         script-src 'self' https://cdn.jsdelivr.net;
-        connect-src 'self' https://your-api.com;
+  connect-src 'self' https://colours-matter-nhox10gmh-ana-s-apps-projects.vercel.app;
       ">
 ```
 
