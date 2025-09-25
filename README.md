@@ -6,7 +6,6 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 
 ## 🆕 Recent Updates (v1.1)
 
-- ✅ **CSS Variables Integration**: CTA button now uses `var(--theme-primary)` and `var(--theme-warning)` instead of hardcoded hex colors
 - ✅ **Text Contrast Rules**: Proper white/dark text contrast on all background colors for WCAG compliance
 - ✅ **New CSS Variables**: Added `--theme-shadow-lg`, `--theme-border-radius`, `--theme-transition`
 - ✅ **Accessibility Improvements**: Enhanced colorblind-safe design with scientific Cividis palette
