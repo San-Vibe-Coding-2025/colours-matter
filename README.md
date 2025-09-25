@@ -139,8 +139,8 @@ The included `tailwind.config.js` provides theme-aware utilities:
 {
     "colors": {
         "primary": "#00204c",
-        "secondary": "#64676f", 
-        "accent": "#ccbb68",
+        "secondary": "#7f7c75", 
+        "accent": "#bbaf71",
         "success": "#0a376d",
         "warning": "#ffe945",
         "info": "#37476b",
@@ -168,8 +168,8 @@ Your API should support:
 | Variable | Purpose | Default Value |
 |----------|---------|---------------|
 | `--theme-primary` | Main brand color | `#00204c` |
-| `--theme-secondary` | Secondary brand color | `#64676f` |
-| `--theme-accent` | Accent/highlight color | `#ccbb68` |
+| `--theme-secondary` | Secondary brand color | `#7f7c75` |
+| `--theme-accent` | Accent/highlight color | `#bbaf71` |
 | `--theme-success` | Success states | `#0a376d` |
 | `--theme-warning` | Warning states | `#ffe945` |
 | `--theme-info` | Information states | `#37476b` |
@@ -308,8 +308,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 The Cividis color palette provides a scientifically-designed, colorblind-safe gradient:
 
 - **Primary** (`#00204c`): Dark Blue
-- **Secondary** (`#64676f`): Gray Blue  
-- **Accent** (`#ccbb68`): Golden Yellow
+- **Secondary** (`#7f7c75`): Gray Blue  
+- **Accent** (`#bbaf71`): Golden Yellow
 - **Success** (`#0a376d`): Blue Gray
 - **Warning** (`#ffe945`): Bright Yellow
 - **Info** (`#37476b`): Light Blue

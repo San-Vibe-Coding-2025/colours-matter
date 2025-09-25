@@ -19,8 +19,8 @@ const themes = {
         name: "Cividis",
         colors: {
             primary: "#00204c",
-            secondary: "#64676f",
-            accent: "#ccbb68",
+            secondary: "#7f7c75",
+            accent: "#bbaf71",
             success: "#0a376d",
             warning: "#ffe945",
             info: "#37476b",

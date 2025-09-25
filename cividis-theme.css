@@ -7,8 +7,8 @@
 :root {
   /* Cividis Color Palette - Default Values (Colorblind-Safe) */
   --theme-primary: #00204c;      /* Dark Blue */
-  --theme-secondary: #64676f;    /* Gray blue */
-  --theme-accent: #ccbb68;       /* Yellow */
+  --theme-secondary: #7f7c75;    /* Gray blue */
+  --theme-accent: #bbaf71;       /* Yellow */
   --theme-success: #0a376d;      /* blue gray */
   --theme-warning: #ffe945;      /* Golden Yellow */
   --theme-info: #37476b;         /* Light Blue */

@@ -71,8 +71,8 @@ Add these two lines to your HTML and you're done:
 ### Color Palette
 ```css
 Primary:   #00204c  /* dark blue */
-Secondary: #64676f  /* yellow */
-Accent:    #ccbb68  /* gray blue*/
+Secondary: #7f7c75  /* yellow */
+Accent:    #bbaf71  /* gray blue*/
 Success:   #0a376d  /* mid blue */
 Warning:   #ffe945  /* Golden Yellow */
 Info:      #37476b  /* light blue */
@@ -169,8 +169,8 @@ Create an endpoint that returns theme colors in JSON format:
     "success": true,
     "colors": {
         "primary": "#00204c",
-        "secondary": "#ccbb68", 
-        "accent": "#64676f",
+        "secondary": "#bbaf71", 
+        "accent": "#7f7c75",
         "success": "#0a376d",
         "warning": "#ffe945",
         "info": "#37476b",
@@ -197,8 +197,8 @@ app.get('/api/theme', (req, res) => {
         success: true,
         colors: {
             primary: "#00204c",
-            secondary: "#ccbb68",
-            accent: "#64676f",
+            secondary: "#bbaf71",
+            accent: "#7f7c75",
             success: "#0a376d",
             warning: "#ffe945",
             info: "#37476b",
@@ -222,8 +222,8 @@ $theme = [
     'success' => true,
     'colors' => [
         'primary' => '#00204c',
-        'secondary' => '#ccbb68',
-        'accent' => '#64676f',
+        'secondary' => '#bbaf71',
+        'accent' => '#7f7c75',
         'success' => '#0a376d',
         'warning' => '#ffe945',
         'info' => '#37476b',
@@ -251,8 +251,8 @@ def get_theme():
         'success': True,
         'colors': {
             'primary': '#00204c',
-            'secondary': '#ccbb68',
-            'accent': '#64676f',
+            'secondary': '#bbaf71',
+            'accent': '#7f7c75',
             'success': '#0a376d',
             'warning': '#ffe945',
             'info': '#37476b',
@@ -286,8 +286,8 @@ The theme engine provides these CSS custom properties:
 :root {
     /* Core Colors */
     --theme-primary: #00204c;      /* Main brand color */
-    --theme-secondary: #64676f;    /* Secondary brand */
-    --theme-accent: #ccbb68;       /* Highlights */
+    --theme-secondary: #7f7c75;    /* Secondary brand */
+    --theme-accent: #bbaf71;       /* Highlights */
     --theme-success: #0a376d;      /* Success states */
     --theme-warning: #ffe945;      /* Warnings */
     --theme-info: #37476b;         /* Information */
@@ -427,8 +427,8 @@ If using the provided `tailwind.config.js`:
     // Fallback Colors
     fallbackColors: {
         '--theme-primary': '#00204c',
-        '--theme-secondary': '#ccbb68',
-        '--theme-accent': '#64676f',
+        '--theme-secondary': '#bbaf71',
+        '--theme-accent': '#7f7c75',
         // ... etc
     },
     
@@ -474,7 +474,7 @@ window.cividisTheme.updateConfig({
     retryDelay: 1000,        // Delay between retries (ms)
     fallbackColors: {        // Colors to use if API fails
         '--theme-primary': '#00204c',
-        '--theme-secondary': '#ccbb68'
+        '--theme-secondary': '#bbaf71'
     }
 });
 ```
