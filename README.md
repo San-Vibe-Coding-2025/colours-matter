@@ -26,7 +26,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 - **🎯 Single Script**: Only one script tag needed - no additional setup required
 - **🎨 Framework Agnostic**: Works with Tailwind CSS, Bootstrap, custom CSS, and any framework
 - **🔄 Auto CTA**: Automatically adds a themed activation button to your website
-- **🛡️ Error Handling**: Strict production-first behavior with retry logic; no client-side default styling
+- **🛡️ Error Handling**: Robust fallback system with retry logic
 - **📱 Responsive**: Works across all device sizes and screen types
 - **♿ Accessible**: ARIA labels and keyboard navigation support
 
@@ -51,7 +51,7 @@ A powerful, pluggable JavaScript theming tool that dynamically manages CSS varia
 ### 3. That's It! 
 
 The theme engine will automatically:
-- Do not apply client-side default colors; styling must come from the production API
+- Apply fallback colors immediately
 - Fetch colors from your API endpoint
 - Add a "Cividis Theme" CTA button to your header
 - Handle all errors gracefully
@@ -245,7 +245,7 @@ window.cividisTheme.destroy();
 │ │Tailwind CSS │ │    │                  │    │                 │
 │ │Custom CSS   │ │    │ ┌──────────────┐ │    │                 │
 │ └─────────────┘ │    │ │Error Handler │ │    │                 │
-│                 │    │ │& Protections  │ │    │                 │
+│                 │    │ │& Fallbacks   │ │    │                 │
 └─────────────────┘    │ └──────────────┘ │    │                 │
                        └──────────────────┘    └─────────────────┘
 ```

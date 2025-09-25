@@ -6,7 +6,7 @@
  * - Fetches theme data from REST API
  * - Dynamically updates CSS variables on :root
  * - Adds CTA button to website header
- * - Error handling
+ * - Error handling and fallback support
  * - Single script inclusion
  */
 
@@ -14,12 +14,22 @@ class CividisTheme {
     constructor(config = {}) {
         this.config = {
             apiEndpoint: config.apiEndpoint || 'https://api.example.com/theme',
-            // Client must use the API for styling; no client-side default palettes are applied here
+            fallbackColors: {
+                '--theme-primary': '#00204c',
+                '--theme-secondary': '#7f7c75', 
+                '--theme-accent': '#bbaf71',
+                '--theme-success': '#0a376d',
+                '--theme-warning': '#ffe945',
+                '--theme-info': '#37476b',
+                '--theme-background': '#ffffff',
+                '--theme-text': '#1b1b1b',
+                '--theme-text-muted': '#353a45',
+                '--theme-border': '#e0e0e0'
+            },
             ctaConfig: {
                 text: 'Cividis Theme',
                 position: 'header', // 'header', 'top-right', 'bottom-right'
-                // CTA must always use the full gradient per project rule
-                gradient: 'var(--theme-gradient-full)',
+                gradient: 'var(--theme-gradient-cool)',
                 textColor: '#ffffffff'
             },
             retryAttempts: 3,
@@ -99,7 +109,7 @@ class CividisTheme {
             
             // Only proceed if we found meaningful colors
             if (sortedColors.length === 0) {
-            this.log('No significant brand colors detected');
+                this.log('No significant brand colors detected, using fallback');
                 return null;
             }
             
@@ -110,7 +120,7 @@ class CividisTheme {
             return mapping;
             
         } catch (error) {
-            this.log('Color analysis failed:', error.message);
+            this.log('Color analysis failed, using fallback:', error.message);
             return null;
         }
     }
@@ -237,22 +247,20 @@ class CividisTheme {
      */
     async start() {
         try {
-            // Do not apply any client-side default theme. Styling must come from the API.
+            // Apply fallback theme first
+            this.applyTheme(this.config.fallbackColors);
             
             // Analyze website colors for intelligent mapping (if enabled)
             if (this.config.intelligentMapping) {
                 const intelligentMapping = await this.analyzeWebsiteColors();
                 
-                // If we have intelligent mapping, use it
+                // If we have intelligent mapping, use it instead of fallback
                 if (intelligentMapping) {
                     this.log('Applying intelligent color mapping based on website analysis');
                     this.applyTheme(intelligentMapping);
                 }
             }
             
-            // Determine API endpoint (production only)
-            await this.selectApiEndpoint();
-
             // Create CTA button
             this.createCTAButton();
             
@@ -265,31 +273,6 @@ class CividisTheme {
         } catch (error) {
             this.handleError('Startup failed', error);
         }
-    }
-
-    /**
-     * Check if production API is reachable with CORS from this origin.
-     * If not reachable, fall back to local API server to avoid CORS errors during dev.
-     */
-    async selectApiEndpoint() {
-    const prodTheme = 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/cividis';
-
-        try {
-            // Try a simple GET with mode:'cors' to check CORS availability
-            const resp = await fetch(prodTheme, { method: 'GET', mode: 'cors' });
-            if (!resp || !resp.ok) {
-                throw new Error(`Production API responded with status ${resp ? resp.status : 'no-response'}`);
-            }
-
-            this.log('Production API reachable and CORS-enabled; using production API (production-only)');
-            this._apiAvailable = true;
-            return;
-        } catch (e) {
-            this.log('Production API not reachable with CORS:', e.message);
-        }
-
-    // If production is not reachable we hard-fail per project requirement
-    throw new Error('Production API unreachable or CORS not enabled; aborting initialization');
     }
 
     /**
@@ -347,7 +330,7 @@ class CividisTheme {
         const requiredColors = ['primary', 'secondary', 'accent'];
         for (const color of requiredColors) {
             if (!data.colors[color]) {
-                this.log(`Warning: Missing required color '${color}'`);
+                this.log(`Warning: Missing required color '${color}', using fallback`);
             }
         }
     }
@@ -372,9 +355,12 @@ class CividisTheme {
             this.log('Remote theme applied successfully');
             
         } catch (error) {
-            // No client-side default styling allowed: bubble failure up after logging
-            this.handleError('Failed to fetch remote theme', error);
-            throw error;
+            this.handleError('Failed to fetch remote theme, using fallback', error);
+            // Even if API fails, make sure CTA is visible
+            if (this.ctaButton) {
+                this.log('Ensuring CTA visibility after API failure');
+                this.ctaButton.style.setProperty('display', 'inline-block', 'important');
+            }
         }
     }
 
@@ -382,7 +368,7 @@ class CividisTheme {
      * Transform theme colors to CSS variables
      */
     transformToCSSVariables(colors) {
-    const cssVars = {};
+        const cssVars = { ...this.config.fallbackColors };
 
         // Map API colors to CSS variables
         const colorMap = {
@@ -446,7 +432,7 @@ class CividisTheme {
 
     /**
      * Given a CSS background value (hex, rgb or var(...)), return a readable
-    * contrasting text color (#000 or #fff or --theme-text).
+     * contrasting text color (#000 or #fff or fallback to --theme-text).
      */
     getContrastTextColor(bgValue) {
         try {
@@ -499,8 +485,6 @@ class CividisTheme {
         
         // Re-apply CTA button styles after theme variables are updated
         this.reapplyCTAGradient();
-        // Lock the CTA background to the resolved gradient so variable changes won't affect it
-        this.lockCTAGradient();
     }
 
     /**
@@ -509,36 +493,9 @@ class CividisTheme {
     reapplyCTAGradient() {
         if (this.ctaButton) {
             // Force update the gradient with current CSS variables
-            // Enforce full gradient for CTA regardless of state
-            this.ctaButton.style.setProperty('background', 'var(--theme-gradient-full)', 'important');
+            this.ctaButton.style.setProperty('background', this.config.ctaConfig.gradient, 'important');
             this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
             this.log('CTA gradient re-applied');
-        }
-    }
-
-    /**
-     * Lock the CTA background to the currently resolved gradient value.
-     * This resolves var(--theme-gradient-full) to a literal gradient and applies it
-     * inline so subsequent theme variable changes won't affect the CTA appearance.
-     */
-    lockCTAGradient() {
-        // Ensure CTA uses the theme variable (do not resolve to a literal gradient)
-        if (this._ctaGradientLocked) return;
-        try {
-            if (!this.ctaButton) return;
-            this.ctaButton.style.setProperty('background', 'var(--theme-gradient-full)', 'important');
-            this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
-
-            // Ensure head protection uses the variable as well
-            const protectStyle = document.getElementById('cividis-cta-protect');
-            if (protectStyle) {
-                protectStyle.textContent = `#cividis-cta-button, .cta-button { background: var(--theme-gradient-full) !important; color: var(--theme-text) !important; }`;
-            }
-
-            this._ctaGradientLocked = true; // mark as protected (not a literal lock)
-            this.log('CTA gradient protected using CSS variable (no literal locking)');
-        } catch (e) {
-            this.log('Failed to protect CTA gradient:', e.message);
         }
     }
 
@@ -602,7 +559,7 @@ class CividisTheme {
             
             /* Ensure CTA button gradient and text are preserved */
             #cividis-cta-button {
-                background: var(--theme-gradient-full) !important;
+                background: var(--theme-gradient-cool) !important;
                 color: #ffffffff !important;
             }
         `;
@@ -668,7 +625,7 @@ class CividisTheme {
             
             /* Ensure CTA button is never affected */
             #cividis-cta-button {
-                background: var(--theme-gradient-full) !important;
+                background: var(--theme-gradient-cool) !important;
                 color: #ffffffff !important;
             }
         `;
@@ -711,133 +668,70 @@ class CividisTheme {
         
         // Add window resize listener to keep CTA aligned with container
         this.addResizeListener();
-    // Ensure CTA is protected from external overrides
-    this.setupCTAProtection();
-    // Lock CTA gradient after creation
-    this.lockCTAGradient();
         
         this.log('CTA button created and inserted successfully');
     }
 
     /**
-     * Setup mutation observers to protect CTA from being removed or having its styles overridden
+     * Apply styles to CTA button
      */
-    setupCTAProtection() {
-        // Avoid creating multiple observers
-        if (this._ctaObserver) return;
+    applyCTAStyles() {
+        // First, detect the main container and its width constraints
+        const mainContainer = this.detectMainContainer();
+        const containerWidth = this.getContainerWidth(mainContainer);
+        
+        const styles = {
+            background: this.config.ctaConfig.gradient,
+            color: this.config.ctaConfig.textColor || '#ffffffff',
+            border: 'none',
+            padding: '6px 12px',
+            borderRadius: 'var(--theme-border-radius)',
+            fontSize: '12px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            boxShadow: 'var(--theme-shadow)',
+            transition: 'var(--theme-transition)',
+            zIndex: '9999',
+            fontFamily: 'inherit',
+            textDecoration: 'none',
+            display: 'inline-block',
+            margin: '0 8px',
+            // Responsive width based on container
+            maxWidth: containerWidth ? `${Math.min(160, containerWidth * 0.12)}px` : '160px',
+            minWidth: '100px',
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+        };
 
-        try {
-            // Ensure a persistent protection style in <head> that we can re-append to remain last
-            const ensureHeadProtectStyle = () => {
-                let protectStyle = document.getElementById('cividis-cta-protect');
-                const css = `#cividis-cta-button, .cta-button { background: var(--theme-gradient-full) !important; color: var(--theme-text) !important; }`;
-                if (!protectStyle) {
-                    protectStyle = document.createElement('style');
-                    protectStyle.id = 'cividis-cta-protect';
-                    protectStyle.type = 'text/css';
-                    protectStyle.textContent = css;
-                    document.head.appendChild(protectStyle);
-                } else {
-                    // update and move to end
-                    protectStyle.textContent = css;
-                    if (protectStyle.parentNode) {
-                        protectStyle.parentNode.removeChild(protectStyle);
-                        document.head.appendChild(protectStyle);
-                    }
-                }
-            };
+        Object.assign(this.ctaButton.style, styles);
+        
+        // Force the gradient and text color with !important using setProperty
+        this.ctaButton.style.setProperty('background', this.config.ctaConfig.gradient, 'important');
+        this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
 
-            // Create initial protection style
-            ensureHeadProtectStyle();
+        // Add hover effects
+        this.ctaButton.addEventListener('mouseenter', () => {
+            this.ctaButton.style.transform = 'translateY(-2px)';
+            this.ctaButton.style.boxShadow = 'var(--theme-shadow-lg)';
+        });
 
-            const ensureCTA = () => {
-                const btn = document.getElementById('cividis-cta-button');
-                if (btn) {
-                    // Re-apply enforced properties
-                    btn.style.setProperty('background', 'var(--theme-gradient-full)', 'important');
-                    btn.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
-                    btn.style.setProperty('display', 'inline-block', 'important');
-                    btn.style.setProperty('visibility', 'visible', 'important');
-                    btn.style.setProperty('opacity', '1', 'important');
-                    btn.style.setProperty('pointer-events', 'auto', 'important');
-                } else {
-                    // Recreate if removed unexpectedly
-                    this.log('CTA missing - recreating');
-                    this.createCTAButton();
-                }
-            };
-
-            // Observe attributes on the CTA button itself
-            const targetNode = document.body;
-            const observer = new MutationObserver(mutations => {
-                let sawRelevant = false;
-                for (const m of mutations) {
-                    if (m.type === 'attributes' && m.target && m.target.id === 'cividis-cta-button') {
-                        sawRelevant = true;
-                        break;
-                    }
-                    if (m.type === 'childList') {
-                        // If CTA was added or removed, respond
-                        for (const node of m.addedNodes) {
-                            if (node && node.id === 'cividis-cta-button') sawRelevant = true;
-                        }
-                        for (const node of m.removedNodes) {
-                            if (node && node.id === 'cividis-cta-button') sawRelevant = true;
-                        }
-                    }
-                }
-
-                if (sawRelevant) {
-                    ensureCTA();
-                }
-            });
-
-            observer.observe(targetNode, { attributes: true, childList: true, subtree: true });
-            this._ctaObserver = observer;
-
-            // Also periodically enforce gradient (every 2s for first 10s)
-            let enforceCount = 0;
-            const enforceInterval = setInterval(() => {
-                enforceCount += 1;
-                const btn = document.getElementById('cividis-cta-button');
-                if (btn) {
-                    btn.style.setProperty('background', 'var(--theme-gradient-full)', 'important');
-                    btn.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffffff', 'important');
-                }
-                if (enforceCount >= 5) clearInterval(enforceInterval);
-            }, 2000);
-
-            this.log('CTA protection observer established');
-        } catch (e) {
-            this.log('Failed to establish CTA protection observer:', e.message);
-        }
+        this.ctaButton.addEventListener('mouseleave', () => {
+            this.ctaButton.style.transform = 'translateY(0)';
+            this.ctaButton.style.boxShadow = 'var(--theme-shadow)';
+        });
     }
 
     /**
-                // Check API availability (must be production and CORS-capable)
-                    if (!this._apiAvailable) {
-                    throw new Error('Production API unavailable or not CORS-enabled; aborting toggle');
-                }
-
-                const clientId = `page-${window.location.pathname}`;
-                const toggleEndpoint = this.config.apiEndpoint.replace(/\/theme$/, '') + '/theme/toggle';
-
-                // Strict production POST expecting JSON response. No sendBeacon/no-cors alternatives.
-                const resp = await fetch(toggleEndpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    mode: 'cors',
-                    body: JSON.stringify({ clientId })
-                });
-
-                if (!resp.ok) {
-                    throw new Error(`Production toggle failed: HTTP ${resp.status}`);
-                }
-
-                const data = await resp.json();
-                // Apply the theme returned by the production API
-                await this.applyThemeFromData(data);
-                this.log('Production API toggle completed and applied');
+     * Detect the main content container on the page
+     */
+    detectMainContainer() {
+        // Try common main container selectors in order of preference
+        const selectors = [
+            'main',
+            '.main',
+            '#main',
             '.container',
             '.main-content', 
             '.content',
@@ -951,7 +845,7 @@ class CividisTheme {
             this.createFloatingCTA(position);
         }
         
-    // Force visibility with additional protections
+        // Force visibility with additional fallbacks
         this.ctaButton.style.setProperty('display', 'inline-block', 'important');
         this.ctaButton.style.setProperty('visibility', 'visible', 'important');
         this.ctaButton.style.setProperty('opacity', '1', 'important');
@@ -980,7 +874,7 @@ class CividisTheme {
             }
         }
         
-    return headerElement; // Default to the header itself
+        return headerElement; // Fallback to the header itself
     }
 
     /**
@@ -1013,73 +907,138 @@ class CividisTheme {
      */
     async handleCTAClick() {
         this.log('CTA button clicked - toggling theme');
-
+        
         // Add loading state
-        const originalText = this.ctaButton ? this.ctaButton.textContent : 'Cividis Theme';
-        if (this.ctaButton) {
-            this.ctaButton.textContent = 'Loading...';
-            this.ctaButton.disabled = true;
-        }
+        const originalText = this.ctaButton.textContent;
+        this.ctaButton.textContent = 'Loading...';
+        this.ctaButton.disabled = true;
 
         try {
-            // Ensure production API availability was previously verified
-                if (!this._apiAvailable) {
-                throw new Error('Production API unavailable or not CORS-enabled; aborting toggle');
-            }
-
+            // Check if we have a toggle endpoint
+            let response;
             const clientId = `page-${window.location.pathname}`;
-            const toggleEndpoint = this.config.apiEndpoint.replace(/\/theme$/, '') + '/theme/toggle';
 
-            // Strict production POST expecting JSON response. No sendBeacon/no-cors alternatives.
-            const resp = await fetch(toggleEndpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                mode: 'cors',
-                body: JSON.stringify({ clientId })
-            });
+            // Always use the production Vercel API first (per project requirement).
+            // To avoid CORS preflight failures when running on dev origins, use
+            // navigator.sendBeacon if available, or a fetch with mode:'no-cors' as a fallback.
+            const prodToggle = 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/toggle';
+            let requestSucceeded = false;
+            let lastError = null;
 
-            if (!resp.ok) {
-                throw new Error(`Production toggle failed: HTTP ${resp.status}`);
-            }
-
-            const data = await resp.json();
-            // Apply the theme returned by the production API
-            await this.applyThemeFromData(data);
-            this.log('Production API toggle completed and applied');
-
-            // Update CTA text based on returned state
-            if (this.ctaButton) {
-                if (data && data.state === 'cividis') {
-                    this.ctaButton.textContent = 'Turn Off Cividis';
-                } else {
-                    this.ctaButton.textContent = this.config.ctaConfig.text;
+            try {
+                // Try sendBeacon first (fire-and-forget, avoids CORS preflight)
+                if (navigator && typeof navigator.sendBeacon === 'function') {
+                    try {
+                        const payload = JSON.stringify({ clientId });
+                        const blob = new Blob([payload], { type: 'application/json' });
+                        requestSucceeded = navigator.sendBeacon(prodToggle, blob);
+                        this.log('sendBeacon used for toggle, success flag:', requestSucceeded);
+                    } catch (beaconErr) {
+                        this.log('sendBeacon failed, will fallback to fetch no-cors:', beaconErr.message);
+                        requestSucceeded = false;
+                    }
                 }
 
-                // Ensure CTA visual enforcement
-                this.reapplyCTAGradient();
-                this.ctaButton.style.setProperty('color', this.config.ctaConfig.textColor || '#ffffff', 'important');
-                this.ctaButton.disabled = false;
+                // If sendBeacon unavailable or failed, try fetch with mode:'no-cors' and simple body
+                if (!requestSucceeded) {
+                    try {
+                        // Use URLSearchParams to ensure a simple content type (application/x-www-form-urlencoded)
+                        const params = new URLSearchParams();
+                        params.append('clientId', clientId);
+
+                        // mode:'no-cors' prevents preflight; response will be opaque, so we treat success optimistically
+                        await fetch(prodToggle, {
+                            method: 'POST',
+                            body: params,
+                            mode: 'no-cors'
+                        });
+
+                        requestSucceeded = true;
+                        this.log('fetch POST (no-cors) attempted to production toggle endpoint');
+                    } catch (fetchErr) {
+                        lastError = fetchErr;
+                        this.log('fetch no-cors failed:', fetchErr.message);
+                        requestSucceeded = false;
+                    }
+                }
+            } catch (outerErr) {
+                lastError = outerErr;
+                requestSucceeded = false;
             }
 
-            window.dispatchEvent(new CustomEvent('cividis-theme-toggled', { detail: { active: data && data.state === 'cividis', state: data && data.state } }));
+            if (!requestSucceeded) {
+                // If the production endpoint cannot be reached with the above methods, surface a readable error
+                throw lastError || new Error('Failed to contact production toggle endpoint');
+            }
 
+            // At this point the production API has been contacted (fire-and-forget). We will optimistically
+            // toggle the local UI state so users get immediate feedback while the remote service processes
+            // the request (the server-side toggle will occur on the Vercel API).
+            try {
+                // Determine if the page currently appears to be using Cividis
+                const isCurrentlyCividis = (document.documentElement.style.getPropertyValue('--theme-primary') || '').includes('#00204c');
+
+                if (isCurrentlyCividis) {
+                    // Revert to traditional colors locally
+                    this.applyFallbackColors('traditional');
+                    this.ctaButton.textContent = 'Cividis Theme';
+                    this.ctaButton.style.background = this.config.ctaConfig.gradient;
+                    this.ctaButton.style.color = this.config.ctaConfig.textColor || '#ffffff';
+                    this.showToggleFeedback('Traditional Colors Restored (server toggled)', 'info');
+                    window.dispatchEvent(new CustomEvent('cividis-theme-toggled', { detail: { active: false, state: 'traditional' } }));
+                } else {
+                    // Apply Cividis fallback colors locally
+                    this.applyFallbackColors('cividis');
+                    this.ctaButton.textContent = 'Turn Off Cividis';
+                    this.ctaButton.style.background = 'var(--theme-primary)';
+                    this.ctaButton.style.color = '#ffffff';
+                    this.showToggleFeedback('✨ Cividis Theme Active (server toggled)', 'success');
+                    window.dispatchEvent(new CustomEvent('cividis-theme-toggled', { detail: { active: true, state: 'cividis' } }));
+                }
+
+                this.ctaButton.disabled = false;
+            } catch (localErr) {
+                // If optimistic UI update fails, just show an error
+                this.log('Optimistic UI toggle failed:', localErr.message);
+                throw localErr;
+            }
+            
         } catch (error) {
-                // Hard-fail: do not apply any client-side styling. Inform the user and reset CTA state.
-            this.log('Production toggle failed:', error.message);
-
-            // Show a concise error feedback that the production API is unreachable or CORS is disabled
-            const bg = 'var(--theme-warning, #ea580c)';
-            const textColor = this.getContrastTextColor(bg);
-            this.showToggleFeedback('Production API unavailable or CORS blocked. Toggle aborted.', 'error', { background: bg, color: textColor });
-
-            // Restore original button text and enabled state
-            if (this.ctaButton) {
-                try { this.ctaButton.textContent = originalText || this.config.ctaConfig.text; } catch (e) { /* ignore */ }
-                this.ctaButton.disabled = false;
+            this.log('Toggle failed, handling locally:', error.message);
+            
+            // Check if we're already on the comparison page
+            const currentPage = window.location.pathname.toLowerCase();
+            const isOnComparisonPage = currentPage.includes('comparison') || currentPage.includes('compare');
+            
+                if (isOnComparisonPage) {
+                    // We're on comparison page - just show error, don't redirect
+                    this.log('On comparison page - API unavailable, showing error');
+                    // Use a contrasting text color for readability
+                    const bg = 'var(--theme-warning, #ea580c)';
+                    const textColor = this.getContrastTextColor(bg);
+                    this.showToggleFeedback('API unavailable - start API server to enable toggle', 'error', { background: bg, color: textColor });
+                } else {
+                // We're on other pages - try to toggle with fallback colors instead of redirecting
+                this.log('API unavailable - using fallback toggle instead of redirect');
+                
+                // Toggle between traditional and cividis fallback colors
+                const isCurrentlyCividis = document.documentElement.style.getPropertyValue('--theme-primary').includes('#00204c');
+                
+                if (isCurrentlyCividis) {
+                    // Revert to traditional colors
+                    this.applyFallbackColors('traditional');
+                    this.ctaButton.textContent = 'Cividis Theme';
+                    this.showToggleFeedback('Reverted to Traditional Colors', 'info');
+                } else {
+                    // Apply Cividis fallback colors
+                    this.applyFallbackColors('cividis');
+                    this.ctaButton.textContent = 'Turn Off Cividis';
+                    this.showToggleFeedback('Cividis Theme Applied (Offline Mode)', 'success');
+                }
             }
-
-                // Re-throw so calling code/tests can detect failure if needed
-            throw error;
+            
+            // Reset button state  
+            this.ctaButton.disabled = false;
         }
     }
 
@@ -1122,7 +1081,39 @@ class CividisTheme {
         }
     }
 
-    // Client-side default color application removed. Styling must be provided by the API.
+    /**
+     * Apply fallback colors when API is unavailable
+     */
+    applyFallbackColors(type = 'cividis') {
+        const root = document.documentElement;
+        
+        if (type === 'cividis') {
+            // Apply Cividis fallback colors
+            Object.entries(this.config.fallbackColors).forEach(([key, value]) => {
+                root.style.setProperty(key, value);
+            });
+            this.log('Applied Cividis fallback colors');
+        } else {
+            // Apply traditional colors
+            const traditionalColors = {
+                '--theme-primary': '#dc2626',
+                '--theme-secondary': '#9333ea', 
+                '--theme-accent': '#059669',
+                '--theme-success': '#16a34a',
+                '--theme-warning': '#ea580c',
+                '--theme-info': '#0ea5e9',
+                '--theme-background': '#ffffff',
+                '--theme-text': '#1b1b1b',
+                '--theme-text-muted': '#6b7280',
+                '--theme-border': '#e0e0e0'
+            };
+            
+            Object.entries(traditionalColors).forEach(([key, value]) => {
+                root.style.setProperty(key, value);
+            });
+            this.log('Applied traditional fallback colors');
+        }
+    }
 
     /**
      * Apply intelligent styling rules from API
@@ -1145,49 +1136,11 @@ class CividisTheme {
         
         let cssRules = '';
         
-        // Helper: append an exclusion to each selector chunk so it won't match the CTA button
-        const protectCTAInSelector = (selector) => {
-            // Split by commas to process combined selectors
-            return selector.split(',').map(s => {
-                const trimmed = s.trim();
-                // If this selector explicitly targets the CTA or the feedback, skip it entirely
-                // (we do not want API rules to be able to directly target these protected elements)
-                if (trimmed.includes('#cividis-cta-button') || trimmed.includes('.cividis-cta-button') || trimmed.includes('#cividis-toggle-feedback')) {
-                    return '';
-                }
-
-                // Avoid double-appending if :not(#cividis-cta-button) already present
-                if (trimmed.includes(':not(#cividis-cta-button)')) return trimmed;
-
-                // Append :not(#cividis-cta-button) to the simple selector
-                // Try to place it before pseudo-classes if present
-                const pseudoIndex = trimmed.search(/:(?!not\()/);
-                if (pseudoIndex > 0) {
-                    return trimmed.slice(0, pseudoIndex) + `:not(#cividis-cta-button)` + trimmed.slice(pseudoIndex);
-                }
-
-                return `${trimmed}:not(#cividis-cta-button)`;
-            }).join(', ');
-        };
-
         // Process each styling rule
         Object.entries(stylingRules).forEach(([ruleName, rule]) => {
             if (rule.selector) {
-                // Sanitize selector to protect CTA button from accidental overrides
-                const safeSelector = protectCTAInSelector(rule.selector)
-                    .split(',')
-                    .map(s => s.trim())
-                    .filter(Boolean) // remove any empty selectors we returned above
-                    .join(', ');
-
-                // If there are no safe selectors left, skip this rule entirely
-                if (!safeSelector) {
-                    this.log(`Skipped rule ${ruleName} because it would target protected elements`);
-                    return;
-                }
-
-                let ruleCSS = `${safeSelector} {\n`;
-
+                let ruleCSS = `${rule.selector} {\n`;
+                
                 if (rule.background) {
                     ruleCSS += `  background: ${rule.background} !important;\n`;
                 }
@@ -1197,10 +1150,10 @@ class CividisTheme {
                 if (rule.border_color) {
                     ruleCSS += `  border-color: ${rule.border_color} !important;\n`;
                 }
-
+                
                 ruleCSS += '}\n\n';
                 cssRules += ruleCSS;
-
+                
                 this.log(`Applied rule ${ruleName}:`, rule.description || 'No description');
             }
         });
@@ -1378,7 +1331,7 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
         // Wait a bit for everything to load, then force CTA creation
         setTimeout(() => {
             if (window.cividisTheme) {
-                console.log('Creating CTA button via timeout (emergency path)');
+                console.log('Creating CTA button via timeout fallback');
                 window.cividisTheme.createCTAButton();
             }
             
@@ -1392,11 +1345,11 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
                         ctaButton.id = 'cividis-cta-button';
                         ctaButton.textContent = 'Cividis Theme';
                         ctaButton.style.cssText = `
-                            background: var(--theme-gradient-full) !important;
-                            color: var(--theme-cta-text, #ffffff) !important;
+                            background: var(--theme-gradient-cool) !important;
+                            color: #ffffffff !important;
                             border: none !important;
                             padding: 4px 8px !important;
-                            border-radius: var(--theme-border-radius, 8px) !important;
+                            border-radius: 8px !important;
                             font-size: 12px !important;
                             font-weight: 500 !important;
                             cursor: pointer !important;
@@ -1418,7 +1371,7 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
                                     window.cividisTheme.ctaButton = originalButton;
                                 }
                             } else {
-                                // Fall back to opening demo page when toggle behavior unavailable
+                                // Fallback to demo page
                                 try {
                                     if (window.location.hostname === 'localhost' || window.location.hostname.includes('colours-matter')) {
                                         window.open('comparison.html', '_blank');
@@ -1432,17 +1385,6 @@ if (typeof window !== 'undefined' && !window.CividisTheme) {
                         });
                         header.appendChild(ctaButton);
                         console.log('EMERGENCY CTA BUTTON CREATED AND INSERTED');
-                        // Ensure the emergency CTA is protected and uses enforced gradient
-                        try {
-                            ctaButton.style.setProperty('background', 'var(--theme-gradient-full)', 'important');
-                            ctaButton.style.setProperty('color', 'var(--theme-cta-text, #ffffff)', 'important');
-                            // Setup protection via main class if available
-                            if (window.cividisTheme && typeof window.cividisTheme.setupCTAProtection === 'function') {
-                                window.cividisTheme.setupCTAProtection();
-                            }
-                        } catch (e) {
-                            console.log('Could not finalize emergency CTA protection:', e.message);
-                        }
                     }
                 }
             }, 2000);

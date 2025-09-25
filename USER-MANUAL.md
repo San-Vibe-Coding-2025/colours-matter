@@ -49,7 +49,7 @@ Add these two lines to your HTML and you're done:
 - ☑️ Scientifically-designed colors
 - ☑️ Automatic "Cividis Theme" button
 - ☑️ CSS variables for easy styling
-- ☑️ Error handling (production-first). Client-side default styling is disabled.
+- ☑️ Error handling and fallbacks
 
 ---
 
@@ -153,7 +153,7 @@ add_action('wp_enqueue_scripts', 'enqueue_cividis_theme');
 The theme engine automatically:
 - Applies Cividis colors
 - Adds a "Cividis Theme" button
-- Handles errors; does not apply client-side default styling
+- Handles errors and provides fallbacks
 
 ---
 
@@ -424,8 +424,8 @@ If using the provided `tailwind.config.js`:
         gradient: 'linear-gradient(45deg, #00204c, #ffe945)'
     },
     
-    // Client-side default palettes removed. Styling must be provided by the production API.
-    // If you need local testing, ensure the production API supports CORS or run a local API with identical endpoints.
+    // Fallback Colors
+    fallbackColors: {
         '--theme-primary': '#00204c',
         '--theme-secondary': '#bbaf71',
         '--theme-accent': '#7f7c75',
@@ -467,11 +467,15 @@ window.cividisTheme.updateConfig({
 - `'top-left'` - Fixed position top left corner
 - `'bottom-left'` - Fixed position bottom left corner
 
-    // Error Handling Configuration:
-    window.cividisTheme.updateConfig({
-        retryAttempts: 3,        // Number of API retry attempts
-        retryDelay: 1000         // Delay between retries (ms)
-    });
+### Error Handling Configuration:
+```javascript
+window.cividisTheme.updateConfig({
+    retryAttempts: 3,        // Number of API retry attempts
+    retryDelay: 1000,        // Delay between retries (ms)
+    fallbackColors: {        // Colors to use if API fails
+        '--theme-primary': '#00204c',
+        '--theme-secondary': '#bbaf71'
+    }
 });
 ```
 
@@ -508,7 +512,7 @@ window.addEventListener('cividis-cta-clicked', () => {
 window.addEventListener('cividis-theme-error', (event) => {
     console.warn('Theme error:', event.detail.message);
     
-    // Error handling, user notification, etc.
+    // Fallback handling, user notification, etc.
     showNotification('Using default colors', 'info');
 });
 ```
@@ -585,7 +589,7 @@ window.addEventListener('cividis-theme-applied', (event) => {
     // Check color contrast ratios
     if (!isAccessibleContrast(colors['--theme-text'], colors['--theme-background'])) {
         console.warn('Poor color contrast detected');
-    // Apply high-contrast default
+        // Apply high-contrast fallback
         applyHighContrastMode();
     }
 });
@@ -796,7 +800,7 @@ A: No. The theme engine is lightweight (~5KB gzipped) and only runs once on page
 A: Yes! You can override any color through your API endpoint or by manually setting CSS variables. The system is fully customizable while maintaining accessibility.
 
 **Q: Do I need an API to use this?**  
-A: Yes. The theme engine is production-first and requires the production API for dynamic theming. Client-side default palettes are disabled by policy.
+A: No. The theme engine works with fallback colors if no API is provided. The API is optional for dynamic theming.
 
 ### Technical Questions
 
@@ -807,7 +811,7 @@ A: The theme engine sets CSS custom properties on the `:root` element. Your CSS 
 A: Yes! Works with Bootstrap, Tailwind, Bulma, and any CSS framework. Just use the CSS variables in your styles.
 
 **Q: What happens if JavaScript is disabled?**  
-A: If JavaScript is disabled, the page will render without dynamic theme updates. Ensure critical UI remains usable without dynamic theming.
+A: The fallback colors in your CSS file will be used. Users get a consistent (though static) color scheme.
 
 **Q: Can I have multiple themes on one page?**  
 A: The current version applies one theme globally. Multiple themes would require custom implementation.
@@ -987,10 +991,14 @@ Join our community of developers building accessible web experiences:
 
 ## 🎯 Best Practices
 
-### 1. Production-first Policy
+### 1. Always Provide Fallbacks
 ```css
-/* Do not rely on client-side defaults. Ensure API and CORS are configured for development */
-.my-element { background: var(--theme-primary); }
+.my-element {
+    /* Fallback for browsers without CSS variables */
+    background: #00204c;
+    /* Theme variable */
+    background: var(--theme-primary);
+}
 ```
 
 ### 2. Use Semantic Color Names

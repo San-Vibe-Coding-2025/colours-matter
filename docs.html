@@ -291,7 +291,7 @@
                             <li>Fetches colors from the API</li>
                             <li>Applies CSS variables to your page</li>
                             <li>Adds a toggle button (optional)</li>
-                            <li>Handles errors; does not apply client-side default styling</li>
+                            <li>Handles errors with fallback colors</li>
                         </ul>
                     </div>
                 </section>
@@ -371,7 +371,8 @@ window.cividisTheme = new CividisTheme({
     intelligentMapping: true, // Auto-detect and style elements
     debug: false,
     
-    // Client-side default palettes removed. Styling must be provided by the production API.
+    // Fallback colors (used if API fails)
+    fallbackColors: {
         '--theme-primary': '#00204c',
         '--theme-secondary': '#7f7c75',
         '--theme-accent': '#bbaf71'
@@ -917,7 +918,12 @@ window.cividisTheme = new CividisTheme({
     // Disable intelligent mapping if needed
     intelligentMapping: false,
     
-    // Note: client-side default palettes are deprecated in this project. Provide styling via the production API.
+    // Custom fallback colors
+    fallbackColors: {
+        '--theme-primary': '#003366',
+        '--theme-secondary': '#666666',
+        '--theme-accent': '#cc9900'
+    }
 });
 
 // Listen for events
@@ -1070,7 +1076,7 @@ export default App;</code></pre>
                                     <li>Check if your API server is running</li>
                                     <li>Verify CORS settings on your server</li>
                                     <li>Use the health endpoint: <code>GET /health</code></li>
-                                    <li>Client-side default palettes will not be used; API must supply styling</li>
+                                    <li>Fallback colors will be used automatically</li>
                                 </ul>
                             </div>
                             
@@ -1129,7 +1135,7 @@ curl -X POST https://your-api.com/theme/toggle \
                             <li>❌ Internet Explorer (not supported)</li>
                         </ul>
                         <p class="mt-4" style="color: var(--theme-text-muted);">
-                            For older browsers, consider polyfills; the engine does not apply client-side default palettes.
+                            For older browsers, the fallback colors will be used automatically.
                         </p>
                     </div>
                 </section>

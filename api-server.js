@@ -13,36 +13,6 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Explicit CORS handling for preflight and explicit headers
-// Allow both local dev and the production Vercel origin; add more origins as needed
-const allowedOrigins = new Set([
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'https://colours-matter-git-main-ana-s-apps-projects.vercel.app'
-]);
-
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-
-    if (origin && allowedOrigins.has(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-    } else {
-        // If origin is not explicitly allowed, respond with wildcard for demo purposes
-        res.setHeader('Access-Control-Allow-Origin', '*');
-    }
-
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-
-    // Short-circuit OPTIONS preflight
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(204);
-    }
-
-    next();
-});
-
 // Toggle state tracking (in production, this would be stored in a database)
 let toggleStates = {};
 
@@ -309,24 +279,6 @@ app.post('/theme/toggle', (req, res) => {
             error: "Internal server error",
             message: error.message
         });
-    }
-});
-
-// Toggle status endpoint - returns current toggle state for a clientId
-app.get('/theme/toggle/status', (req, res) => {
-    try {
-        const clientId = req.query.clientId || 'default';
-        const state = !!toggleStates[clientId];
-
-        res.json({
-            success: true,
-            clientId,
-            toggled: state,
-            meta: { timestamp: new Date().toISOString() }
-        });
-    } catch (error) {
-        console.error('Error fetching toggle status:', error);
-        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 });
 
