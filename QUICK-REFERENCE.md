@@ -3,9 +3,9 @@
 **Version 1.1 | One-page reference for developers**
 
 ## 🆕 Recent Updates (v1.1)
-- ✅ CSS Variables: CTA button uses `var(--theme-primary)`, `var(--theme-warning)`
-- ✅ Text Contrast: White text on dark backgrounds, dark text on light backgrounds
-- ✅ New Variables: `--theme-shadow-lg`, `--theme-transition`
+- ☑️ CSS Variables: CTA button uses `var(--theme-primary)`, `var(--theme-warning)`
+- ☑️ Text Contrast: White text on dark backgrounds, dark text on light backgrounds
+- ☑️ New Variables: `--theme-shadow-lg`, `--theme-transition`
 
 ---
 
@@ -243,7 +243,7 @@ window.cividisTheme.refreshTheme();
 
 3. **Don't rely on color alone:**
    ```html
-   ✅ Success: Operation completed
+   ☑️ Success: Operation completed
    ```
 
 4. **Test with colorblind simulators**

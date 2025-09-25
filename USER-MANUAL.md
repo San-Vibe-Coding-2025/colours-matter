@@ -46,10 +46,10 @@ Add these two lines to your HTML and you're done:
 ```
 
 **That's it!** Your website is now colorblind-accessible with:
-- ✅ Scientifically-designed colors
-- ✅ Automatic "Cividis Theme" button
-- ✅ CSS variables for easy styling
-- ✅ Error handling and fallbacks
+- ☑️ Scientifically-designed colors
+- ☑️ Automatic "Cividis Theme" button
+- ☑️ CSS variables for easy styling
+- ☑️ Error handling and fallbacks
 
 ---
 
@@ -664,7 +664,7 @@ export default {
 ```css
 /* Make sure you're using CSS variables correctly */
 .my-element {
-    /* ✅ Correct */
+    /* ☑️ Correct */
     background: var(--theme-primary);
     
     /* ❌ Wrong */
@@ -710,7 +710,7 @@ fetch('https://your-api.com/theme')
 ```css
 /* Make sure to use the gradient variables */
 .gradient-bg {
-    /* ✅ Correct */
+    /* ☑️ Correct */
     background: var(--theme-gradient-primary);
     
     /* ❌ Wrong - this won't work */
@@ -757,19 +757,19 @@ console.log(getComputedStyle(document.documentElement).getPropertyValue('--theme
 ## 🌐 Browser Support
 
 ### Fully Supported:
-- ✅ Chrome 49+
-- ✅ Firefox 31+  
-- ✅ Safari 9.1+
-- ✅ Edge 16+
-- ✅ Opera 36+
+- ☑️ Chrome 49+
+- ☑️ Firefox 31+  
+- ☑️ Safari 9.1+
+- ☑️ Edge 16+
+- ☑️ Opera 36+
 
 ### Partially Supported:
 - ⚠️ Internet Explorer 11 (CSS variables with polyfill)
 
 ### Mobile Support:
-- ✅ iOS Safari 9.3+
-- ✅ Android Chrome 49+
-- ✅ Samsung Internet 5+
+- ☑️ iOS Safari 9.3+
+- ☑️ Android Chrome 49+
+- ☑️ Samsung Internet 5+
 
 ### CSS Variables Support
 The theme engine requires CSS Custom Properties (variables). For older browsers, include this polyfill:
@@ -1003,7 +1003,7 @@ Join our community of developers building accessible web experiences:
 
 ### 2. Use Semantic Color Names
 ```css
-/* ✅ Good - semantic naming */
+/* ☑️ Good - semantic naming */
 .error-message { background: var(--theme-warning); }
 .success-badge { background: var(--theme-success); }
 
@@ -1020,9 +1020,9 @@ Use browser extensions or online tools to verify accessibility:
 
 ### 4. Don't Rely Solely on Color
 ```html
-<!-- ✅ Good - uses color AND icons/text -->
+<!-- ☑️ Good - uses color AND icons/text -->
 <div class="success-message">
-    ✅ Success: Your changes have been saved
+    ☑️ Success: Your changes have been saved
 </div>
 
 <!-- ❌ Poor - color only -->

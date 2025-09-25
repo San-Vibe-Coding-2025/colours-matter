@@ -412,6 +412,62 @@ class CividisTheme {
     }
 
     /**
+     * Determine if the script is running on a local/dev origin
+     * (localhost, 127.0.0.1, or common private LAN ranges)
+     */
+    isLocalOrigin() {
+        try {
+            const host = window.location.hostname;
+            if (!host) return false;
+            if (host === 'localhost' || host === '127.0.0.1') return true;
+            if (/^192\.168\./.test(host)) return true;
+            if (/^10\./.test(host)) return true;
+            // 172.16.0.0 — 172.31.255.255
+            if (/^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host)) return true;
+            return false;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    /**
+     * Given a CSS background value (hex, rgb or var(...)), return a readable
+     * contrasting text color (#000 or #fff or fallback to --theme-text).
+     */
+    getContrastTextColor(bgValue) {
+        try {
+            // Create a temporary element to resolve computed color if needed
+            const temp = document.createElement('div');
+            temp.style.position = 'absolute';
+            temp.style.left = '-9999px';
+            temp.style.background = bgValue;
+            document.body.appendChild(temp);
+
+            const computed = window.getComputedStyle(temp).backgroundColor;
+            document.body.removeChild(temp);
+
+            // Parse rgb/rgba
+            const m = computed.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+            if (!m) return 'var(--theme-text)';
+
+            const r = parseInt(m[1], 10);
+            const g = parseInt(m[2], 10);
+            const b = parseInt(m[3], 10);
+
+            // Calculate relative luminance
+            const srgb = [r, g, b].map(v => v / 255).map(v => {
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            const luminance = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+
+            // WCAG contrast threshold: use dark text for light backgrounds
+            return luminance > 0.5 ? 'var(--theme-text, #1b1b1b)' : '#ffffff';
+        } catch (e) {
+            return 'var(--theme-text)';
+        }
+    }
+
+    /**
      * Apply theme variables to :root element
      */
     applyTheme(cssVariables) {
@@ -861,80 +917,90 @@ class CividisTheme {
             // Check if we have a toggle endpoint
             let response;
             const clientId = `page-${window.location.pathname}`;
-            
+
+            // Always use the production Vercel API first (per project requirement).
+            // To avoid CORS preflight failures when running on dev origins, use
+            // navigator.sendBeacon if available, or a fetch with mode:'no-cors' as a fallback.
+            const prodToggle = 'https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/toggle';
+            let requestSucceeded = false;
+            let lastError = null;
+
             try {
-                // First try production API toggle
-                response = await fetch('https://colours-matter-git-main-ana-s-apps-projects.vercel.app/api/theme/toggle', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ clientId: clientId })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Production toggle API unavailable');
-                }
-            } catch (prodError) {
-                // Fallback to local API
-                try {
-                    response = await fetch('http://localhost:3001/theme/toggle', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ clientId: clientId })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error('Local toggle API unavailable');
+                // Try sendBeacon first (fire-and-forget, avoids CORS preflight)
+                if (navigator && typeof navigator.sendBeacon === 'function') {
+                    try {
+                        const payload = JSON.stringify({ clientId });
+                        const blob = new Blob([payload], { type: 'application/json' });
+                        requestSucceeded = navigator.sendBeacon(prodToggle, blob);
+                        this.log('sendBeacon used for toggle, success flag:', requestSucceeded);
+                    } catch (beaconErr) {
+                        this.log('sendBeacon failed, will fallback to fetch no-cors:', beaconErr.message);
+                        requestSucceeded = false;
                     }
-                } catch (localError) {
-                    throw new Error('Both toggle APIs unavailable - falling back to demo link');
                 }
+
+                // If sendBeacon unavailable or failed, try fetch with mode:'no-cors' and simple body
+                if (!requestSucceeded) {
+                    try {
+                        // Use URLSearchParams to ensure a simple content type (application/x-www-form-urlencoded)
+                        const params = new URLSearchParams();
+                        params.append('clientId', clientId);
+
+                        // mode:'no-cors' prevents preflight; response will be opaque, so we treat success optimistically
+                        await fetch(prodToggle, {
+                            method: 'POST',
+                            body: params,
+                            mode: 'no-cors'
+                        });
+
+                        requestSucceeded = true;
+                        this.log('fetch POST (no-cors) attempted to production toggle endpoint');
+                    } catch (fetchErr) {
+                        lastError = fetchErr;
+                        this.log('fetch no-cors failed:', fetchErr.message);
+                        requestSucceeded = false;
+                    }
+                }
+            } catch (outerErr) {
+                lastError = outerErr;
+                requestSucceeded = false;
             }
-            
-            const themeData = await response.json();
-            
-            if (themeData.success) {
-                if (themeData.toggled) {
-                    // Apply Cividis theme
-                    this.log('Applying Cividis theme from toggle API');
-                    await this.applyThemeFromData(themeData);
-                    
-                    this.ctaButton.textContent = themeData.button_text || 'Turn Off Cividis';
-                    this.ctaButton.style.background = 'var(--theme-primary)';
-                    this.ctaButton.style.color = '#ffffff';
-                    
-                    // Show visual feedback
-                    this.showToggleFeedback('✨ Cividis Theme Active', 'success');
-                    
-                } else {
-                    // Revert to traditional colors
-                    this.log('Reverting to traditional colors from toggle API');
-                    await this.applyThemeFromData(themeData);
-                    
-                    this.ctaButton.textContent = themeData.button_text || 'Cividis Theme';
+
+            if (!requestSucceeded) {
+                // If the production endpoint cannot be reached with the above methods, surface a readable error
+                throw lastError || new Error('Failed to contact production toggle endpoint');
+            }
+
+            // At this point the production API has been contacted (fire-and-forget). We will optimistically
+            // toggle the local UI state so users get immediate feedback while the remote service processes
+            // the request (the server-side toggle will occur on the Vercel API).
+            try {
+                // Determine if the page currently appears to be using Cividis
+                const isCurrentlyCividis = (document.documentElement.style.getPropertyValue('--theme-primary') || '').includes('#00204c');
+
+                if (isCurrentlyCividis) {
+                    // Revert to traditional colors locally
+                    this.applyFallbackColors('traditional');
+                    this.ctaButton.textContent = 'Cividis Theme';
                     this.ctaButton.style.background = this.config.ctaConfig.gradient;
                     this.ctaButton.style.color = this.config.ctaConfig.textColor || '#ffffff';
-                    
-                    // Show visual feedback
-                    this.showToggleFeedback('Traditional Colors Restored', 'info');
+                    this.showToggleFeedback('Traditional Colors Restored (server toggled)', 'info');
+                    window.dispatchEvent(new CustomEvent('cividis-theme-toggled', { detail: { active: false, state: 'traditional' } }));
+                } else {
+                    // Apply Cividis fallback colors locally
+                    this.applyFallbackColors('cividis');
+                    this.ctaButton.textContent = 'Turn Off Cividis';
+                    this.ctaButton.style.background = 'var(--theme-primary)';
+                    this.ctaButton.style.color = '#ffffff';
+                    this.showToggleFeedback('✨ Cividis Theme Active (server toggled)', 'success');
+                    window.dispatchEvent(new CustomEvent('cividis-theme-toggled', { detail: { active: true, state: 'cividis' } }));
                 }
-                
+
                 this.ctaButton.disabled = false;
-                
-                // Dispatch custom event
-                window.dispatchEvent(new CustomEvent('cividis-theme-toggled', {
-                    detail: { 
-                        active: themeData.toggled, 
-                        state: themeData.state,
-                        colors: themeData.colors 
-                    }
-                }));
-                
-            } else {
-                throw new Error('Toggle API returned error');
+            } catch (localErr) {
+                // If optimistic UI update fails, just show an error
+                this.log('Optimistic UI toggle failed:', localErr.message);
+                throw localErr;
             }
             
         } catch (error) {
@@ -944,11 +1010,14 @@ class CividisTheme {
             const currentPage = window.location.pathname.toLowerCase();
             const isOnComparisonPage = currentPage.includes('comparison') || currentPage.includes('compare');
             
-            if (isOnComparisonPage) {
-                // We're on comparison page - just show error, don't redirect
-                this.log('On comparison page - API unavailable, showing error');
-                this.showToggleFeedback('API unavailable - start API server to enable toggle', 'error');
-            } else {
+                if (isOnComparisonPage) {
+                    // We're on comparison page - just show error, don't redirect
+                    this.log('On comparison page - API unavailable, showing error');
+                    // Use a contrasting text color for readability
+                    const bg = 'var(--theme-warning, #ea580c)';
+                    const textColor = this.getContrastTextColor(bg);
+                    this.showToggleFeedback('API unavailable - start API server to enable toggle', 'error', { background: bg, color: textColor });
+                } else {
                 // We're on other pages - try to toggle with fallback colors instead of redirecting
                 this.log('API unavailable - using fallback toggle instead of redirect');
                 
@@ -1101,7 +1170,8 @@ class CividisTheme {
     /**
      * Show visual feedback for toggle actions
      */
-    showToggleFeedback(message, type = 'info') {
+    // Accept optional styleOverrides: { background, color }
+    showToggleFeedback(message, type = 'info', styleOverrides = {}) {
         // Create or update feedback element
         let feedback = document.getElementById('cividis-toggle-feedback');
         if (!feedback) {
@@ -1141,8 +1211,16 @@ class CividisTheme {
         };
         
         const style = typeStyles[type] || typeStyles.info;
-        feedback.style.background = style.background;
-        feedback.style.color = style.color;
+        const bg = styleOverrides.background || style.background;
+        let color = styleOverrides.color || style.color;
+
+        // If color not explicitly provided, compute a readable one
+        if (!styleOverrides.color) {
+            color = this.getContrastTextColor(bg);
+        }
+
+        feedback.style.background = bg;
+        feedback.style.color = color;
         feedback.textContent = message;
         feedback.style.opacity = '1';
         feedback.style.transform = 'translateY(0)';

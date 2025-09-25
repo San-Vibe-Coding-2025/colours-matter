@@ -317,11 +317,17 @@ app.use((error, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, 'localhost', () => {
     console.log(`🎨 Cividis Theme API Server running on port ${PORT}`);
     console.log(`📡 Theme endpoint: http://localhost:${PORT}/theme`);
     console.log(`📋 Available themes: ${Object.keys(themes).join(', ')}`);
     console.log(`🔍 Health check: http://localhost:${PORT}/health`);
+    console.log(`🚀 Server bound to localhost:${PORT}`);
+}).on('error', (err) => {
+    console.error('❌ Server failed to start:', err.message);
+    console.error('Full error:', err);
 });
+
+console.log('🔧 Attempting to start API server...');
 
 module.exports = app;
